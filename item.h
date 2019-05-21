@@ -8,12 +8,16 @@ class Scene;
 class Item : public QGraphicsItem{
 public:
     enum Type{
+        NULL_TYPE,
         LINE,
-        RECT
+        RECT,
+        CIRCLE,
+        ELIP
     };
     QPainterPath getPath() const;
     Item(Scene *scene = nullptr, QGraphicsItem *parent = nullptr);
-    virtual QStringList getInfo() const;
+    virtual Type getType() const;
+//    virtual QStringList getInfo() const;
 
     void setBrush(const QBrush &value);
 
