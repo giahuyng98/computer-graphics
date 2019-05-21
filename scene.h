@@ -14,7 +14,7 @@
 #include "line.h"
 #include "rectangle.h"
 #include "lineinfo.h"
-
+#include "rectinfo.h"
 class Window;
 
 
@@ -33,6 +33,10 @@ public:
     void changeColor(const QColor &color);
     void deleteItem();
 
+    RectInfo *getRectInfo() const;
+
+    LineInfo *getLineInfo() const;
+
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
@@ -50,7 +54,7 @@ private:
     Line *tmpLine = nullptr;
     Rectangle *tmpRectange = nullptr;
     LineInfo *lineInfo;
-
+    RectInfo *rectInfo;
     std::vector<QPoint> points;
     Window *window;
 

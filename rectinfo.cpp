@@ -5,7 +5,7 @@ RectInfo::RectInfo(QWidget *parent) :
     QFrame(parent),
     ui(new Ui::RectInfo)
 {
-    ui->setupUi(this);
+    ui->setupUi(this);    
 }
 
 RectInfo::~RectInfo()
