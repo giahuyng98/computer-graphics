@@ -43,9 +43,23 @@ void Scene::deleteItem()
     }
     if (!this->items().isEmpty()) {
         this->items().last()->setSelected(true);
-        lineInfo->setLine(static_cast<Line*>(this->items().last()));
+        switch (static_cast<Item*>(this->items().last())->getType()) {
+        case Item::Type::LINE:
+            lineInfo->setLine(static_cast<Line*>(this->items().last()));
+            break;
+        case Item::Type::RECT:
+            rectInfo->setRect(static_cast<Rectangle*>(this->items().last()));
+            break;
+        case Item::Type::CIRCLE:
+            break;
+        case Item::Type::ELIP:
+            break;
+        default:
+            break;
+        }
     } else {
         lineInfo->setLine(nullptr);
+        rectInfo->setRect(nullptr);
     }
 }
 
@@ -163,7 +177,7 @@ void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
             tmpRectange = new Rectangle(QPoint(std::min(points.front().x(), points.back().x()), std::max(points.front().y(), points.back().y())),
                                         QSize(std::abs(points.back().x() - points.front().x()),
                                                               std::abs(points.back().y() - points.front().y())), this);
-            qDebug() << points.back();
+
             tmpRectange->setSelected(true);
             tmpRectange->update();
             rectInfo->setRect(tmpRectange);
