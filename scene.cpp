@@ -7,6 +7,8 @@
 #include <QPoint>
 #include "window.h"
 
+#include <math.h>
+
 Scene::Scene(QWidget *parent) : QGraphicsScene (parent)
 {
     const int WIDTH = 1200;
@@ -103,6 +105,7 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
         isDrawing = true;
         points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
 
+
         switch (window->getCurrentShape()){
         case Window::ShapeKind::NORMAL_LINE :
             points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
@@ -113,7 +116,7 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
         case Window::ShapeKind::RECTANGLE :
             points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
             tmpRectange = new Rectangle(points.front(), QSize(std::abs(points.back().x() - points.front().x()),
-                                                                         std::abs(points.back().y() - points.front().y())), this);
+                                                        std::abs(points.back().y() - points.front().y())), this);
             addItem(tmpRectange);
 
             break;
@@ -155,12 +158,15 @@ void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
             removeItem(tmpRectange);
             delete tmpRectange;
 
-            tmpRectange = new Rectangle(points.front(), QSize(std::abs(points.back().x() - points.front().x()),
+            tmpRectange = new Rectangle(QPoint(std::min(points.front().x(), points.back().x()), std::max(points.front().y(), points.back().y())),
+                                        QSize(std::abs(points.back().x() - points.front().x()),
                                                               std::abs(points.back().y() - points.front().y())), this);
+            qDebug() << points.back();
             tmpRectange->setSelected(true);
             tmpRectange->update();
             rectInfo->setRect(tmpRectange);
             this->addItem(tmpRectange);
+
             break;
         }
 
