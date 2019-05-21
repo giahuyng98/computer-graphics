@@ -28,7 +28,9 @@ SOURCES += \
         circle.cpp \
         item.cpp \
         line.cpp \
+        lineinfo.cpp \
         main.cpp \
+        rectangle.cpp \
         scene.cpp \
         window.cpp
 
@@ -36,10 +38,13 @@ HEADERS += \
         circle.h \
         item.h \
         line.h \
+        lineinfo.h \
+        rectangle.h \
         scene.h \
         window.h
 
 FORMS += \
+        lineinfo.ui \
         window.ui
 
 # Default rules for deployment.

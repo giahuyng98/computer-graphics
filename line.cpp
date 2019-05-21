@@ -1,64 +1,92 @@
 #include "line.h"
 #include "scene.h"
 
-Line::Line()
+//Line::Line(Scene *scene)
+//{
+
+//}
+
+//Line::Line(int x1, int y1, int x2, int y2)
+//    : x1(x1), y1(y1), x2(x2), y2(y2)
+//{
+//    setFlag(ItemIsMovable);
+//    setFlag(ItemSendsGeometryChanges);
+
+////    this->setText(0, "Line");
+////    this->addChild(new QTreeWidgetItem({"Point", "(" + QString::number(x1) + "," + QString::number(y1) + ")"}));
+////    this->addChild(new QTreeWidgetItem({"Point", "(" + QString::number(x2) + "," + QString::number(y2) + ")"}));
+////    this->setExpanded(true);
+//}
+
+//Line::Line(const QPoint &from, const QPoint &to) : Line(from.x(), from.y(), to.x(), to.y())
+//{    }
+
+//const Line &Line::operator=(const Line &another)
+//{
+//    x1 = another.x1;
+//    x2 = another.x2;
+//    y1 = another.y1;
+//    y2 = another.y2;
+//}
+
+Line::Line(Scene *scene, QGraphicsItem *parent)
+    :Item(scene, parent)
 {
 }
 
-Line::Line(int x1, int y1, int x2, int y2)
-    : x1(x1), y1(y1), x2(x2), y2(y2)
+Line::Line(int x1, int y1, int x2, int y2, Scene *scene, QGraphicsItem *parent)
+    :Item(scene, parent), x1(x1), y1(y1), x2(x2), y2(y2)
 {
-    setFlag(ItemIsMovable);
-    setFlag(ItemSendsGeometryChanges);
-    setFlag(ItemIsSelectable);
+    drawLine();
+}
 
-    this->setText(0, "Line");
-    this->addChild(new QTreeWidgetItem({"Point", "(" + QString::number(x1) + "," + QString::number(y1) + ")"}));
-    this->addChild(new QTreeWidgetItem({"Point", "(" + QString::number(x2) + "," + QString::number(y2) + ")"}));
-    this->setExpanded(true);
+Line::Line(const QPoint &from, const QPoint &to, Scene *scene, QGraphicsItem *parent)
+    : Line(from.x(), from.y(), to.x(), to.y(), scene, parent)
+{
+}
+
+QStringList Line::getInfo() const
+{
+    QStringList result;
+    result << QString("<b><u>Line</u></b>" );
+    result << QString("\tPoint: (" + QString::number(x1) + "," + QString::number(y1) + ")");
+    result << QString("\tPoint: (" + QString::number(x2) + "," + QString::number(y2) + ")");
+//    result << QString("\tColor: " + brush.color().name());
+    return result;
 }
 
 QRectF Line::boundingRect() const
 {
-    int offx = ((Scene*)this->scene())->getOffx();
-    int offy = ((Scene*)this->scene())->getOffy();
-    int thickness = ((Scene*)this->scene())->getThickness();
+    const int offx = this->scene->getOffx();
+    const int offy = this->scene->getOffy();
+    const int thickness = this->scene->getThickness();
     return QRectF((std::min(x1, x2) + offx) * thickness, (offy - std::max(y1, y2)) * thickness,
                   (std::max(x1, x2) + offx) * thickness, (offy - std::min(y1, y2)) * thickness);
 }
 
-void Line::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
-{
-    if (event->lastPos().x() < event->pos().x()){
-        ++x1;
-    } else if (event->lastPos().x() > event->pos().x()){
-        --x1;
-    }
-
-    if (event->lastPos().y() < event->pos().y()){
-        --y1;
-
-    } else if (event->lastPos().y() > event->pos().y()){
-        ++y1;
-    }
-    path = QPainterPath();
-    drawLine();
-
-    this->prepareGeometryChange();
-    update();
-}
-
 void Line::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    qDebug() << this;
+//    qDebug() << "item " << this;
+    QGraphicsItem::mousePressEvent(event);
+}
+
+QVariant Line::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
+{
+//    if (change == QGraphicsItem::ItemSelectedChange){
+//        if (value == true){
+//            brush = QBrush(Qt::blue);
+//        } else{
+//            brush = QBrush(Qt::black);
+//        }
+//    }
+    return QGraphicsItem::itemChange(change, value);
 }
 
 void Line::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);
-    if(path.isEmpty()) drawLine();    
-    painter->fillPath(path, QBrush(Qt::black));
+    painter->fillPath(path, brush);
 }
 
 void Line::drawLine()

@@ -19,6 +19,19 @@ class Window : public QMainWindow
 public:
     explicit Window(QWidget *parent = nullptr);
     ~Window();
+    enum ShapeKind{
+        NORMAL_LINE,
+        CIRCLE,
+        ELIP,
+        RECTANGLE
+    };
+
+    ShapeKind getCurrentShape();
+    void showInfo(const QStringList &info);
+
+
+private slots:
+    void on_changeColorBtn_clicked();
 
 private:
     Ui::Window *ui;

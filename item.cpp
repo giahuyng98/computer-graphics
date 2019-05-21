@@ -3,11 +3,42 @@
 
 void Item::drawPixel(int x, int y)
 {
-    int offx = ((Scene*)this->scene())->getOffx();
-    int offy = ((Scene*)this->scene())->getOffy();
-    int thickness = ((Scene*)this->scene())->getThickness();
+    const int offx = this->scene->getOffx();
+    const int offy = this->scene->getOffy();
+    const int thickness = this->scene->getThickness();
     path.addRect((x + offx) * thickness, (offy - y) * thickness, thickness, thickness);
 }
+
+QPoint Item::toScenePos(const QPoint &userPos) const
+{
+    const int offx = this->scene->getOffx();
+    const int offy = this->scene->getOffy();
+    const int thickness = this->scene->getThickness();
+    return QPoint((userPos.x() + offx) * thickness, (offy - userPos.y()) * thickness);
+}
+
+void Item::setBrush(const QBrush &value)
+{
+    brush = value;
+    update();
+}
+
+QPainterPath Item::getPath() const
+{
+    return path;
+}
+
+Item::Item(Scene *scene, QGraphicsItem *parent)
+    : QGraphicsItem(parent), scene(scene)
+{
+    setFlag(ItemIsSelectable);
+}
+
+QStringList Item::getInfo() const
+{
+    return QStringList();
+}
+
 QPainterPath Item::shape() const{
     return path;
 }

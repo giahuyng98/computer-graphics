@@ -25,18 +25,38 @@
   <property name="font">
    <font>
     <family>Segoe UI</family>
-    <pointsize>12</pointsize>
+    <pointsize>10</pointsize>
    </font>
   </property>
   <property name="windowTitle">
    <string>Window</string>
   </property>
   <widget class="QWidget" name="centralWidget">
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
    <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
@@ -91,9 +111,9 @@
         </font>
        </property>
        <attribute name="title">
-        <string notr="true">Tab1</string>
+        <string notr="true">2D</string>
        </attribute>
-       <layout class="QHBoxLayout" name="horizontalLayout">
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
         <property name="spacing">
          <number>0</number>
         </property>
@@ -110,21 +130,20 @@
          <number>0</number>
         </property>
         <item>
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="lineBtn">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="text">
-           <string/>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
           </property>
-          <property name="iconSize">
-           <size>
-            <width>100</width>
-            <height>100</height>
-           </size>
+          <property name="text">
+           <string>LINE</string>
           </property>
           <property name="checkable">
            <bool>true</bool>
@@ -132,115 +151,118 @@
           <property name="checked">
            <bool>true</bool>
           </property>
-          <property name="autoDefault">
-           <bool>false</bool>
-          </property>
           <property name="default">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="flat">
            <bool>true</bool>
           </property>
           <attribute name="buttonGroup">
-           <string notr="true">buttonGroup</string>
+           <string notr="true">shapeKind</string>
           </attribute>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_2">
+         <widget class="QPushButton" name="rectBtn">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
           <property name="text">
-           <string/>
+           <string>Rectangle</string>
           </property>
           <property name="checkable">
            <bool>true</bool>
+          </property>
+          <property name="default">
+           <bool>false</bool>
           </property>
           <property name="flat">
            <bool>true</bool>
           </property>
           <attribute name="buttonGroup">
-           <string notr="true">buttonGroup</string>
+           <string notr="true">shapeKind</string>
           </attribute>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_3">
+         <widget class="QPushButton" name="circleBtn">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
           <property name="text">
-           <string/>
+           <string>Circle</string>
           </property>
           <property name="checkable">
            <bool>true</bool>
           </property>
-          <property name="autoDefault">
-           <bool>false</bool>
-          </property>
           <property name="default">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="flat">
            <bool>true</bool>
           </property>
           <attribute name="buttonGroup">
-           <string notr="true">buttonGroup</string>
+           <string notr="true">shapeKind</string>
           </attribute>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_4">
+         <widget class="QPushButton" name="elipBtn">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
           <property name="text">
-           <string/>
+           <string>Elip</string>
           </property>
           <property name="checkable">
            <bool>true</bool>
           </property>
-          <property name="autoDefault">
-           <bool>false</bool>
-          </property>
           <property name="default">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="flat">
            <bool>true</bool>
           </property>
           <attribute name="buttonGroup">
-           <string notr="true">buttonGroup</string>
+           <string notr="true">shapeKind</string>
           </attribute>
          </widget>
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tabWidgetPage2">
-       <property name="font">
-        <font>
-         <family>Segoe UI</family>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
+      <widget class="QWidget" name="tab">
        <attribute name="title">
-        <string>tab2</string>
+        <string>3D</string>
        </attribute>
       </widget>
      </widget>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <widget class="QGraphicsView" name="graphicsView">
         <property name="sizePolicy">
@@ -251,36 +273,86 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>970</width>
-          <height>535</height>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="sizeIncrement">
+         <size>
+          <width>5</width>
+          <height>5</height>
+         </size>
+        </property>
+        <property name="baseSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
          </size>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QTreeWidget" name="treeWidget">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
+       <widget class="QFrame" name="frame">
+        <property name="minimumSize">
+         <size>
+          <width>200</width>
+          <height>0</height>
+         </size>
         </property>
-        <column>
-         <property name="text">
-          <string notr="true">1</string>
-         </property>
-        </column>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QTextEdit" name="textEdit">
+           <property name="undoRedoEnabled">
+            <bool>false</bool>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="changeColorBtn">
+           <property name="text">
+            <string>Change color</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
        </widget>
       </item>
      </layout>
     </item>
    </layout>
   </widget>
+  <action name="actionSaveAsImage">
+   <property name="text">
+    <string>Save as image</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroup"/>
+  <buttongroup name="shapeKind"/>
  </buttongroups>
 </ui>

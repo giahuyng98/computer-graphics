@@ -3,12 +3,23 @@
 #include <QGraphicsItem>
 #include <QTreeWidgetItem>
 
-class Item : public QGraphicsItem, public QTreeWidgetItem{
+class Scene;
+
+class Item : public QGraphicsItem{
+public:
+    QPainterPath getPath() const;
+    Item(Scene *scene = nullptr, QGraphicsItem *parent = nullptr);
+    virtual QStringList getInfo() const;
+
+    void setBrush(const QBrush &value);
+
 protected:
+    QPoint toScenePos(const QPoint &userPos) const;
+    QBrush brush = QBrush(Qt::black);
     QPainterPath path;
+    Scene *scene;
     QPainterPath shape() const override;
     void drawPixel(int x, int y);
-
 };
 
 
