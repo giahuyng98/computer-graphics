@@ -17,15 +17,15 @@ Line::Line(const QPoint &from, const QPoint &to, Scene *scene, QGraphicsItem *pa
 {
 }
 
-QStringList Line::getInfo() const
-{
-    QStringList result;
-    result << QString("<b><u>Line</u></b>" );
-    result << QString("\tPoint: (" + QString::number(x1) + "," + QString::number(y1) + ")");
-    result << QString("\tPoint: (" + QString::number(x2) + "," + QString::number(y2) + ")");
-//    result << QString("\tColor: " + brush.color().name());
-    return result;
-}
+//QStringList Line::getInfo() const
+//{
+//    QStringList result;
+//    result << QString("<b><u>Line</u></b>" );
+//    result << QString("\tPoint: (" + QString::number(x1) + "," + QString::number(y1) + ")");
+//    result << QString("\tPoint: (" + QString::number(x2) + "," + QString::number(y2) + ")");
+////    result << QString("\tColor: " + brush.color().name());
+//    return result;
+//}
 
 QRectF Line::boundingRect() const
 {

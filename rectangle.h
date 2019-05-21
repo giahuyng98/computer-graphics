@@ -12,7 +12,7 @@ public:
     Rectangle(const QPoint &pos, const QSize &size, Scene *scene, QGraphicsItem *parent = nullptr);
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
-    QStringList getInfo() const override;
+//    QStringList getInfo() const override;
 private:
     Line line1, line2, line3, line4;
     QPoint pos;

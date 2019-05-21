@@ -16,10 +16,17 @@ LineInfo::~LineInfo()
 void LineInfo::setLine(Line *line)
 {
     this->line = line;
-    ui->lineEditPoint1x->setText(QString::number(line->getX1()));
-    ui->lineEditPoint1y->setText(QString::number(line->getY1()));
-    ui->lineEditPoint2x->setText(QString::number(line->getX2()));
-    ui->lineEditPoint2y->setText(QString::number(line->getY2()));
+    if (line){
+        ui->lineEditPoint1x->setText(QString::number(line->getX1()));
+        ui->lineEditPoint1y->setText(QString::number(line->getY1()));
+        ui->lineEditPoint2x->setText(QString::number(line->getX2()));
+        ui->lineEditPoint2y->setText(QString::number(line->getY2()));
+    } else {
+        ui->lineEditPoint1x->clear();
+        ui->lineEditPoint1y->clear();
+        ui->lineEditPoint2x->clear();
+        ui->lineEditPoint2y->clear();
+    }
 }
 
 void LineInfo::on_applyBtn_clicked()

@@ -34,10 +34,10 @@ Item::Item(Scene *scene, QGraphicsItem *parent)
     setFlag(ItemIsSelectable);
 }
 
-QStringList Item::getInfo() const
-{
-    return QStringList();
-}
+//QStringList Item::getInfo() const
+//{
+//    return QStringList();
+//}
 
 QPainterPath Item::shape() const{
     return path;

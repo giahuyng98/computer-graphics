@@ -27,7 +27,3 @@ void Rectangle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->fillPath(path, QBrush(Qt::black));
 }
 
-QStringList Rectangle::getInfo() const
-{
-
-}
