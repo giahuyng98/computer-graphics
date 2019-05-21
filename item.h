@@ -7,6 +7,10 @@ class Scene;
 
 class Item : public QGraphicsItem{
 public:
+    enum Type{
+        LINE,
+        RECT
+    };
     QPainterPath getPath() const;
     Item(Scene *scene = nullptr, QGraphicsItem *parent = nullptr);
     virtual QStringList getInfo() const;

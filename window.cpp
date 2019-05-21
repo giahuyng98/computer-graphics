@@ -35,17 +35,20 @@ Window::ShapeKind Window::getCurrentShape()
     return ShapeKind(ui->shapeKind->checkedId());
 }
 
-void Window::showInfo(const QStringList &info)
+void Window::setInforFrame(LineInfo *lineInfo)
 {
-    ui->textEdit->clear();
-    for(const QString &line : info){
-        ui->textEdit->append(line);
-    }
+//    ui->infoStackedWidget->setCurrentWidget(lineInfo);
+    ui->infoLayout->removeWidget(ui->infoLayout->widget());
+    ui->infoLayout->addWidget(lineInfo);
 }
-
 
 void Window::on_changeColorBtn_clicked()
 {
     QColor color = QColorDialog::getColor(Qt::black, this);
     if (color.isValid()) scene->changeColor(color);
+}
+
+void Window::on_deleteBtn_clicked()
+{
+    scene->deleteItem();
 }

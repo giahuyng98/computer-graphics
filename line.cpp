@@ -1,34 +1,6 @@
 #include "line.h"
 #include "scene.h"
 
-//Line::Line(Scene *scene)
-//{
-
-//}
-
-//Line::Line(int x1, int y1, int x2, int y2)
-//    : x1(x1), y1(y1), x2(x2), y2(y2)
-//{
-//    setFlag(ItemIsMovable);
-//    setFlag(ItemSendsGeometryChanges);
-
-////    this->setText(0, "Line");
-////    this->addChild(new QTreeWidgetItem({"Point", "(" + QString::number(x1) + "," + QString::number(y1) + ")"}));
-////    this->addChild(new QTreeWidgetItem({"Point", "(" + QString::number(x2) + "," + QString::number(y2) + ")"}));
-////    this->setExpanded(true);
-//}
-
-//Line::Line(const QPoint &from, const QPoint &to) : Line(from.x(), from.y(), to.x(), to.y())
-//{    }
-
-//const Line &Line::operator=(const Line &another)
-//{
-//    x1 = another.x1;
-//    x2 = another.x2;
-//    y1 = another.y1;
-//    y2 = another.y2;
-//}
-
 Line::Line(Scene *scene, QGraphicsItem *parent)
     :Item(scene, parent)
 {
@@ -140,4 +112,51 @@ void Line::drawLineHigh(int x1, int y1, int x2, int y2)
         }
         d += dx << 1;
     }
+}
+
+int Line::getY2() const
+{
+    return y2;
+}
+
+void Line::setY2(int value)
+{
+    y2 = value;
+}
+
+void Line::reDraw()
+{
+    path = QPainterPath();
+    drawLine();
+    scene->update();
+}
+
+int Line::getX2() const
+{
+    return x2;
+}
+
+void Line::setX2(int value)
+{
+    x2 = value;
+}
+
+int Line::getY1() const
+{
+    return y1;
+}
+
+void Line::setY1(int value)
+{
+    y1 = value;
+}
+
+int Line::getX1() const
+{
+    return x1;
+}
+
+void Line::setX1(int value)
+{
+    x1 = value;
 }

@@ -7,6 +7,7 @@
 #include <QVBoxLayout>
 #include "oxy.h"
 #include "scene.h"
+#include "lineinfo.h"
 
 namespace Ui {
 class Window;
@@ -27,11 +28,12 @@ public:
     };
 
     ShapeKind getCurrentShape();
-    void showInfo(const QStringList &info);
-
+    void setInforFrame(LineInfo *lineInfo);
 
 private slots:
     void on_changeColorBtn_clicked();
+
+    void on_deleteBtn_clicked();
 
 private:
     Ui::Window *ui;

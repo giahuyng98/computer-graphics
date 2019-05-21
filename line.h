@@ -12,6 +12,7 @@
 class Scene;
 
 class Rectangle;
+class LineInfo;
 
 class Line : public Item
 {
@@ -20,11 +21,24 @@ public:
     Line(int x1, int y1, int x2, int y2, Scene *scene, QGraphicsItem *parent = nullptr);
     Line(const QPoint &from, const QPoint &to, Scene *scene, QGraphicsItem *parent = nullptr);
     QStringList getInfo() const override;
-
 //    const Line& operator=(const Line &l);
 
+    int getX1() const;
+    void setX1(int value);
+
+    int getY1() const;
+    void setY1(int value);
+
+    int getX2() const;
+    void setX2(int value);
+
+    int getY2() const;
+    void setY2(int value);
+
+    void reDraw();
+
 protected:
-    QRectF boundingRect() const override;      
+    QRectF boundingRect() const override;
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;        
@@ -34,7 +48,8 @@ protected:
     void drawLineHigh(int x1, int y1, int x2, int y2);
 private:
     int x1, y1, x2, y2;
-    friend class Rectangle;
+//    friend class Rectangle;
+//    friend class LineInfo;
 };
 
 #endif // LINE_H

@@ -13,6 +13,7 @@
 #include "items.h"
 #include "line.h"
 #include "rectangle.h"
+#include "lineinfo.h"
 
 class Window;
 
@@ -30,6 +31,7 @@ public:
 
     void setWindow(Window *value);
     void changeColor(const QColor &color);
+    void deleteItem();
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
@@ -46,6 +48,7 @@ private:
     int thickness = 5;
     bool isDrawing = false;
     Line *tmpLine = nullptr;
+    LineInfo *lineInfo;
 
     std::vector<QPoint> points;
     Window *window;

@@ -19,16 +19,25 @@ Scene::Scene(QWidget *parent) : QGraphicsScene (parent)
     offx = lenx / 2;
     offy = leny / 2;
 
+    lineInfo = new LineInfo();
 }
 
 void Scene::setWindow(Window *value){
     this->window = value;
+    window->setInforFrame(lineInfo);
 }
 
 void Scene::changeColor(const QColor &color)
 {
     for(auto &item : this->selectedItems()){
         static_cast<Item*>(item)->setBrush(QBrush(color));
+    }
+}
+
+void Scene::deleteItem()
+{
+    for(auto &item : this->selectedItems()){
+        this->removeItem(item);
     }
 }
 
@@ -59,7 +68,9 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
         Item *selectedItem = static_cast<Item*>(this->itemAt(mouseEvent->scenePos(), QTransform()));
         if (selectedItem){
             selectedItem->setSelected(true);
-            window->showInfo(selectedItem->getInfo());
+            lineInfo->setLine(static_cast<Line*>(selectedItem));
+//            lineInfo->show();
+//            window->showInfo(selectedItem->getInfo());
             //TODO: show info
             return;
         }
@@ -109,7 +120,7 @@ void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
         this->addItem(tmpLine = new Line(points.front(), points.back(), this));
         tmpLine->setSelected(true);
         tmpLine->update();
-        window->showInfo(tmpLine->getInfo());
+        lineInfo->setLine(tmpLine);
     }
 
     QGraphicsScene::mouseMoveEvent(mouseEvent);

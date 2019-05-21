@@ -12,3 +12,21 @@ LineInfo::~LineInfo()
 {
     delete ui;
 }
+
+void LineInfo::setLine(Line *line)
+{
+    this->line = line;
+    ui->lineEditPoint1x->setText(QString::number(line->getX1()));
+    ui->lineEditPoint1y->setText(QString::number(line->getY1()));
+    ui->lineEditPoint2x->setText(QString::number(line->getX2()));
+    ui->lineEditPoint2y->setText(QString::number(line->getY2()));
+}
+
+void LineInfo::on_applyBtn_clicked()
+{
+    line->setX1(ui->lineEditPoint1x->text().toInt());
+    line->setY1(ui->lineEditPoint1y->text().toInt());
+    line->setX2(ui->lineEditPoint2x->text().toInt());
+    line->setY2(ui->lineEditPoint2y->text().toInt());
+    line->reDraw();
+}
