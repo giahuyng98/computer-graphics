@@ -18,6 +18,9 @@ public:
 
     void setRect(Rectangle *value);
 
+private slots:
+    void on_applyBtn_clicked();
+
 private:
     Ui::RectInfo *ui;
     Rectangle *rect = nullptr;

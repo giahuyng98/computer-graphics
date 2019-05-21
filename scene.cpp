@@ -42,13 +42,13 @@ void Scene::deleteItem()
         this->removeItem(item);
     }
     if (!this->items().isEmpty()) {
-        this->items().last()->setSelected(true);
-        switch (static_cast<Item*>(this->items().last())->getType()) {
+        this->items().first()->setSelected(true);
+        switch (static_cast<Item*>(this->items().first())->getType()) {
         case Item::Type::LINE:
-            lineInfo->setLine(static_cast<Line*>(this->items().last()));
+            lineInfo->setLine(static_cast<Line*>(this->items().first()));
             break;
         case Item::Type::RECT:
-            rectInfo->setRect(static_cast<Rectangle*>(this->items().last()));
+            rectInfo->setRect(static_cast<Rectangle*>(this->items().first()));
             break;
         case Item::Type::CIRCLE:
             break;

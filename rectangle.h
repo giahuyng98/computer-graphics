@@ -19,11 +19,11 @@ public:
     QSize getSize() const;
     void setSize(const QSize &value);
 
+    void set4Line();
     void reDraw();
     Type getType() const override;
 
-private:
-    Line line1, line2, line3, line4;
+private:    
     QPoint pos;
     QSize size;
 };
