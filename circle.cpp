@@ -20,8 +20,3 @@ void Circle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
 {
 
 }
-
-QStringList Circle::getInfo() const
-{
-
-}
