@@ -38,6 +38,8 @@ private slots:
 
     void on_lineBtn_clicked();
 
+    void on_clearSceneBtn_clicked();
+
 private:
     Ui::Window *ui;
     Scene *scene;

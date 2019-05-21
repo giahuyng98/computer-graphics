@@ -311,10 +311,10 @@
            <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
-           <widget class="QWidget" name="">
+           <widget class="QWidget" name="layoutWidget">
             <layout class="QVBoxLayout" name="infoLayout"/>
            </widget>
-           <widget class="QWidget" name="">
+           <widget class="QWidget" name="layoutWidget">
             <layout class="QVBoxLayout" name="verticalLayout_2">
              <item>
               <widget class="QPushButton" name="changeColorBtn">
@@ -326,7 +326,14 @@
              <item>
               <widget class="QPushButton" name="deleteBtn">
                <property name="text">
-                <string>Delete</string>
+                <string>Delete Item</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="clearSceneBtn">
+               <property name="text">
+                <string>Clear All</string>
                </property>
               </widget>
              </item>

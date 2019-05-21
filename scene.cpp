@@ -47,6 +47,14 @@ void Scene::deleteItem()
     }
 }
 
+void Scene::clearAll()
+{
+    for(auto &item : this->items()){
+        this->removeItem(item);
+    }
+    lineInfo->setLine(nullptr);
+}
+
 int Scene::getOffx() const
 {
     return offx;
@@ -151,6 +159,7 @@ void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
                                                               std::abs(points.back().y() - points.front().y())), this);
             tmpRectange->setSelected(true);
             tmpRectange->update();
+            rectInfo->setRect(tmpRectange);
             this->addItem(tmpRectange);
             break;
         }

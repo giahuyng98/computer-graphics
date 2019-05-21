@@ -32,6 +32,7 @@ public:
     void setWindow(Window *value);
     void changeColor(const QColor &color);
     void deleteItem();
+    void clearAll();
 
     RectInfo *getRectInfo() const;
 

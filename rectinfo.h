@@ -13,12 +13,14 @@ class RectInfo : public QFrame
     Q_OBJECT
 
 public:
-    explicit RectInfo(QWidget *parent = nullptr);
+    explicit RectInfo(QWidget *parent = nullptr);    
     ~RectInfo();
+
+    void setRect(Rectangle *value);
 
 private:
     Ui::RectInfo *ui;
-
+    Rectangle *rect = nullptr;
 };
 
 #endif // RECTINFO_H

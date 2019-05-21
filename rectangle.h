@@ -13,6 +13,14 @@ public:
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 //    QStringList getInfo() const override;
+    QPoint getPos() const;
+    void setPos(const QPoint &value);
+
+    QSize getSize() const;
+    void setSize(const QSize &value);
+
+    void reDraw();
+
 private:
     Line line1, line2, line3, line4;
     QPoint pos;

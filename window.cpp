@@ -65,3 +65,8 @@ void Window::on_lineBtn_clicked()
 //    ui->infoLayout->removeItem(ui->infoLayout->takeAt(0));
 //    ui->infoLayout->addWidget(scene->getLineInfo());
 }
+
+void Window::on_clearSceneBtn_clicked()
+{
+    scene->clearAll();
+}

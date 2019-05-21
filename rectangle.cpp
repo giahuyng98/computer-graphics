@@ -30,3 +30,33 @@ void Rectangle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->fillPath(path, QBrush(Qt::black));
 }
 
+QPoint Rectangle::getPos() const
+{
+    return pos;
+}
+
+void Rectangle::setPos(const QPoint &value)
+{
+    pos = value;
+}
+
+QSize Rectangle::getSize() const
+{
+    return size;
+}
+
+void Rectangle::setSize(const QSize &value)
+{
+    size = value;
+}
+
+void Rectangle::reDraw()
+{
+    path = QPainterPath();
+    path.addPath(Line(pos, QPoint(pos.x() + size.width(), pos.y()), scene).getPath());
+    path.addPath(Line(pos, QPoint(pos.x(), pos.y() - size.height()), scene).getPath());
+    path.addPath(Line(pos.x(), pos.y() - size.height(), pos.x() + size.width(), pos.y() - size.height(), scene).getPath());
+    path.addPath(Line(pos.x() + size.width(), pos.y(), pos.x() + size.width(), pos.y() - size.height(), scene).getPath());
+    update();
+}
+
