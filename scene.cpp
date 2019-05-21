@@ -73,14 +73,28 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
     if (mouseEvent->button() == Qt::LeftButton){
         Item *selectedItem = static_cast<Item*>(this->itemAt(mouseEvent->scenePos(), QTransform()));
         if (selectedItem){
+            switch (selectedItem->getType()) {
+            case Item::Type::LINE:
+                lineInfo->setLine(static_cast<Line*>(selectedItem));
+                break;
+            case Item::Type::RECT:
+                break;
+            case Item::Type::CIRCLE:
+                break;
+            case Item::Type::ELIP:
+                break;
+            default:
+                break;
+            }
             selectedItem->setSelected(true);
-            lineInfo->setLine(static_cast<Line*>(selectedItem));
+
 
             return;
         }
 
         isDrawing = true;
         points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
+
         switch (window->getCurrentShape()){
         case Window::ShapeKind::NORMAL_LINE :
             points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));

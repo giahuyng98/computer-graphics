@@ -34,6 +34,11 @@ Item::Item(Scene *scene, QGraphicsItem *parent)
     setFlag(ItemIsSelectable);
 }
 
+Item::Type Item::getType() const
+{
+    return NULL_TYPE;
+}
+
 //QStringList Item::getInfo() const
 //{
 //    return QStringList();
