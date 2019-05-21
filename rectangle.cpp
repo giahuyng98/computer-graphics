@@ -19,7 +19,10 @@ Rectangle::Rectangle(const QPoint &pos, const QSize &size, Scene *scene, QGraphi
 QRectF Rectangle::boundingRect() const
 {
     const int thickness = this->scene->getThickness();
-    return QRectF(toScenePos(pos), size * thickness);
+    QPoint topleft = toScenePos(pos);
+    topleft = QPoint(topleft.x() - thickness, topleft.y() - thickness);
+    QSize sceneSize = QSize(size.width() * (thickness + 2), size.height() * (thickness + 2));
+    return QRectF(topleft, sceneSize);
 }
 
 void Rectangle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

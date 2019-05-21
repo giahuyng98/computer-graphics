@@ -104,9 +104,10 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
             break;
 
         case Window::ShapeKind::RECTANGLE :
-//                Rectangle *rec = new Rectangle(points.front(), QSize(std::abs(points.back().x() - points.front().x()),
-//                                                                             std::abs(points.back().y() - points.front().y())), this);
-//                addItem(rec);
+            points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
+            tmpRectange = new Rectangle(points.front(), QSize(std::abs(points.back().x() - points.front().x()),
+                                                                         std::abs(points.back().y() - points.front().y())), this);
+            addItem(tmpRectange);
 
             break;
         case Window::ShapeKind::CIRCLE :
@@ -127,15 +128,34 @@ void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    if (isDrawing && window->getCurrentShape() == Window::ShapeKind::NORMAL_LINE){
-        points.pop_back();
-        points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
-        removeItem(tmpLine);
-        delete tmpLine;
-        this->addItem(tmpLine = new Line(points.front(), points.back(), this));
-        tmpLine->setSelected(true);
-        tmpLine->update();
-        lineInfo->setLine(tmpLine);
+    if (isDrawing){
+
+        switch (window->getCurrentShape()) {
+        case  Window::ShapeKind::NORMAL_LINE:
+            points.pop_back();
+            points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
+            removeItem(tmpLine);
+            delete tmpLine;
+            this->addItem(tmpLine = new Line(points.front(), points.back(), this));
+            tmpLine->setSelected(true);
+            tmpLine->update();
+            lineInfo->setLine(tmpLine);
+            break;
+        case Window::ShapeKind::RECTANGLE:
+
+            points.pop_back();
+            points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
+            removeItem(tmpRectange);
+            delete tmpRectange;
+
+            tmpRectange = new Rectangle(points.front(), QSize(std::abs(points.back().x() - points.front().x()),
+                                                              std::abs(points.back().y() - points.front().y())), this);
+            tmpRectange->setSelected(true);
+            tmpRectange->update();
+            this->addItem(tmpRectange);
+            break;
+        }
+
     }
 
     QGraphicsScene::mouseMoveEvent(mouseEvent);

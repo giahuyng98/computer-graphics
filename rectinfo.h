@@ -2,6 +2,7 @@
 #define RECTINFO_H
 
 #include <QFrame>
+#include "rectangle.h"
 
 namespace Ui {
 class RectInfo;
@@ -17,6 +18,7 @@ public:
 
 private:
     Ui::RectInfo *ui;
+
 };
 
 #endif // RECTINFO_H
