@@ -28,12 +28,16 @@ public:
     };
 
     ShapeKind getCurrentShape();
-    void setInforFrame(LineInfo *lineInfo);
+    void setInforFrame(QWidget *widget);
 
 private slots:
     void on_changeColorBtn_clicked();
 
     void on_deleteBtn_clicked();
+
+    void on_rectBtn_clicked();
+
+    void on_lineBtn_clicked();
 
 private:
     Ui::Window *ui;

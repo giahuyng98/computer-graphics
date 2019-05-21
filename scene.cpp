@@ -20,6 +20,7 @@ Scene::Scene(QWidget *parent) : QGraphicsScene (parent)
     offy = leny / 2;
 
     lineInfo = new LineInfo();
+    rectInfo = new RectInfo();
 }
 
 void Scene::setWindow(Window *value){
@@ -167,5 +168,15 @@ void Scene::drawBackground(QPainter *painter, const QRectF &rect)
 
     painter->drawLine(halfWidth - 5, 5, halfWidth, 0);
     painter->drawLine(halfWidth + 5, 5, halfWidth, 0);
+}
+
+LineInfo *Scene::getLineInfo() const
+{
+    return lineInfo;
+}
+
+RectInfo *Scene::getRectInfo() const
+{
+    return rectInfo;
 }
 

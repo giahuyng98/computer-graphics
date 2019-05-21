@@ -35,11 +35,10 @@ Window::ShapeKind Window::getCurrentShape()
     return ShapeKind(ui->shapeKind->checkedId());
 }
 
-void Window::setInforFrame(LineInfo *lineInfo)
+void Window::setInforFrame(QWidget *widget)
 {
-//    ui->infoStackedWidget->setCurrentWidget(lineInfo);
-    ui->infoLayout->removeWidget(ui->infoLayout->widget());
-    ui->infoLayout->addWidget(lineInfo);
+
+    ui->infoLayout->addWidget(widget);
 }
 
 void Window::on_changeColorBtn_clicked()
@@ -51,4 +50,16 @@ void Window::on_changeColorBtn_clicked()
 void Window::on_deleteBtn_clicked()
 {
     scene->deleteItem();
+}
+
+void Window::on_rectBtn_clicked()
+{
+    ui->splitter->replaceWidget(0, scene->getRectInfo());
+}
+
+void Window::on_lineBtn_clicked()
+{
+    ui->splitter->replaceWidget(0, scene->getLineInfo());
+//    ui->infoLayout->removeItem(ui->infoLayout->takeAt(0));
+//    ui->infoLayout->addWidget(scene->getLineInfo());
 }
