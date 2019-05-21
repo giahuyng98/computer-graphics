@@ -22,7 +22,7 @@ private slots:
 
 private:
     Ui::LineInfo *ui;
-    Line *line;
+    Line *line = nullptr;
 };
 
 #endif // LINEINFO_H

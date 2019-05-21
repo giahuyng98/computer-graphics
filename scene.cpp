@@ -39,6 +39,12 @@ void Scene::deleteItem()
     for(auto &item : this->selectedItems()){
         this->removeItem(item);
     }
+    if (!this->items().isEmpty()) {
+        this->items().last()->setSelected(true);
+        lineInfo->setLine(static_cast<Line*>(this->items().last()));
+    } else {
+        lineInfo->setLine(nullptr);
+    }
 }
 
 int Scene::getOffx() const
@@ -69,9 +75,7 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
         if (selectedItem){
             selectedItem->setSelected(true);
             lineInfo->setLine(static_cast<Line*>(selectedItem));
-//            lineInfo->show();
-//            window->showInfo(selectedItem->getInfo());
-            //TODO: show info
+
             return;
         }
 
