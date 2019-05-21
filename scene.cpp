@@ -24,8 +24,7 @@ Scene::Scene(QWidget *parent) : QGraphicsScene (parent)
 }
 
 void Scene::setWindow(Window *value){
-    this->window = value;
-    window->setInforFrame(lineInfo);
+    this->window = value;    
 }
 
 void Scene::changeColor(const QColor &color)

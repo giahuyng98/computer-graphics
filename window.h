@@ -27,8 +27,7 @@ public:
         RECTANGLE
     };
 
-    ShapeKind getCurrentShape();
-    void setInforFrame(QWidget *widget);
+    ShapeKind getCurrentShape();    
 
 private slots:
     void on_changeColorBtn_clicked();

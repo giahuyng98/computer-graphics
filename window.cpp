@@ -19,6 +19,8 @@ Window::Window(QWidget *parent) :
     ui->shapeKind->setId(ui->circleBtn, ShapeKind::CIRCLE);
     ui->shapeKind->setId(ui->elipBtn, ShapeKind::ELIP);
 
+    ui->splitter->insertWidget(0, scene->getLineInfo());
+
 //    scene->setTree(ui->treeWidget);
 //    ui->treeWidget->setColumnCount(2);
 //    ui->treeWidget->setHeaderLabels(QStringList() << "Name" << "Value");
@@ -35,11 +37,11 @@ Window::ShapeKind Window::getCurrentShape()
     return ShapeKind(ui->shapeKind->checkedId());
 }
 
-void Window::setInforFrame(QWidget *widget)
-{
+//void Window::setInforFrame(QWidget *widget)
+//{
 
-    ui->infoLayout->addWidget(widget);
-}
+//    ui->infoLayout->addWidget(widget);
+//}
 
 void Window::on_changeColorBtn_clicked()
 {
