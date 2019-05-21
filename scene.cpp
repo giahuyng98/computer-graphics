@@ -55,6 +55,7 @@ void Scene::clearAll()
         this->removeItem(item);
     }
     lineInfo->setLine(nullptr);
+    rectInfo->setRect(nullptr);
 }
 
 int Scene::getOffx() const
@@ -88,6 +89,7 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
                 lineInfo->setLine(static_cast<Line*>(selectedItem));
                 break;
             case Item::Type::RECT:
+                rectInfo->setRect(static_cast<Rectangle*>(selectedItem));
                 break;
             case Item::Type::CIRCLE:
                 break;

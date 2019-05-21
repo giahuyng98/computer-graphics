@@ -28,7 +28,7 @@ QRectF Rectangle::boundingRect() const
 
 void Rectangle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    painter->fillPath(path, QBrush(Qt::black));
+    painter->fillPath(path, brush);
 }
 
 QPoint Rectangle::getPos() const
@@ -59,5 +59,10 @@ void Rectangle::reDraw()
     path.addPath(Line(pos.x(), pos.y() - size.height(), pos.x() + size.width(), pos.y() - size.height(), scene).getPath());
     path.addPath(Line(pos.x() + size.width(), pos.y(), pos.x() + size.width(), pos.y() - size.height(), scene).getPath());
     update();
+}
+
+Item::Type Rectangle::getType() const
+{
+    return Type::RECT;
 }
 

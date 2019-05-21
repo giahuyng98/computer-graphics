@@ -20,6 +20,7 @@ public:
     Line(Scene *scene, QGraphicsItem *parent = nullptr);
     Line(int x1, int y1, int x2, int y2, Scene *scene, QGraphicsItem *parent = nullptr);
     Line(const QPoint &from, const QPoint &to, Scene *scene, QGraphicsItem *parent = nullptr);
+    Type getType() const override;
 //    QStringList getInfo() const override;
 //    const Line& operator=(const Line &l);
 

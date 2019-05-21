@@ -17,6 +17,11 @@ Line::Line(const QPoint &from, const QPoint &to, Scene *scene, QGraphicsItem *pa
 {
 }
 
+Item::Type Line::getType() const
+{
+    return Type::LINE;
+}
+
 //QStringList Line::getInfo() const
 //{
 //    QStringList result;
