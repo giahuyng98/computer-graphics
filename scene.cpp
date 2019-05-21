@@ -85,14 +85,10 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
             break;
 
         case Window::ShapeKind::RECTANGLE :
-            if (points.size() == 2){
-                Rectangle *rec = new Rectangle(points.front(), QSize(std::abs(points.back().x() - points.front().x()),
-                                                                             std::abs(points.back().y() - points.front().y())), this);
-                addItem(rec);
+//                Rectangle *rec = new Rectangle(points.front(), QSize(std::abs(points.back().x() - points.front().x()),
+//                                                                             std::abs(points.back().y() - points.front().y())), this);
+//                addItem(rec);
 
-                points.clear();
-            } else {
-            }
             break;
         case Window::ShapeKind::CIRCLE :
             break;

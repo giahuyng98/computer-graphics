@@ -48,6 +48,7 @@ private:
     int thickness = 5;
     bool isDrawing = false;
     Line *tmpLine = nullptr;
+    Rectangle *tmpRectange = nullptr;
     LineInfo *lineInfo;
 
     std::vector<QPoint> points;

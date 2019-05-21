@@ -31,6 +31,7 @@ SOURCES += \
         lineinfo.cpp \
         main.cpp \
         rectangle.cpp \
+        rectinfo.cpp \
         scene.cpp \
         window.cpp
 
@@ -40,11 +41,13 @@ HEADERS += \
         line.h \
         lineinfo.h \
         rectangle.h \
+        rectinfo.h \
         scene.h \
         window.h
 
 FORMS += \
         lineinfo.ui \
+        rectinfo.ui \
         window.ui
 
 # Default rules for deployment.
