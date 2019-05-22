@@ -134,7 +134,6 @@ void Scene::doRotation()
     const int x = window->getXRotate();
     const int y = window->getYRotate();
     const int angle = window->getAngleRotate();
-    vector<vector<int> > tam, temp;
     if (selectedItem){
         switch (selectedItem->getType()) {
         case Item::Type::LINE:
@@ -158,7 +157,6 @@ void Scene::doRotation()
         }
         case Item::Type::CIRCLE:
         {
-
             Circle *circle = static_cast<Circle*>(selectedItem);
             circle->setPoint(affine.rotate(circle->getPoint(), x, y, angle));
             circle->reDraw();
@@ -184,8 +182,8 @@ void Scene::doScaling()
 {
     if (selectedItems().isEmpty()) return;
     Item *selectedItem = static_cast<Item*>(selectedItems().first());
-    const int sx = window->getSXScale();
-    const int sy = window->getSYScale();
+    const float sx = window->getSXScale();
+    const float sy = window->getSYScale();
     if (selectedItem){
         switch (selectedItem->getType()) {
         case Item::Type::LINE:
@@ -229,6 +227,55 @@ void Scene::doScaling()
     }
 }
 
+void Scene::doReflection()
+{
+    if (selectedItems().isEmpty()) return;
+    Item *selectedItem = static_cast<Item*>(selectedItems().first());
+    const int x = window->getXReflection();
+    const int y = window->getYReflection();
+    if (selectedItem){
+        switch (selectedItem->getType()) {
+        case Item::Type::LINE:
+        {
+            Line *line = static_cast<Line*>(selectedItem);
+            line->setPoint1(affine.reflect(line->getPoint1(), x, y));
+            line->setPoint2(affine.reflect(line->getPoint2(), x, y));
+            line->reDraw();
+            lineInfo->setLine(line);
+            break;
+        }
+        case Item::Type::RECT:
+        {
+            Rectangle *rect = static_cast<Rectangle*>(selectedItem);
+            rect->setPoint(affine.translate(rect->getPoint(), rect->getSize().width() / 2, -rect->getSize().height() / 2));
+            rect->setPoint(affine.reflect(rect->getPoint(), x, y));
+            rect->setPoint(affine.translate(rect->getPoint(), -rect->getSize().width() / 2, rect->getSize().height() / 2));
+            rect->reDraw();
+            rectInfo->setRect(rect);
+            break;
+        }
+        case Item::Type::CIRCLE:
+        {
+            Circle *circle = static_cast<Circle*>(selectedItem);
+            circle->setPoint(affine.reflect(circle->getPoint(), x, y));
+            circle->reDraw();
+            circleInfo->setCircle(circle);
+            break;
+        }
+        case Item::Type::ELIP:
+        {
+            Ellipse *ellipse = static_cast<Ellipse*>(selectedItem);
+            ellipse->setPoint(affine.reflect(ellipse->getPoint(), x, y));
+            ellipse->reDraw();
+            ellipseInfo->setEllipse(ellipse);
+            break;
+        }
+        default:
+            break;
+        }
+    }
+}
+
 int Scene::getOffx() const
 {
     return offx;
@@ -253,20 +300,27 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     QGraphicsScene::mousePressEvent(mouseEvent);
     if (mouseEvent->button() == Qt::LeftButton){
+
         Item *selectedItem = static_cast<Item*>(this->itemAt(mouseEvent->scenePos(), QTransform()));
+
         if (selectedItem){
+
             switch (selectedItem->getType()) {
             case Item::Type::LINE:
                 lineInfo->setLine(static_cast<Line*>(selectedItem));
+                window->setShapeKind(Window::ShapeKind::NORMAL_LINE);
                 break;
             case Item::Type::RECT:
                 rectInfo->setRect(static_cast<Rectangle*>(selectedItem));
+                window->setShapeKind(Window::ShapeKind::RECTANGLE);
                 break;
             case Item::Type::CIRCLE:
                 circleInfo->setCircle(static_cast<Circle*>(selectedItem));
+                window->setShapeKind(Window::ShapeKind::CIRCLE);
                 break;
             case Item::Type::ELIP:
                 ellipseInfo->setEllipse(static_cast<Ellipse*>(selectedItem));
+                window->setShapeKind(Window::ShapeKind::ELIP);
                 break;
             default:
                 break;
@@ -287,6 +341,7 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
             tmpLine = new Line(points.front(), points.back(), this);
             addItem(tmpLine);
             lineInfo->setLine(tmpLine);
+            window->setShapeKind(Window::ShapeKind::NORMAL_LINE);
             break;
 
         case Window::ShapeKind::RECTANGLE :
@@ -295,7 +350,7 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
                                                         std::abs(points.back().y() - points.front().y())), this);
             addItem(tmpRectange);
             rectInfo->setRect(tmpRectange);
-
+            window->setShapeKind(Window::ShapeKind::RECTANGLE);
             break;
         case Window::ShapeKind::CIRCLE :
         {
@@ -304,6 +359,7 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
             tmpCircle = new Circle(points.front().x(), points.front().y(), dist(points.front(), points.back()), this);
             addItem(tmpCircle);
             circleInfo->setCircle(tmpCircle);
+            window->setShapeKind(Window::ShapeKind::CIRCLE);
             break;
         }
         case Window::ShapeKind::ELIP :
@@ -313,6 +369,7 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
                                      std::abs(points.back().y() - points.front().y()), this);
             addItem(tmpEllipse);
             ellipseInfo->setEllipse(tmpEllipse);
+            window->setShapeKind(Window::ShapeKind::ELIP);
             break;
         }
 
@@ -459,7 +516,6 @@ EllipseInfo *Scene::getEllipseInfo() const
 {
     return ellipseInfo;
 }
-
 
 CircleInfo *Scene::getCircleInfo() const
 {

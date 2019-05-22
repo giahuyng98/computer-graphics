@@ -35,7 +35,10 @@ public:
     int getAngleRotate() const;
     float getSXScale() const;
     float getSYScale() const;
+    int getXReflection() const;
+    int getYReflection() const;
 
+    void setShapeKind(ShapeKind shape);
 
 
 private slots:
@@ -60,6 +63,8 @@ private slots:
 
 
     void on_elipBtn_clicked();
+
+    void on_reflecBtn_clicked();
 
 private:
     Ui::Window *ui;

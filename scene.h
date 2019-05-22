@@ -47,6 +47,8 @@ public:
 
     void doScaling();
 
+    void doReflection();
+
     RectInfo *getRectInfo() const;
 
     LineInfo *getLineInfo() const;

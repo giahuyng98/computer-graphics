@@ -17,9 +17,9 @@ Affine::Affine()
     };
 
     refMat = {
-        {},
-        {},
-        {}
+        {-1, 0, 0},
+        {0, -1, 0},
+        {0, 0, 1}
     };
 
     rotateMat = {
@@ -63,5 +63,10 @@ void Affine::setRotate(int angle)
     rotateMat[0][1] = std::sin(angle * M_PI/180.f);
     rotateMat[1][0] = -rotateMat[0][1];
     rotateMat[1][1] = rotateMat[0][0];
+}
 
+void Affine::setReflect(int x, int y)
+{
+    refMat[2][0] = x << 1;
+    refMat[2][1] = y << 1;
 }

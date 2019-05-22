@@ -72,6 +72,34 @@ float Window::getSYScale() const
     return ui->syScale->text().toFloat();
 }
 
+int Window::getXReflection() const
+{
+    return ui->xReflection->text().toInt();
+}
+
+int Window::getYReflection() const
+{
+    return ui->yReflection->text().toInt();
+}
+
+void Window::setShapeKind(Window::ShapeKind shape)
+{
+    switch (shape) {
+    case NORMAL_LINE:
+        ui->splitter->replaceWidget(0, scene->getLineInfo());
+        break;
+    case RECTANGLE:
+       ui->splitter->replaceWidget(0, scene->getRectInfo());
+        break;
+    case CIRCLE:
+        ui->splitter->replaceWidget(0, scene->getCircleInfo());
+        break;
+    case ELIP:
+        ui->splitter->replaceWidget(0, scene->getEllipseInfo());
+        break;
+    }
+}
+
 //void Window::setInforFrame(QWidget *widget)
 //{
 
@@ -91,12 +119,12 @@ void Window::on_deleteBtn_clicked()
 
 void Window::on_rectBtn_clicked()
 {
-    ui->splitter->replaceWidget(0, scene->getRectInfo());
+//    ui->splitter->replaceWidget(0, scene->getRectInfo());
 }
 
 void Window::on_lineBtn_clicked()
 {
-    ui->splitter->replaceWidget(0, scene->getLineInfo());
+//    ui->splitter->replaceWidget(0, scene->getLineInfo());
 //    ui->infoLayout->removeItem(ui->infoLayout->takeAt(0));
 //    ui->infoLayout->addWidget(scene->getLineInfo());
 }
@@ -116,18 +144,21 @@ void Window::on_scaleBtn_clicked()
     scene->doScaling();
 }
 
-
 void Window::on_rolateBtn_clicked()
 {
     scene->doRotation();
 }
-
+void Window::on_reflecBtn_clicked()
+{
+    scene->doReflection();
+}
 void Window::on_circleBtn_clicked()
 {
-    ui->splitter->replaceWidget(0, scene->getCircleInfo());
+//    ui->splitter->replaceWidget(0, scene->getCircleInfo());
 }
 
 void Window::on_elipBtn_clicked()
 {
-    ui->splitter->replaceWidget(0, scene->getEllipseInfo());
+//    ui->splitter->replaceWidget(0, scene->getEllipseInfo());
 }
+
