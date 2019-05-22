@@ -20,6 +20,7 @@
 #include "circle.h"
 #include "ellipse.h"
 #include "circleinfo.h"
+#include "ellipseinfo.h"
 
 class Window;
 
@@ -72,6 +73,7 @@ private:
     LineInfo *lineInfo;
     RectInfo *rectInfo;
     CircleInfo *circleInfo;
+    EllipseInfo *ellipseInfo;
     std::vector<QPoint> points;
     Window *window;
 

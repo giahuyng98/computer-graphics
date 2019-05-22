@@ -34,6 +34,7 @@ public:
     int getYRotate() const;
     int getAngleRotate() const;
 
+
 private slots:
     void on_changeColorBtn_clicked();
 
