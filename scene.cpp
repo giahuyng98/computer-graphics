@@ -135,6 +135,7 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
                 rectInfo->setRect(static_cast<Rectangle*>(selectedItem));
                 break;
             case Item::Type::CIRCLE:
+//                rectInfo->setRect(static_cast<Circle*>(selectedItem));
                 break;
             case Item::Type::ELIP:
                 break;
@@ -170,7 +171,7 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
             points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
 
             tmpCircle = new Circle(points.front().x(), points.front().y(), dist(points.front(), points.back()), this);
-
+            addItem(tmpCircle);
             break;
         }
         case Window::ShapeKind::ELIP :

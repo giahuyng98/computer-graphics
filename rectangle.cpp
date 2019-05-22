@@ -19,7 +19,7 @@ QRectF Rectangle::boundingRect() const
 }
 
 void Rectangle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
-{
+{    
     painter->fillPath(path, brush);
 }
 

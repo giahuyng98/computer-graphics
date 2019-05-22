@@ -59,9 +59,9 @@ QRectF Circle::boundingRect() const
     const int thickness = this->scene->getThickness();
     const int len = thickness * r;
     QPoint topLeft = toScenePos({x, y});
-    topLeft.setX(topLeft.x() - len - thickness * 2);
-    topLeft.setY(topLeft.y() - len - thickness * 2);
-    return QRectF(topLeft, QSize(len * 2 + thickness * 4, len * 2 + thickness * 4));
+    topLeft.setX(topLeft.x() - len - thickness);
+    topLeft.setY(topLeft.y() - len - thickness);
+    return QRectF(topLeft, QSize(len * 2 + thickness * 2, len * 2 + thickness * 2));
 }
 
 void Circle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

@@ -49,7 +49,7 @@ protected:
     QRectF boundingRect() const override;
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;        
+//    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
     void drawLine();
     void drawLineLow(int x1, int y1, int x2, int y2);
