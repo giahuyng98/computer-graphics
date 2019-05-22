@@ -59,8 +59,8 @@ void Affine::setScale(float sx, float sy)
 void Affine::setRotate(int angle)
 {
 
-    rotateMat[0][0] = std::cos(angle * 3.141592653589/180);
-    rotateMat[0][1] = std::sin(angle * 3.141592653589/180);
+    rotateMat[0][0] = std::cos(angle * M_PI/180.f);
+    rotateMat[0][1] = std::sin(angle * M_PI/180.f);
     rotateMat[1][0] = -rotateMat[0][1];
     rotateMat[1][1] = rotateMat[0][0];
 
