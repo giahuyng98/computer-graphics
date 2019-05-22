@@ -2,7 +2,7 @@
 #define CIRCLEINFO_H
 
 #include <QFrame>
-
+#include "circle.h"
 namespace Ui {
 class CircleInfo;
 }
@@ -15,8 +15,12 @@ public:
     explicit CircleInfo(QWidget *parent = nullptr);
     ~CircleInfo();
 
+
+    void setCircle(Circle *value);
+
 private:
     Ui::CircleInfo *ui;
+    Circle *circle;
 };
 
 #endif // CIRCLEINFO_H

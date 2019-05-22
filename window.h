@@ -46,7 +46,11 @@ private slots:
 
     void on_scaleBtn_clicked();
 
+<<<<<<< HEAD
     void on_rolateBtn_clicked();
+=======
+    void on_circleBtn_clicked();
+>>>>>>> 8c71523ce4ee12dff3116c245f0b372182dc3e62
 
 private:
     Ui::Window *ui;

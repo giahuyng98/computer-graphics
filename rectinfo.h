@@ -1,4 +1,4 @@
-#ifndef RECTINFO_H
+    #ifndef RECTINFO_H
 #define RECTINFO_H
 
 #include <QFrame>
