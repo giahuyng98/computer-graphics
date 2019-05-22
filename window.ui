@@ -353,7 +353,6 @@
                </property>
               </widget>
              </item>
-<<<<<<< HEAD
              <item>
               <widget class="QGroupBox" name="groupBox">
                <property name="title">
@@ -839,8 +838,6 @@
                </layout>
               </widget>
              </item>
-=======
->>>>>>> d78b721ce4e8f743d7ce69fbd248121d1922abbb
             </layout>
            </widget>
           </widget>
