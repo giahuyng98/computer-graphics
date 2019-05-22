@@ -9,8 +9,8 @@ class Ellipse : public Item
 public:
     Ellipse(int x, int y, int xRadius, int yRadius, Scene *scene, QGraphicsItem *parent = nullptr);
 protected:
-    void
-
+    void drawEllipse(int xs, int ys, int x, int y);
+    void ellipseMidpoint(int xs1, int ys1, int rx, int ry);
 
 
 
