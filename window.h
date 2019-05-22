@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QLabel>
 #include <QVBoxLayout>
+#include "oxy.h"
 #include "scene.h"
 #include "scene3d.h"
 

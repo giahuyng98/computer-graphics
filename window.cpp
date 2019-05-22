@@ -178,4 +178,3 @@ void Window::on_tabWidget_currentChanged(int index)
         exit(23);
     }
 }
-
