@@ -15,7 +15,7 @@ class Scene;
 
 class Rectangle;
 class LineInfo;
-
+class Circle;
 class Line : public Item
 {
 public:

@@ -16,6 +16,7 @@
 #include "lineinfo.h"
 #include "rectinfo.h"
 #include "affine.h"
+#include "circle.h"
 class Window;
 
 
@@ -58,6 +59,7 @@ private:
     bool isDrawing = false;
     Line *tmpLine = nullptr;
     Rectangle *tmpRectange = nullptr;
+    Circle *tmpCircle = nullptr;
     LineInfo *lineInfo;
     RectInfo *rectInfo;
     std::vector<QPoint> points;
