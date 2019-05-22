@@ -15,6 +15,10 @@
 #include "rectangle.h"
 #include "lineinfo.h"
 #include "rectinfo.h"
+#include "affine.h"
+#include "circle.h"
+#include "ellipse.h"
+
 class Window;
 
 
@@ -34,6 +38,8 @@ public:
     void deleteItem();
     void clearAll();
 
+    void doTranslation();
+
     RectInfo *getRectInfo() const;
 
     LineInfo *getLineInfo() const;
@@ -48,12 +54,15 @@ protected:
 //    void paintEvent(QPaintEvent *event) override;
 
 private:
+    Affine affine;
     int lenx, leny;
     int offx, offy;
     int thickness = 5;
     bool isDrawing = false;
     Line *tmpLine = nullptr;
     Rectangle *tmpRectange = nullptr;
+    Circle *tmpCircle = nullptr;
+    Ellipse *tmpEllipse = nullptr;
     LineInfo *lineInfo;
     RectInfo *rectInfo;
     std::vector<QPoint> points;

@@ -21,9 +21,9 @@ public:
 
     void set4Line();
     void reDraw();
-    Type getType() const override;
+    Type getType() const override;    
 
-private:    
+private:
     QPoint pos;
     QSize size;
 };

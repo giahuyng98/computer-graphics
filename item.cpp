@@ -6,7 +6,10 @@ void Item::drawPixel(int x, int y)
     const int offx = this->scene->getOffx();
     const int offy = this->scene->getOffy();
     const int thickness = this->scene->getThickness();
-    path.addRect((x + offx) * thickness, (offy - y) * thickness, thickness, thickness);
+    QPainterPath tmp;
+    tmp.addRect((x + offx) * thickness, (offy - y) * thickness, thickness, thickness);
+    path = path.united(tmp);
+
 }
 
 QPoint Item::toScenePos(const QPoint &userPos) const

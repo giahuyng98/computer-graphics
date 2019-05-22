@@ -25,7 +25,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++14
 
 SOURCES += \
+        affine.cpp \
         circle.cpp \
+        circleinfo.cpp \
+        ellipse.cpp \
         item.cpp \
         line.cpp \
         lineinfo.cpp \
@@ -36,7 +39,10 @@ SOURCES += \
         window.cpp
 
 HEADERS += \
+        affine.h \
         circle.h \
+        circleinfo.h \
+        ellipse.h \
         item.h \
         line.h \
         lineinfo.h \
@@ -46,6 +52,7 @@ HEADERS += \
         window.h
 
 FORMS += \
+        circleinfo.ui \
         lineinfo.ui \
         rectinfo.ui \
         window.ui

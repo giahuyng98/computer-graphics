@@ -31,6 +31,7 @@ void LineInfo::setLine(Line *line)
 
 void LineInfo::on_applyBtn_clicked()
 {
+    if (!line) return;
     line->setX1(ui->lineEditPoint1x->text().toInt());
     line->setY1(ui->lineEditPoint1y->text().toInt());
     line->setX2(ui->lineEditPoint2x->text().toInt());

@@ -8,12 +8,14 @@
 #include <QPoint>
 #include <Qt>
 #include "item.h"
+#include <vector>
+using std::vector;
 
 class Scene;
 
 class Rectangle;
 class LineInfo;
-
+class Circle;
 class Line : public Item
 {
 public:
@@ -23,6 +25,11 @@ public:
     Type getType() const override;
 //    QStringList getInfo() const override;
 //    const Line& operator=(const Line &l);
+
+    vector<vector<int>> getPoint1();
+    vector<vector<int>> getPoint2();
+    void setPoint1(const vector<vector<int>> &mat);
+    void setPoint2(const vector<vector<int>> &mat);
 
     int getX1() const;
     void setX1(int value);

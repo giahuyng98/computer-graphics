@@ -6,7 +6,10 @@
 #include <QTextItem>
 #include <QPoint>
 #include "window.h"
-
+#include <cmath>
+auto dist = [](const QPoint &p1, const QPoint &p2){
+    return sqrt(pow(p1.x() - p2.x(),2) + pow(p1.y() - p2.y(), 2));
+};
 Scene::Scene(QWidget *parent) : QGraphicsScene (parent)
 {
     const int WIDTH = 1200;
@@ -49,6 +52,7 @@ void Scene::deleteItem()
             rectInfo->setRect(static_cast<Rectangle*>(this->items().first()));
             break;
         case Item::Type::CIRCLE:
+
             break;
         case Item::Type::ELIP:
             break;
@@ -68,6 +72,34 @@ void Scene::clearAll()
     }
     lineInfo->setLine(nullptr);
     rectInfo->setRect(nullptr);
+}
+
+void Scene::doTranslation()
+{
+    if (selectedItems().isEmpty()) return;
+    Item *selectedItem = static_cast<Item*>(selectedItems().first());
+    if (selectedItem){
+        switch (selectedItem->getType()) {
+        case Item::Type::LINE:
+        {
+            Line *line = static_cast<Line*>(selectedItem);
+            line->setPoint1(affine.translate(line->getPoint1(), window->getDxTrans(), window->getDyTrans()));
+            line->setPoint2(affine.translate(line->getPoint2(), window->getDxTrans(), window->getDyTrans()));
+            line->reDraw();
+            lineInfo->setLine(line);
+            break;
+        }
+        case Item::Type::RECT:
+            rectInfo->setRect(static_cast<Rectangle*>(selectedItem));
+            break;
+        case Item::Type::CIRCLE:
+            break;
+        case Item::Type::ELIP:
+            break;
+        default:
+            break;
+        }
+    }
 }
 
 int Scene::getOffx() const
@@ -135,7 +167,13 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
             break;
         case Window::ShapeKind::CIRCLE :
+        {
+            points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
+
+            tmpCircle = new Circle(points.front().x(), points.front().y(), dist(points.front(), points.back()), this);
+
             break;
+        }
         case Window::ShapeKind::ELIP :
             break;
         }
@@ -180,6 +218,17 @@ void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
             tmpRectange->update();
             rectInfo->setRect(tmpRectange);
             this->addItem(tmpRectange);
+
+            break;
+        case Window::ShapeKind::CIRCLE:
+            points.pop_back();
+            points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
+            removeItem(tmpCircle);
+            delete tmpCircle;
+            tmpCircle = new Circle(points.front().x(), points.front().y(), dist(points.front(), points.back()), this);
+            tmpCircle->setSelected(true);
+            tmpCircle->update();
+            this->addItem(tmpCircle);
 
             break;
         }
