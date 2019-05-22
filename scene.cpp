@@ -179,6 +179,7 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
             tmpEllipse = new Ellipse(points.front().x(), points.front().y(),
                                      std::abs(points.back().x() - points.front().x()),
                                      std::abs(points.back().y() - points.front().y()), this);
+            addItem(tmpEllipse);
             break;
         }
 

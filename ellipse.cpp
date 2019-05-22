@@ -62,11 +62,27 @@ void Ellipse::ellipseMidpoint(int xc, int yc, int rx, int ry)
             d2 = d2 + dx - dy + (rx * rx);
         }
     }
+    std::sort(points.begin(), points.end(), [](const QPoint &p1, const QPoint &p2){
+        return std::make_pair(p1.x(), p1.y()) < std::make_pair(p2.x(), p2.y());}
+              );
+    points.resize(std::unique(points.begin(), points.end())- points.begin());
+    for(auto &p : points){
+        Item::drawPixel(p.x(), p.y());
+    }
+}
+
+void Ellipse::drawPixel(int x, int y)
+{
+    points.push_back({x, y});
 }
 
 QRectF Ellipse::boundingRect() const
 {
-
+    const int thickness = this->scene->getThickness();
+    QPoint topLeft = toScenePos(QPoint(x, y));
+    topLeft.setX(topLeft.x() - thickness * xRadius - thickness);
+    topLeft.setY(topLeft.y() - thickness * yRadius - thickness);
+    return QRectF(topLeft, QSize(xRadius * thickness * 2 + thickness * 2, yRadius * thickness * 2 + thickness * 2));
 }
 
 void Ellipse::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
