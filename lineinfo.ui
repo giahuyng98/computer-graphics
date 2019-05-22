@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>367</width>
+    <width>370</width>
     <height>89</height>
    </rect>
   </property>
@@ -59,6 +59,9 @@
       <widget class="QLabel" name="label">
        <property name="frameShape">
         <enum>QFrame::Box</enum>
+       </property>
+       <property name="lineWidth">
+        <number>1</number>
        </property>
        <property name="text">
         <string>Point 1</string>

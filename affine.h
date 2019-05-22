@@ -57,22 +57,6 @@ std::vector<T> Affine::rotate(const std::vector<T> &point, int x, int y, int ang
     auto rot = round(mul(tran, rotateMat));
     setTranslate(x, y);
     return mul(rot, transMat);
-
-//    std::vector<T> temp;
-
-//    int x_shifted = point[0][0] - x;
-//    int y_shifted = point[0][1] - y;
-
-
-
-//    temp.push_back(x_shifted);
-//    temp.push_back(y_shifted);
-//    temp.push_back(1);
-
-//    temp = mul(temp, rotateMat);
-//    temp[0][0] = x + temp[0][0];
-//    temp[0][1] = y + temp[0][1];
-//    return  temp;
 }
 
 #endif // AFFINE_H

@@ -116,3 +116,8 @@ void Window::on_circleBtn_clicked()
 {
     ui->splitter->replaceWidget(0, scene->getCircleInfo());
 }
+
+void Window::on_elipBtn_clicked()
+{
+    ui->splitter->replaceWidget(0, scene->getEllipseInfo());
+}

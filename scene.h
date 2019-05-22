@@ -51,6 +51,8 @@ public:
 
     CircleInfo *getCircleInfo() const;
 
+    EllipseInfo *getEllipseInfo() const;
+
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) override;

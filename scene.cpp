@@ -131,24 +131,46 @@ void Scene::doRotation()
 {
     if (selectedItems().isEmpty()) return;
     Item *selectedItem = static_cast<Item*>(selectedItems().first());
+    const int x = window->getXRotate();
+    const int y = window->getYRotate();
+    const int angle = window->getAngleRotate();
     if (selectedItem){
         switch (selectedItem->getType()) {
         case Item::Type::LINE:
         {
             Line *line = static_cast<Line*>(selectedItem);
-            line->setPoint1(affine.rotate(line->getPoint1(), window->getXRotate(), window->getYRotate(), window->getAngleRotate()));
-            line->setPoint2(affine.rotate(line->getPoint2(), window->getXRotate(), window->getYRotate(), window->getAngleRotate()));            
+            line->setPoint1(affine.rotate(line->getPoint1(), x, y, angle));
+            line->setPoint2(affine.rotate(line->getPoint2(), x, y, angle));
             line->reDraw();
             lineInfo->setLine(line);
             break;
         }
         case Item::Type::RECT:
-            rectInfo->setRect(static_cast<Rectangle*>(selectedItem));
+        {
+
+            Rectangle *rect = static_cast<Rectangle*>(selectedItem);
+            rect->setPoint(affine.rotate(rect->getPoint(), x, y, angle));
+            rect->reDraw();
+            rectInfo->setRect(rect);
             break;
+        }
         case Item::Type::CIRCLE:
+        {
+
+            Circle *circle = static_cast<Circle*>(selectedItem);
+            circle->setPoint(affine.rotate(circle->getPoint(), x, y, angle));
+            circle->reDraw();
+            circleInfo->setCircle(circle);
             break;
+        }
         case Item::Type::ELIP:
+        {
+            Ellipse *ellipse = static_cast<Ellipse*>(selectedItem);
+            ellipse->setPoint(affine.rotate(ellipse->getPoint(), x, y, angle));
+            ellipse->reDraw();
+            ellipseInfo->setEllipse(ellipse);
             break;
+        }
         default:
             break;
         }
@@ -360,6 +382,12 @@ void Scene::drawBackground(QPainter *painter, const QRectF &rect)
     painter->drawLine(halfWidth - 5, 5, halfWidth, 0);
     painter->drawLine(halfWidth + 5, 5, halfWidth, 0);
 }
+
+EllipseInfo *Scene::getEllipseInfo() const
+{
+    return ellipseInfo;
+}
+
 
 CircleInfo *Scene::getCircleInfo() const
 {

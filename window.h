@@ -56,6 +56,8 @@ private slots:
     void on_circleBtn_clicked();
 
 
+    void on_elipBtn_clicked();
+
 private:
     Ui::Window *ui;
     Scene *scene;
