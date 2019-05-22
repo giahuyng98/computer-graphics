@@ -90,3 +90,14 @@ void Window::on_scaleBtn_clicked()
 {
 
 }
+
+<<<<<<< HEAD
+void Window::on_rolateBtn_clicked()
+{
+
+=======
+void Window::on_circleBtn_clicked()
+{
+    ui->splitter->replaceWidget(0, scene->getCircleInfo());
+>>>>>>> 8c71523ce4ee12dff3116c245f0b372182dc3e62
+}

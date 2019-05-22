@@ -3,12 +3,22 @@
 
 #include "item.h"
 #include <vector>
+
 class Scene;
 
 class Circle : public Item
 {
 public:
     Circle(int x, int y, int r,Scene *scene, QGraphicsItem *parent = nullptr);
+
+    int getX() const;
+    void setX(int value);
+
+    int getY() const;
+    void setY(int value);
+
+    int getR() const;
+    void setR(int value);
 
 protected:
     void drawPixel(int x, int y);

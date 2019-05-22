@@ -20,4 +20,5 @@ private:
     std::vector<QPoint> points;
 };
 
+
 #endif // ELLIPSE_H
