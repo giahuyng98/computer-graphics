@@ -17,6 +17,18 @@ public:
 
     vector<vector<int>> getPoint();
     void setPoint(const vector<vector<int>> &mat);
+    int getX() const;
+    void setX(int value);
+
+    int getY() const;
+    void setY(int value);
+
+    int getXRadius() const;
+    void setXRadius(int value);
+
+    int getYRadius() const;
+    void setYRadius(int value);
+
 protected:
     void drawEllipse(int xs, int ys, int x, int y);
     void ellipseMidpoint(int xs1, int ys1, int rx, int ry);

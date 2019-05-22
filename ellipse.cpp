@@ -18,6 +18,7 @@ void Ellipse::drawEllipse(int xs, int ys, int x, int y)
 void Ellipse::ellipseMidpoint(int xc, int yc, int rx, int ry)
 {
     path = QPainterPath();
+    points.clear();
     double dx, dy, d1, d2, tx, ty;
     tx = 0;
     ty = ry;
@@ -89,6 +90,46 @@ QRectF Ellipse::boundingRect() const
 void Ellipse::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     painter->fillPath(path, brush);
+}
+
+int Ellipse::getYRadius() const
+{
+    return yRadius;
+}
+
+void Ellipse::setYRadius(int value)
+{
+    yRadius = value;
+}
+
+int Ellipse::getXRadius() const
+{
+    return xRadius;
+}
+
+void Ellipse::setXRadius(int value)
+{
+    xRadius = value;
+}
+
+int Ellipse::getY() const
+{
+    return y;
+}
+
+void Ellipse::setY(int value)
+{
+    y = value;
+}
+
+int Ellipse::getX() const
+{
+    return x;
+}
+
+void Ellipse::setX(int value)
+{
+    x = value;
 }
 
 Item::Type Ellipse::getType() const

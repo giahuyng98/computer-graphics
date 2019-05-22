@@ -23,7 +23,8 @@ Scene::Scene(QWidget *parent) : QGraphicsScene (parent)
 
     lineInfo = new LineInfo();
     rectInfo = new RectInfo();
-    circleInfo = new CircleInfo;
+    circleInfo = new CircleInfo();
+    ellipseInfo = new EllipseInfo();
 }
 
 void Scene::setWindow(Window *value){
@@ -52,9 +53,10 @@ void Scene::deleteItem()
             rectInfo->setRect(static_cast<Rectangle*>(this->items().first()));
             break;
         case Item::Type::CIRCLE:
-
+            circleInfo->setCircle(static_cast<Circle*>(this->items().first()));
             break;
         case Item::Type::ELIP:
+            ellipseInfo->setEllipse(static_cast<Ellipse*>(this->items().first()));
             break;
         default:
             break;
@@ -62,6 +64,8 @@ void Scene::deleteItem()
     } else {
         lineInfo->setLine(nullptr);
         rectInfo->setRect(nullptr);
+        circleInfo->setCircle(nullptr);
+        ellipseInfo->setEllipse(nullptr);
     }
 }
 
@@ -72,6 +76,8 @@ void Scene::clearAll()
     }
     lineInfo->setLine(nullptr);
     rectInfo->setRect(nullptr);
+    circleInfo->setCircle(nullptr);
+    ellipseInfo->setEllipse(nullptr);
 }
 
 void Scene::doTranslation()
@@ -111,6 +117,8 @@ void Scene::doTranslation()
         {
             Ellipse *ellipse = static_cast<Ellipse*>(selectedItem);
             ellipse->setPoint(affine.translate(ellipse->getPoint(), dx, dy));
+            ellipse->reDraw();
+            ellipseInfo->setEllipse(ellipse);
             break;
         }
         default:
@@ -153,9 +161,10 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
                 rectInfo->setRect(static_cast<Rectangle*>(selectedItem));
                 break;
             case Item::Type::CIRCLE:
-//                rectInfo->setRect(static_cast<Circle*>(selectedItem));
+                circleInfo->setCircle(static_cast<Circle*>(selectedItem));
                 break;
             case Item::Type::ELIP:
+                ellipseInfo->setEllipse(static_cast<Ellipse*>(selectedItem));
                 break;
             default:
                 break;
@@ -251,6 +260,7 @@ void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
             tmpCircle = new Circle(points.front().x(), points.front().y(), dist(points.front(), points.back()), this);
             tmpCircle->setSelected(true);
             tmpCircle->update();
+            circleInfo->setCircle(tmpCircle);
             this->addItem(tmpCircle);
 
             break;
@@ -264,6 +274,7 @@ void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
                                      std::abs(points.back().y() - points.front().y()), this);
             tmpEllipse->setSelected(true);
             tmpEllipse->update();
+            ellipseInfo->setEllipse(tmpEllipse);
             this->addItem(tmpEllipse);
 
             break;

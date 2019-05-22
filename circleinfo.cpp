@@ -24,7 +24,6 @@ void CircleInfo::setCircle(Circle *value)
         ui->circlePoint1->clear();
         ui->circlePoint2->clear();
         ui->circleRadius->clear();
-
     }
 }
 
