@@ -24,6 +24,7 @@ Scene::Scene(QWidget *parent) : QGraphicsScene (parent)
 
     lineInfo = new LineInfo();
     rectInfo = new RectInfo();
+    circleInfo = new CircleInfo;
 }
 
 void Scene::setWindow(Window *value){
@@ -283,6 +284,11 @@ void Scene::drawBackground(QPainter *painter, const QRectF &rect)
 
     painter->drawLine(halfWidth - 5, 5, halfWidth, 0);
     painter->drawLine(halfWidth + 5, 5, halfWidth, 0);
+}
+
+CircleInfo *Scene::getCircleInfo() const
+{
+    return circleInfo;
 }
 
 LineInfo *Scene::getLineInfo() const

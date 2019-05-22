@@ -54,3 +54,33 @@ void Circle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
 {
     painter->fillPath(path, brush);
 }
+
+int Circle::getR() const
+{
+    return r;
+}
+
+void Circle::setR(int value)
+{
+    r = value;
+}
+
+int Circle::getY() const
+{
+    return y;
+}
+
+void Circle::setY(int value)
+{
+    y = value;
+}
+
+int Circle::getX() const
+{
+    return x;
+}
+
+void Circle::setX(int value)
+{
+    x = value;
+}

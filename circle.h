@@ -2,12 +2,22 @@
 #define CIRCLE_H
 
 #include "item.h"
+
 class Scene;
 
 class Circle : public Item
 {
 public:
     Circle(int x, int y, int r,Scene *scene, QGraphicsItem *parent = nullptr);
+
+    int getX() const;
+    void setX(int value);
+
+    int getY() const;
+    void setY(int value);
+
+    int getR() const;
+    void setR(int value);
 
 protected:
     void drawCircle(int xc, int yc, int x, int y);

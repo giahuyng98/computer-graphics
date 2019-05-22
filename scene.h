@@ -18,6 +18,7 @@
 #include "affine.h"
 #include "circle.h"
 #include "ellipse.h"
+#include "circleinfo.h"
 
 class Window;
 
@@ -44,6 +45,8 @@ public:
 
     LineInfo *getLineInfo() const;
 
+    CircleInfo *getCircleInfo() const;
+
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
@@ -62,9 +65,10 @@ private:
     Line *tmpLine = nullptr;
     Rectangle *tmpRectange = nullptr;
     Circle *tmpCircle = nullptr;
-    Ellipse *tmpEllipse = nullptr;
+//    Ellipse *tmpEllipse = nullptr;
     LineInfo *lineInfo;
     RectInfo *rectInfo;
+    CircleInfo *circleInfo;
     std::vector<QPoint> points;
     Window *window;
 

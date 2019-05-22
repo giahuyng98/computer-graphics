@@ -46,6 +46,8 @@ private slots:
 
     void on_scaleBtn_clicked();
 
+    void on_circleBtn_clicked();
+
 private:
     Ui::Window *ui;
     Scene *scene;
