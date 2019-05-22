@@ -2,7 +2,11 @@
 #define CIRCLE_H
 
 #include "item.h"
+<<<<<<< HEAD
 
+=======
+#include <vector>
+>>>>>>> bbe8505b388e143ecedcaa2646eaa4da5f667101
 class Scene;
 
 class Circle : public Item
@@ -20,6 +24,7 @@ public:
     void setR(int value);
 
 protected:
+    void drawPixel(int x, int y);
     void drawCircle(int xc, int yc, int x, int y);
     void circleBres();
     QRectF boundingRect() const override;
@@ -29,6 +34,7 @@ protected:
 
 private:
     int x, y, r;
+    std::vector<QPoint> points;
 };
 
 #endif // CIRCLE_H
