@@ -10,6 +10,7 @@
 #include <QGraphicsItem>
 #include <QTreeWidgetItem>
 #include <vector>
+#include <cmath>
 #include "items.h"
 #include "line.h"
 #include "rectangle.h"

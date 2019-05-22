@@ -6,10 +6,7 @@ void Item::drawPixel(int x, int y)
     const int offx = this->scene->getOffx();
     const int offy = this->scene->getOffy();
     const int thickness = this->scene->getThickness();
-    QPainterPath tmp;
-    tmp.addRect((x + offx) * thickness, (offy - y) * thickness, thickness, thickness);
-    path = path.united(tmp);
-
+    path.addRect((x + offx) * thickness, (offy - y) * thickness, thickness, thickness);
 }
 
 QPoint Item::toScenePos(const QPoint &userPos) const
@@ -49,4 +46,11 @@ Item::Type Item::getType() const
 
 QPainterPath Item::shape() const{
     return path;
+}
+
+void Item::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+    painter->fillPath(path, brush);
 }

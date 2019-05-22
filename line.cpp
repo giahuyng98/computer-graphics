@@ -86,12 +86,12 @@ QVariant Line::itemChange(QGraphicsItem::GraphicsItemChange change, const QVaria
     return QGraphicsItem::itemChange(change, value);
 }
 
-void Line::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
-{
-    Q_UNUSED(option);
-    Q_UNUSED(widget);
-    painter->fillPath(path, brush);
-}
+//void Line::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+//{
+//    Q_UNUSED(option);
+//    Q_UNUSED(widget);
+//    painter->fillPath(path, brush);
+//}
 
 void Line::drawLine()
 {

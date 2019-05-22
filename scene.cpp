@@ -6,7 +6,6 @@
 #include <QTextItem>
 #include <QPoint>
 #include "window.h"
-#include <cmath>
 auto dist = [](const QPoint &p1, const QPoint &p2){
     return sqrt(pow(p1.x() - p2.x(),2) + pow(p1.y() - p2.y(), 2));
 };
@@ -137,6 +136,7 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
                 rectInfo->setRect(static_cast<Rectangle*>(selectedItem));
                 break;
             case Item::Type::CIRCLE:
+//                rectInfo->setRect(static_cast<Circle*>(selectedItem));
                 break;
             case Item::Type::ELIP:
                 break;
@@ -172,10 +172,15 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
             points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
 
             tmpCircle = new Circle(points.front().x(), points.front().y(), dist(points.front(), points.back()), this);
-
+            addItem(tmpCircle);
             break;
         }
         case Window::ShapeKind::ELIP :
+            points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
+            tmpEllipse = new Ellipse(points.front().x(), points.front().y(),
+                                     std::abs(points.back().x() - points.front().x()),
+                                     std::abs(points.back().y() - points.front().y()), this);
+            addItem(tmpEllipse);
             break;
         }
 
@@ -230,6 +235,19 @@ void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
             tmpCircle->setSelected(true);
             tmpCircle->update();
             this->addItem(tmpCircle);
+
+            break;
+        case Window::ShapeKind::ELIP:
+            points.pop_back();
+            points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
+            removeItem(tmpEllipse);
+            delete tmpEllipse;
+            tmpEllipse = new Ellipse(points.front().x(), points.front().y(),
+                                     std::abs(points.back().x() - points.front().x()),
+                                     std::abs(points.back().y() - points.front().y()), this);
+            tmpEllipse->setSelected(true);
+            tmpEllipse->update();
+            this->addItem(tmpEllipse);
 
             break;
         }

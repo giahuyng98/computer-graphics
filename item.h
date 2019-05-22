@@ -28,6 +28,7 @@ protected:
     Scene *scene;
     QPainterPath shape() const override;
     void drawPixel(int x, int y);
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 };
 
 
