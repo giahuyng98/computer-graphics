@@ -134,6 +134,7 @@ void Scene::doRotation()
     const int x = window->getXRotate();
     const int y = window->getYRotate();
     const int angle = window->getAngleRotate();
+    vector<vector<int> > tam, temp;
     if (selectedItem){
         switch (selectedItem->getType()) {
         case Item::Type::LINE:
@@ -147,9 +148,10 @@ void Scene::doRotation()
         }
         case Item::Type::RECT:
         {
-
             Rectangle *rect = static_cast<Rectangle*>(selectedItem);
+            rect->setPoint(affine.translate(rect->getPoint(), rect->getSize().width() / 2, -rect->getSize().height() / 2));
             rect->setPoint(affine.rotate(rect->getPoint(), x, y, angle));
+            rect->setPoint(affine.translate(rect->getPoint(), -rect->getSize().width() / 2, rect->getSize().height() / 2));
             rect->reDraw();
             rectInfo->setRect(rect);
             break;

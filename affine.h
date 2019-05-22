@@ -59,6 +59,8 @@ std::vector<T> Affine::rotate(const std::vector<T> &point, int x, int y, int ang
     auto rot = round(mul(tran, rotateMat));
     setTranslate(x, y);
     return mul(rot, transMat);
+
+
 }
 
 template<class T>
