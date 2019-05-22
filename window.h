@@ -63,10 +63,12 @@ private slots:
 
     void on_elipBtn_clicked();
 
-
+<<<<<<< HEAD
     void on_reflecBtn_clicked();
-
+=======
     void on_tabWidget_currentChanged(int index);
+>>>>>>> d78b721ce4e8f743d7ce69fbd248121d1922abbb
+
 private:
     Ui::Window *ui;
     Scene *scene;
