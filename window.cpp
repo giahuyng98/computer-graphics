@@ -37,6 +37,16 @@ Window::ShapeKind Window::getCurrentShape()
     return ShapeKind(ui->shapeKind->checkedId());
 }
 
+int Window::getDxTrans() const
+{
+    return ui->dxTranslate->text().toInt();
+}
+
+int Window::getDyTrans() const
+{
+    return ui->dyTranslate->text().toInt();
+}
+
 //void Window::setInforFrame(QWidget *widget)
 //{
 
@@ -69,4 +79,9 @@ void Window::on_lineBtn_clicked()
 void Window::on_clearSceneBtn_clicked()
 {
     scene->clearAll();
+}
+
+void Window::on_translateBtn_clicked()
+{
+    scene->doTranslation();
 }

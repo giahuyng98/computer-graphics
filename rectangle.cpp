@@ -63,4 +63,3 @@ Item::Type Rectangle::getType() const
 {
     return Type::RECT;
 }
-

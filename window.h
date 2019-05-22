@@ -27,7 +27,9 @@ public:
         RECTANGLE
     };
 
-    ShapeKind getCurrentShape();    
+    ShapeKind getCurrentShape();
+    int getDxTrans() const;
+    int getDyTrans() const;
 
 private slots:
     void on_changeColorBtn_clicked();
@@ -39,6 +41,8 @@ private slots:
     void on_lineBtn_clicked();
 
     void on_clearSceneBtn_clicked();
+
+    void on_translateBtn_clicked();
 
 private:
     Ui::Window *ui;

@@ -22,6 +22,33 @@ Item::Type Line::getType() const
     return Type::LINE;
 }
 
+vector<vector<int> > Line::getPoint1()
+{
+    return {
+        {x1, y1, 1}
+    };
+}
+
+vector<vector<int> > Line::getPoint2()
+{
+    return {
+        {x2, y2, 1}
+    };
+}
+
+void Line::setPoint1(const vector<vector<int> > &mat)
+{
+    x1 = mat[0][0];
+    y1 = mat[0][1];
+}
+
+void Line::setPoint2(const vector<vector<int> > &mat)
+{
+    x2 = mat[0][0];
+    y2 = mat[0][1];
+}
+
+
 //QStringList Line::getInfo() const
 //{
 //    QStringList result;

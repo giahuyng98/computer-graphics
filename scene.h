@@ -15,6 +15,7 @@
 #include "rectangle.h"
 #include "lineinfo.h"
 #include "rectinfo.h"
+#include "affine.h"
 class Window;
 
 
@@ -34,6 +35,8 @@ public:
     void deleteItem();
     void clearAll();
 
+    void doTranslation();
+
     RectInfo *getRectInfo() const;
 
     LineInfo *getLineInfo() const;
@@ -48,6 +51,7 @@ protected:
 //    void paintEvent(QPaintEvent *event) override;
 
 private:
+    Affine affine;
     int lenx, leny;
     int offx, offy;
     int thickness = 5;

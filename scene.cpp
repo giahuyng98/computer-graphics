@@ -72,6 +72,34 @@ void Scene::clearAll()
     rectInfo->setRect(nullptr);
 }
 
+void Scene::doTranslation()
+{
+    if (selectedItems().isEmpty()) return;
+    Item *selectedItem = static_cast<Item*>(selectedItems().first());
+    if (selectedItem){
+        switch (selectedItem->getType()) {
+        case Item::Type::LINE:
+        {
+            Line *line = static_cast<Line*>(selectedItem);
+            line->setPoint1(affine.translate(line->getPoint1(), window->getDxTrans(), window->getDyTrans()));
+            line->setPoint2(affine.translate(line->getPoint2(), window->getDxTrans(), window->getDyTrans()));
+            line->reDraw();
+            lineInfo->setLine(line);
+            break;
+        }
+        case Item::Type::RECT:
+            rectInfo->setRect(static_cast<Rectangle*>(selectedItem));
+            break;
+        case Item::Type::CIRCLE:
+            break;
+        case Item::Type::ELIP:
+            break;
+        default:
+            break;
+        }
+    }
+}
+
 int Scene::getOffx() const
 {
     return offx;
