@@ -22,10 +22,10 @@ Affine::Affine()
         {}
     };
 
-    rolateMat = {
-        {},
-        {},
-        {}
+    rotateMat = {
+        {0, 0, 0},
+        {0, 0, 0},
+        {0, 0, 1}
     };
 
 }
@@ -40,4 +40,14 @@ void Affine::setScale(int sx, int sy)
 {
     scaleMat[0][0] = sx;
     scaleMat[1][1] = sy;
+}
+
+void Affine::setRotate(int angle)
+{
+
+    rotateMat[0][0] = std::cos(angle);
+    rotateMat[0][1] = std::sin(angle);
+    rotateMat[1][0] = -rotateMat[0][1];
+    rotateMat[1][1] = rotateMat[0][0];
+
 }

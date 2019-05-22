@@ -42,6 +42,8 @@ public:
 
     void doTranslation();
 
+    void doRotation();
+
     RectInfo *getRectInfo() const;
 
     LineInfo *getLineInfo() const;

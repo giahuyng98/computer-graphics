@@ -610,7 +610,7 @@
                       </sizepolicy>
                      </property>
                      <property name="text">
-                      <string>Rolation</string>
+                      <string>Rotation</string>
                      </property>
                     </widget>
                    </item>
