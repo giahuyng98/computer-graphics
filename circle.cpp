@@ -7,6 +7,11 @@ Circle::Circle(int x, int y, int r, Scene *scene, QGraphicsItem *parent)
     circleBres();
 }
 
+Item::Type Circle::getType() const
+{
+    return Type::CIRCLE;
+}
+
 void Circle::drawPixel(int x, int y)
 {
     points.push_back({x, y});
@@ -27,6 +32,7 @@ void Circle::drawCircle(int xc, int yc, int x, int y)
 
 void Circle::circleBres()
 {
+    path = QPainterPath();
     points.clear();
     int p = 0, q = r;
     int d = 3 - 2 * r;
@@ -77,6 +83,25 @@ int Circle::getR() const
 void Circle::setR(int value)
 {
     r = value;
+}
+
+vector<vector<int> > Circle::getPoint()
+{
+    return {
+        {x, y, 1}
+    };
+}
+
+void Circle::setPoint(const vector<vector<int> > &mat)
+{
+    x = mat[0][0];
+    y = mat[0][1];
+}
+
+void Circle::reDraw()
+{
+    circleBres();
+    scene->update();
 }
 
 int Circle::getY() const

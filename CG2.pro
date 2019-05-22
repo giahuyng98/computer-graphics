@@ -29,6 +29,7 @@ SOURCES += \
         circle.cpp \
         circleinfo.cpp \
         ellipse.cpp \
+        ellipseinfo.cpp \
         item.cpp \
         line.cpp \
         lineinfo.cpp \
@@ -43,6 +44,7 @@ HEADERS += \
         circle.h \
         circleinfo.h \
         ellipse.h \
+        ellipseinfo.h \
         item.h \
         line.h \
         lineinfo.h \
@@ -53,6 +55,7 @@ HEADERS += \
 
 FORMS += \
         circleinfo.ui \
+        ellipseinfo.ui \
         lineinfo.ui \
         rectinfo.ui \
         window.ui

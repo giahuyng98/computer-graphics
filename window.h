@@ -30,6 +30,13 @@ public:
     ShapeKind getCurrentShape();
     int getDxTrans() const;
     int getDyTrans() const;
+    int getXRotate() const;
+    int getYRotate() const;
+    int getAngleRotate() const;
+    float getSXScale() const;
+    float getSYScale() const;
+
+
 
 private slots:
     void on_changeColorBtn_clicked();
@@ -51,6 +58,8 @@ private slots:
 
     void on_circleBtn_clicked();
 
+
+    void on_elipBtn_clicked();
 
 private:
     Ui::Window *ui;

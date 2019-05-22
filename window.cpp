@@ -47,6 +47,31 @@ int Window::getDyTrans() const
     return ui->dyTranslate->text().toInt();
 }
 
+int Window::getXRotate() const
+{
+    return ui->xRolate->text().toInt();
+}
+
+int Window::getYRotate() const
+{
+    return ui->yRolate->text().toInt();
+}
+
+int Window::getAngleRotate() const
+{
+    return ui->angleRolate->text().toInt();
+}
+
+float Window::getSXScale() const
+{
+    return ui->sxScale->text().toFloat();
+}
+
+float Window::getSYScale() const
+{
+    return ui->syScale->text().toFloat();
+}
+
 //void Window::setInforFrame(QWidget *widget)
 //{
 
@@ -88,15 +113,21 @@ void Window::on_translateBtn_clicked()
 
 void Window::on_scaleBtn_clicked()
 {
-
+    scene->doScaling();
 }
 
 
 void Window::on_rolateBtn_clicked()
 {
+    scene->doRotation();
 }
 
 void Window::on_circleBtn_clicked()
 {
     ui->splitter->replaceWidget(0, scene->getCircleInfo());
+}
+
+void Window::on_elipBtn_clicked()
+{
+    ui->splitter->replaceWidget(0, scene->getEllipseInfo());
 }

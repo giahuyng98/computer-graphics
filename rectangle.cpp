@@ -19,8 +19,22 @@ QRectF Rectangle::boundingRect() const
 }
 
 void Rectangle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
-{    
+{
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
     painter->fillPath(path, brush);
+}
+
+vector<vector<int> > Rectangle::getPoint()
+{
+    return {
+        {pos.x(), pos.y(), 1}
+    };
+}
+
+void Rectangle::setPoint(const vector<vector<int> > &mat)
+{
+    pos = {mat[0][0], mat[0][1]};
 }
 
 QPoint Rectangle::getPos() const
@@ -54,8 +68,7 @@ void Rectangle::set4Line()
 
 void Rectangle::reDraw()
 {
-    set4Line();
-    update();
+    set4Line();    
     scene->update();
 }
 

@@ -24,7 +24,15 @@ void CircleInfo::setCircle(Circle *value)
         ui->circlePoint1->clear();
         ui->circlePoint2->clear();
         ui->circleRadius->clear();
-
     }
 }
 
+
+void CircleInfo::on_applyBtn_clicked()
+{
+    if (!circle) return;
+    circle->setX(ui->circlePoint1->text().toInt());
+    circle->setY(ui->circlePoint2->text().toInt());
+    circle->setR(ui->circleRadius->text().toInt());
+    circle->reDraw();
+}

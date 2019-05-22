@@ -20,6 +20,7 @@
 #include "circle.h"
 #include "ellipse.h"
 #include "circleinfo.h"
+#include "ellipseinfo.h"
 
 class Window;
 
@@ -44,11 +45,15 @@ public:
 
     void doRotation();
 
+    void doScaling();
+
     RectInfo *getRectInfo() const;
 
     LineInfo *getLineInfo() const;
 
     CircleInfo *getCircleInfo() const;
+
+    EllipseInfo *getEllipseInfo() const;
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
@@ -72,6 +77,7 @@ private:
     LineInfo *lineInfo;
     RectInfo *rectInfo;
     CircleInfo *circleInfo;
+    EllipseInfo *ellipseInfo;
     std::vector<QPoint> points;
     Window *window;
 
