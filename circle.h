@@ -3,6 +3,7 @@
 
 #include "item.h"
 #include <vector>
+using std::vector;
 
 class Scene;
 
@@ -10,7 +11,7 @@ class Circle : public Item
 {
 public:
     Circle(int x, int y, int r,Scene *scene, QGraphicsItem *parent = nullptr);
-
+    Type getType() const override;
     int getX() const;
     void setX(int value);
 
@@ -19,6 +20,11 @@ public:
 
     int getR() const;
     void setR(int value);
+
+    vector<vector<int>> getPoint();
+    void setPoint(const vector<vector<int>> &mat);
+
+    void reDraw();
 
 protected:
     void drawPixel(int x, int y);

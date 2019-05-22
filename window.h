@@ -31,6 +31,7 @@ public:
     int getDxTrans() const;
     int getDyTrans() const;
 
+
 private slots:
     void on_changeColorBtn_clicked();
 

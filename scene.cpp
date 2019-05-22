@@ -78,24 +78,41 @@ void Scene::doTranslation()
 {
     if (selectedItems().isEmpty()) return;
     Item *selectedItem = static_cast<Item*>(selectedItems().first());
+    const int dx = window->getDxTrans();
+    const int dy = window->getDyTrans();
     if (selectedItem){
         switch (selectedItem->getType()) {
         case Item::Type::LINE:
         {
             Line *line = static_cast<Line*>(selectedItem);
-            line->setPoint1(affine.translate(line->getPoint1(), window->getDxTrans(), window->getDyTrans()));
-            line->setPoint2(affine.translate(line->getPoint2(), window->getDxTrans(), window->getDyTrans()));
+            line->setPoint1(affine.translate(line->getPoint1(), dx, dy));
+            line->setPoint2(affine.translate(line->getPoint2(), dx, dy));
             line->reDraw();
             lineInfo->setLine(line);
             break;
         }
         case Item::Type::RECT:
-            rectInfo->setRect(static_cast<Rectangle*>(selectedItem));
+        {
+            Rectangle *rect = static_cast<Rectangle*>(selectedItem);
+            rect->setPoint(affine.translate(rect->getPoint(), dx, dy));
+            rect->reDraw();
+            rectInfo->setRect(rect);
             break;
+        }
         case Item::Type::CIRCLE:
+        {
+            Circle *circle = static_cast<Circle*>(selectedItem);
+            circle->setPoint(affine.translate(circle->getPoint(), dx, dy));
+            circle->reDraw();
+            circleInfo->setCircle(circle);
             break;
+        }
         case Item::Type::ELIP:
+        {
+            Ellipse *ellipse = static_cast<Ellipse*>(selectedItem);
+            ellipse->setPoint(affine.translate(ellipse->getPoint(), dx, dy));
             break;
+        }
         default:
             break;
         }

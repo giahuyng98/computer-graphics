@@ -13,6 +13,10 @@ public:
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 //    QStringList getInfo() const override;
+
+    vector<vector<int>> getPoint();
+    void setPoint(const vector<vector<int>> &mat);
+
     QPoint getPos() const;
     void setPos(const QPoint &value);
 
