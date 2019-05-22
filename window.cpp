@@ -13,6 +13,8 @@ Window::Window(QWidget *parent) :
 
     scene = new Scene(ui->graphicsView);
     scene->setWindow(this);
+    scene3d = new Scene3D(ui->graphicsView);
+    scene3d->setWindow(this);
     ui->graphicsView->setScene(scene);
     ui->shapeKind->setId(ui->lineBtn, ShapeKind::NORMAL_LINE);
     ui->shapeKind->setId(ui->rectBtn, ShapeKind::RECTANGLE);
@@ -130,4 +132,18 @@ void Window::on_circleBtn_clicked()
 void Window::on_elipBtn_clicked()
 {
     ui->splitter->replaceWidget(0, scene->getEllipseInfo());
+}
+
+void Window::on_tabWidget_currentChanged(int index)
+{
+    switch (index){
+    case 0:
+        ui->graphicsView->setScene(scene);
+        break;
+    case 1:
+        ui->graphicsView->setScene(scene3d);
+        break;
+    default:
+        exit(23);
+    }
 }

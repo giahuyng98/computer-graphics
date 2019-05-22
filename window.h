@@ -5,9 +5,8 @@
 #include <QDebug>
 #include <QLabel>
 #include <QVBoxLayout>
-#include "oxy.h"
 #include "scene.h"
-#include "lineinfo.h"
+#include "scene3d.h"
 
 namespace Ui {
 class Window;
@@ -61,9 +60,12 @@ private slots:
 
     void on_elipBtn_clicked();
 
+    void on_tabWidget_currentChanged(int index);
+
 private:
     Ui::Window *ui;
     Scene *scene;
+    Scene3D *scene3d;
 };
 
 #endif // WINDOW_H
