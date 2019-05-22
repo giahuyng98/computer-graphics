@@ -62,6 +62,16 @@ int Window::getAngleRotate() const
     return ui->angleRolate->text().toInt();
 }
 
+float Window::getSXScale() const
+{
+    return ui->sxScale->text().toFloat();
+}
+
+float Window::getSYScale() const
+{
+    return ui->syScale->text().toFloat();
+}
+
 //void Window::setInforFrame(QWidget *widget)
 //{
 
@@ -103,7 +113,7 @@ void Window::on_translateBtn_clicked()
 
 void Window::on_scaleBtn_clicked()
 {
-
+    scene->doScaling();
 }
 
 

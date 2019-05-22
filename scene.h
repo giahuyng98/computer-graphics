@@ -45,6 +45,8 @@ public:
 
     void doRotation();
 
+    void doScaling();
+
     RectInfo *getRectInfo() const;
 
     LineInfo *getLineInfo() const;

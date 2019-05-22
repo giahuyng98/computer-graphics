@@ -11,18 +11,19 @@ public:
     explicit Affine();
     template<class T> std::vector<T> translate(const std::vector<T> &point, int dx, int dy);
     template<class T> std::vector<T> rotate(const std::vector<T> &point, int x, int y, int angle);
+    template<class T> std::vector<T> scale(const std::vector<T> &point, float sX, float sY);
 
 private:
 
-    vector<vector<float>> round(vector<vector<float>> mat) const;
+    vector<vector<int>> round(vector<vector<float>> mat) const;
     void setTranslate(int dx, int dy);
-    void setScale(int sx, int sy);
+    void setScale(float sx, float sy);
     void setRotate(int angle);
 
     template<class T, class E> std::vector<E> mul(const std::vector<T> &point, const std::vector<E> &mat) const;
 
-    vector<vector<int>> transMat, scaleMat, refMat;
-    vector<vector<float>> rotateMat;
+    vector<vector<int>> transMat, refMat;
+    vector<vector<float>> rotateMat, scaleMat;
 };
 
 
@@ -59,4 +60,10 @@ std::vector<T> Affine::rotate(const std::vector<T> &point, int x, int y, int ang
     return mul(rot, transMat);
 }
 
+template<class T>
+std::vector<T> Affine::scale(const std::vector<T> &point, float sX, float sY)
+{
+    setScale(sX, sY);
+    return round(mul(point, scaleMat));
+}
 #endif // AFFINE_H

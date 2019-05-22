@@ -31,14 +31,17 @@ Affine::Affine()
 }
 
 
-vector<vector<float> > Affine::round(vector<vector<float> > mat) const
+vector<vector<int> > Affine::round(vector<vector<float> > mat) const
 {
-    for(auto &row : mat){
-        for(auto &ele : row){
-            ele = std::round(ele);
+    vector<vector<int> > result(mat.size(), vector<int>(mat.front().size()));
+    for (size_t i = 0; i < mat.size(); ++i)
+    {
+        for (size_t j = 0; j < mat.front().size(); ++j)
+        {
+            result[i][j] = std::round(mat[i][j]);
         }
     }
-    return mat;
+    return result;
 }
 
 void Affine::setTranslate(int dx, int dy)
@@ -47,7 +50,7 @@ void Affine::setTranslate(int dx, int dy)
     transMat[2][1] = dy;
 }
 
-void Affine::setScale(int sx, int sy)
+void Affine::setScale(float sx, float sy)
 {
     scaleMat[0][0] = sx;
     scaleMat[1][1] = sy;

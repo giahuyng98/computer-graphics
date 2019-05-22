@@ -33,6 +33,9 @@ public:
     int getXRotate() const;
     int getYRotate() const;
     int getAngleRotate() const;
+    float getSXScale() const;
+    float getSYScale() const;
+
 
 
 private slots:

@@ -178,6 +178,55 @@ void Scene::doRotation()
 
 }
 
+void Scene::doScaling()
+{
+    if (selectedItems().isEmpty()) return;
+    Item *selectedItem = static_cast<Item*>(selectedItems().first());
+    const int sx = window->getSXScale();
+    const int sy = window->getSYScale();
+    if (selectedItem){
+        switch (selectedItem->getType()) {
+        case Item::Type::LINE:
+        {
+            Line *line = static_cast<Line*>(selectedItem);
+            line->setPoint1(affine.scale(line->getPoint1(), sx, sy));
+            line->setPoint2(affine.scale(line->getPoint2(), sx, sy));
+            line->reDraw();
+            lineInfo->setLine(line);
+            break;
+        }
+        case Item::Type::RECT:
+        {
+
+            Rectangle *rect = static_cast<Rectangle*>(selectedItem);
+            rect->setPoint(affine.scale(rect->getPoint(), sx, sy));
+            rect->reDraw();
+            rectInfo->setRect(rect);
+            break;
+        }
+        case Item::Type::CIRCLE:
+        {
+
+            Circle *circle = static_cast<Circle*>(selectedItem);
+            circle->setPoint(affine.scale(circle->getPoint(), sx, sy));
+            circle->reDraw();
+            circleInfo->setCircle(circle);
+            break;
+        }
+        case Item::Type::ELIP:
+        {
+            Ellipse *ellipse = static_cast<Ellipse*>(selectedItem);
+            ellipse->setPoint(affine.scale(ellipse->getPoint(), sx, sy));
+            ellipse->reDraw();
+            ellipseInfo->setEllipse(ellipse);
+            break;
+        }
+        default:
+            break;
+        }
+    }
+}
+
 int Scene::getOffx() const
 {
     return offx;
