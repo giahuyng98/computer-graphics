@@ -174,6 +174,10 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
             break;
         }
         case Window::ShapeKind::ELIP :
+            points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
+            tmpEllipse = new Ellipse(points.front().x(), points.front().y(),
+                                     std::abs(points.back().x() - points.front().x()),
+                                     std::abs(points.back().y() - points.front().y()), this);
             break;
         }
 
@@ -228,6 +232,19 @@ void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
             tmpCircle->setSelected(true);
             tmpCircle->update();
             this->addItem(tmpCircle);
+
+            break;
+        case Window::ShapeKind::ELIP:
+            points.pop_back();
+            points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
+            removeItem(tmpEllipse);
+            delete tmpEllipse;
+            tmpEllipse = new Ellipse(points.front().x(), points.front().y(),
+                                     std::abs(points.back().x() - points.front().x()),
+                                     std::abs(points.back().y() - points.front().y()), this);
+            tmpEllipse->setSelected(true);
+            tmpEllipse->update();
+            this->addItem(tmpEllipse);
 
             break;
         }
