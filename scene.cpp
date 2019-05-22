@@ -284,6 +284,7 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
             points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
             tmpLine = new Line(points.front(), points.back(), this);
             addItem(tmpLine);
+            lineInfo->setLine(tmpLine);
             break;
 
         case Window::ShapeKind::RECTANGLE :
@@ -291,6 +292,7 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
             tmpRectange = new Rectangle(points.front(), QSize(std::abs(points.back().x() - points.front().x()),
                                                         std::abs(points.back().y() - points.front().y())), this);
             addItem(tmpRectange);
+            rectInfo->setRect(tmpRectange);
 
             break;
         case Window::ShapeKind::CIRCLE :
@@ -299,6 +301,7 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
             tmpCircle = new Circle(points.front().x(), points.front().y(), dist(points.front(), points.back()), this);
             addItem(tmpCircle);
+            circleInfo->setCircle(tmpCircle);
             break;
         }
         case Window::ShapeKind::ELIP :
@@ -307,6 +310,7 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
                                      std::abs(points.back().x() - points.front().x()),
                                      std::abs(points.back().y() - points.front().y()), this);
             addItem(tmpEllipse);
+            ellipseInfo->setEllipse(tmpEllipse);
             break;
         }
 
@@ -404,7 +408,7 @@ void Scene::drawBackground(QPainter *painter, const QRectF &rect)
 
     // Draw vertical line
     for(int xJump = halfThick; xJump < this->width(); xJump += space){
-        painter->drawLine(xJump, 0, xJump, static_cast<int>(this->height()));        
+        painter->drawLine(xJump, 0, xJump, static_cast<int>(this->height()));
     }
 
     // Draw horizontal line
@@ -421,15 +425,32 @@ void Scene::drawBackground(QPainter *painter, const QRectF &rect)
         painter->drawLine(0, yJump, static_cast<int>(this->width()), yJump);
     }
 
+    //Draw ruler
+    painter->setOpacity(0.8);
+    painter->setFont(QFont("Segoe UI", 8));
+    const int jump = 10 * thickness;
+
+    for(int xJump = halfThick + jump, x = -offx + 10; xJump < this->width(); xJump += jump, x += 10){
+        painter->drawText(xJump - 10, halfHeight + halfThick + 10, QString::number(x));
+    }
+    for(int yJump = halfThick + jump, y = offy - 10; yJump < this->height(); yJump += jump, y -= 10){
+        if (y == 0) continue;
+        painter->drawText(halfWidth + halfThick - 15, yJump + 5, QString::number(y));
+    }
+
+    painter->setOpacity(1.0);    
+    // Draw x, y
+    painter->setFont(QFont("Segoe UI", 10));
+    painter->drawText(halfWidth - 10, 10, QString("x"));
+    painter->drawText(static_cast<int>(this->width()) - 10, halfHeight + 10, QString("y"));
+
     // Draw arrow
-    painter->setOpacity(1.0);
     halfWidth += halfThick;
     halfHeight += halfThick;
     painter->drawLine(static_cast<int>(this->width()) - 5, halfHeight - 5, static_cast<int>(this->width()), halfHeight);
     painter->drawLine(static_cast<int>(this->width()) - 5, halfHeight + 5, static_cast<int>(this->width()), halfHeight);
-
     painter->drawLine(halfWidth - 5, 5, halfWidth, 0);
-    painter->drawLine(halfWidth + 5, 5, halfWidth, 0);
+    painter->drawLine(halfWidth + 5, 5, halfWidth, 0);        
 }
 
 EllipseInfo *Scene::getEllipseInfo() const
