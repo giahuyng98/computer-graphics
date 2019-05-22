@@ -1,10 +1,9 @@
 #include "circle.h"
 #include "scene.h"
-
-
-Circle::Circle(int x, int y, int r) : x(x), y(y), r(r)
+Circle::Circle(int x, int y, int r, Scene *scene, QGraphicsItem *parent)
+:Item(scene, parent), x(x), y(y), r(r)
 {
-
+    circleBres();
 }
 
 void Circle::drawCircle(int xc, int yc, int x, int y)
@@ -22,32 +21,36 @@ void Circle::drawCircle(int xc, int yc, int x, int y)
 
 void Circle::circleBres()
 {
-    int tx = 0, ty = r;
+    int p = 0, q = r;
     int d = 3 - 2 * r;
-    drawCircle(x, y, tx, ty);
-    while(ty >= tx)
+
+    drawCircle(x, y, p, q);
+    while(q >= p)
     {
-        ++tx;
-        if(d > 0)
+
+        ++p;
+        if(d <= 0) d = d + 4*p + 6;
+        else
         {
-            --ty;
-            d = d + 4 * (tx - ty) + 10;
+            --q;
+            d = d + 4 * (p - q) + 10;
         }
-        else d = d + 4 * tx + 6;
-        drawCircle(x, y, tx, ty);
+        drawCircle(x, y, p, q);
     }
+
 }
 
 QRectF Circle::boundingRect() const
 {
-//    int offx = ((Scene*)this->scene())->getOffx();
-//    int offy = ((Scene*)this->scene())->getOffy();
-//    int thickness = ((Scene*)this->scene())->getThickness();
-//    return QRectF((x - r + offx) * thickness, (offy - y + r) * thickness,
-//                  (x + r + offx) * thickness, (offy - y - r) * thickness);
+    const int thickness = this->scene->getThickness();
+    const int len = thickness * r;
+    QPoint topLeft = toScenePos({x, y});
+    topLeft.setX(topLeft.x() - len * 2 - thickness * 2);
+    topLeft.setY(topLeft.y() - len * 2 - thickness * 2);
+    return QRectF(topLeft, QSize(len * 4 + thickness * 2, len * 4 + thickness * 2));
 }
 
 void Circle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-
+    painter->fillPath(path, brush);
 }
