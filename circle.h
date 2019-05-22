@@ -9,6 +9,8 @@ public:
     Circle(int x, int y, int r);
 
 protected:
+    void drawCircle(int xc, int yc, int x, int y);
+    void circleBres();
     QRectF boundingRect() const override;
 //    void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
 //    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
