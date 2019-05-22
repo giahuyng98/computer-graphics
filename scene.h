@@ -17,6 +17,8 @@
 #include "rectinfo.h"
 #include "affine.h"
 #include "circle.h"
+#include "ellipse.h"
+
 class Window;
 
 
@@ -60,6 +62,7 @@ private:
     Line *tmpLine = nullptr;
     Rectangle *tmpRectange = nullptr;
     Circle *tmpCircle = nullptr;
+    Ellipse *tmpEllipse = nullptr;
     LineInfo *lineInfo;
     RectInfo *rectInfo;
     std::vector<QPoint> points;

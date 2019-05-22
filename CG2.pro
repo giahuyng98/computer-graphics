@@ -28,6 +28,7 @@ SOURCES += \
         affine.cpp \
         circle.cpp \
         circleinfo.cpp \
+        ellipse.cpp \
         item.cpp \
         line.cpp \
         lineinfo.cpp \
@@ -41,6 +42,7 @@ HEADERS += \
         affine.h \
         circle.h \
         circleinfo.h \
+        ellipse.h \
         item.h \
         line.h \
         lineinfo.h \
