@@ -85,3 +85,8 @@ void Window::on_translateBtn_clicked()
 {
     scene->doTranslation();
 }
+
+void Window::on_scaleBtn_clicked()
+{
+
+}

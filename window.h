@@ -44,6 +44,8 @@ private slots:
 
     void on_translateBtn_clicked();
 
+    void on_scaleBtn_clicked();
+
 private:
     Ui::Window *ui;
     Scene *scene;

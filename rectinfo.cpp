@@ -31,6 +31,7 @@ void RectInfo::setRect(Rectangle *value)
 
 void RectInfo::on_applyBtn_clicked()
 {
+    if (!rect) return;
     rect->setPos(QPoint(ui->rectEditPoint1->text().toInt(), ui->rectEditPoint2->text().toInt()));
     rect->setSize(QSize(ui->rectEditWidth->text().toInt(), ui->rectEditHeight->text().toInt()));
     rect->reDraw();
