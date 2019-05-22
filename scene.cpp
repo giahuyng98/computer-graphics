@@ -200,6 +200,7 @@ void Scene::doScaling()
 
             Rectangle *rect = static_cast<Rectangle*>(selectedItem);
             rect->setPoint(affine.scale(rect->getPoint(), sx, sy));
+            rect->setSize(QSize(rect->getSize().width() * sx, rect->getSize().height() * sy));
             rect->reDraw();
             rectInfo->setRect(rect);
             break;
@@ -209,6 +210,7 @@ void Scene::doScaling()
 
             Circle *circle = static_cast<Circle*>(selectedItem);
             circle->setPoint(affine.scale(circle->getPoint(), sx, sy));
+
             circle->reDraw();
             circleInfo->setCircle(circle);
             break;
