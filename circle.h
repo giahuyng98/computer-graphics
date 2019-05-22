@@ -2,11 +2,8 @@
 #define CIRCLE_H
 
 #include "item.h"
-<<<<<<< HEAD
-
-=======
 #include <vector>
->>>>>>> bbe8505b388e143ecedcaa2646eaa4da5f667101
+
 class Scene;
 
 class Circle : public Item

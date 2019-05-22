@@ -1,25 +1,9 @@
-//#ifndef ELLIPSE_H
-//#define ELLIPSE_H
+#ifndef ELLIPSE_H
+#define ELLIPSE_H
 
-//#include "item.h"
-//class Scene;
+#include "item.h"
+class Scene;
 
-<<<<<<< HEAD
-//class Ellipse : public Item
-//{
-//public:
-//    Ellipse(int x, int y, int xRadius, int yRadius, Scene *scene, QGraphicsItem *parent = nullptr);
-//protected:
-//    void
-
-
-
-
-//    QRectF boundingRect() const override;
-//private:
-//    int x, y, xRadius, yRadius;
-//};
-=======
 class Ellipse : public Item
 {
 public:
@@ -35,6 +19,6 @@ private:
     int x, y, xRadius, yRadius;
     std::vector<QPoint> points;
 };
->>>>>>> bbe8505b388e143ecedcaa2646eaa4da5f667101
 
-//#endif // ELLIPSE_H
+
+#endif // ELLIPSE_H

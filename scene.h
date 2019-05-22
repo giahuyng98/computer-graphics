@@ -66,7 +66,7 @@ private:
     Line *tmpLine = nullptr;
     Rectangle *tmpRectange = nullptr;
     Circle *tmpCircle = nullptr;
-//    Ellipse *tmpEllipse = nullptr;
+    Ellipse *tmpEllipse = nullptr;
     LineInfo *lineInfo;
     RectInfo *rectInfo;
     CircleInfo *circleInfo;

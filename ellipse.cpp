@@ -1,18 +1,6 @@
-//#include "ellipse.h"
-//#include "scene.h"
+#include "ellipse.h"
+#include "scene.h"
 
-<<<<<<< HEAD
-//Ellipse::Ellipse(int x, int y, int xRadius, int yRadius, Scene *scene, QGraphicsItem *parent)
-//:Item(scene, parent), x(x), y(y), xRadius(xRadius), yRadius(yRadius)
-//{
-
-//}
-
-//QRectF Ellipse::boundingRect() const
-//{
-
-//}
-=======
 Ellipse::Ellipse(int x, int y, int xRadius, int yRadius, Scene *scene, QGraphicsItem *parent)
 :Item(scene, parent), x(x), y(y), xRadius(xRadius), yRadius(yRadius)
 {
@@ -101,4 +89,3 @@ void Ellipse::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 {
       painter->fillPath(path, brush);
 }
->>>>>>> bbe8505b388e143ecedcaa2646eaa4da5f667101
