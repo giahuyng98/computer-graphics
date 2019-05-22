@@ -30,6 +30,17 @@ Affine::Affine()
 
 }
 
+
+vector<vector<float> > Affine::round(vector<vector<float> > mat) const
+{
+    for(auto &row : mat){
+        for(auto &ele : row){
+            ele = std::round(ele);
+        }
+    }
+    return mat;
+}
+
 void Affine::setTranslate(int dx, int dy)
 {
     transMat[2][0] = dx;

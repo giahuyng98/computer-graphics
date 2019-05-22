@@ -137,7 +137,7 @@ void Scene::doRotation()
         {
             Line *line = static_cast<Line*>(selectedItem);
             line->setPoint1(affine.rotate(line->getPoint1(), window->getXRotate(), window->getYRotate(), window->getAngleRotate()));
-            line->setPoint2(affine.rotate(line->getPoint2(), window->getXRotate(), window->getYRotate(), window->getAngleRotate()));
+            line->setPoint2(affine.rotate(line->getPoint2(), window->getXRotate(), window->getYRotate(), window->getAngleRotate()));            
             line->reDraw();
             lineInfo->setLine(line);
             break;
