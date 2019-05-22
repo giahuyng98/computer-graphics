@@ -37,6 +37,7 @@ SOURCES += \
         rectangle.cpp \
         rectinfo.cpp \
         scene.cpp \
+        scene3d.cpp \
         window.cpp
 
 HEADERS += \
@@ -51,6 +52,7 @@ HEADERS += \
         rectangle.h \
         rectinfo.h \
         scene.h \
+        scene3d.h \
         window.h
 
 FORMS += \
