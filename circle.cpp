@@ -1,9 +1,15 @@
 #include "circle.h"
 #include "scene.h"
+#include <algorithm>
 Circle::Circle(int x, int y, int r, Scene *scene, QGraphicsItem *parent)
 :Item(scene, parent), x(x), y(y), r(r)
 {
     circleBres();
+}
+
+void Circle::drawPixel(int x, int y)
+{
+    points.push_back({x, y});
 }
 
 void Circle::drawCircle(int xc, int yc, int x, int y)
@@ -21,6 +27,7 @@ void Circle::drawCircle(int xc, int yc, int x, int y)
 
 void Circle::circleBres()
 {
+    points.clear();
     int p = 0, q = r;
     int d = 3 - 2 * r;
 
@@ -38,6 +45,13 @@ void Circle::circleBres()
         drawCircle(x, y, p, q);
     }
 
+    std::sort(points.begin(), points.end(), [](const QPoint &p1, const QPoint &p2){
+        return std::make_pair(p1.x(), p1.y()) < std::make_pair(p2.x(), p2.y());}
+              );
+    points.resize(std::unique(points.begin(), points.end())- points.begin());
+    for(auto &p : points){
+        Item::drawPixel(p.x(), p.y());
+    }
 }
 
 QRectF Circle::boundingRect() const
@@ -45,9 +59,9 @@ QRectF Circle::boundingRect() const
     const int thickness = this->scene->getThickness();
     const int len = thickness * r;
     QPoint topLeft = toScenePos({x, y});
-    topLeft.setX(topLeft.x() - len * 2 - thickness * 2);
-    topLeft.setY(topLeft.y() - len * 2 - thickness * 2);
-    return QRectF(topLeft, QSize(len * 4 + thickness * 2, len * 4 + thickness * 2));
+    topLeft.setX(topLeft.x() - len - thickness);
+    topLeft.setY(topLeft.y() - len - thickness);
+    return QRectF(topLeft, QSize(len * 2 + thickness * 2, len * 2 + thickness * 2));
 }
 
 void Circle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
