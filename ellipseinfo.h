@@ -18,6 +18,9 @@ public:
 
     void setEllipse(Ellipse *value);
 
+private slots:
+    void on_applyBtn_clicked();
+
 private:
     Ui::EllipseInfo *ui;
     Ellipse *ellipse;
