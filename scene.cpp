@@ -102,6 +102,35 @@ void Scene::doTranslation()
     }
 }
 
+void Scene::doRotation()
+{
+    if (selectedItems().isEmpty()) return;
+    Item *selectedItem = static_cast<Item*>(selectedItems().first());
+    if (selectedItem){
+        switch (selectedItem->getType()) {
+        case Item::Type::LINE:
+        {
+            Line *line = static_cast<Line*>(selectedItem);
+            line->setPoint1(affine.rotate(line->getPoint1(), window->getXRotate(), window->getYRotate(), window->getAngleRotate()));
+            line->setPoint2(affine.rotate(line->getPoint2(), window->getXRotate(), window->getYRotate(), window->getAngleRotate()));
+            line->reDraw();
+            lineInfo->setLine(line);
+            break;
+        }
+        case Item::Type::RECT:
+            rectInfo->setRect(static_cast<Rectangle*>(selectedItem));
+            break;
+        case Item::Type::CIRCLE:
+            break;
+        case Item::Type::ELIP:
+            break;
+        default:
+            break;
+        }
+    }
+
+}
+
 int Scene::getOffx() const
 {
     return offx;

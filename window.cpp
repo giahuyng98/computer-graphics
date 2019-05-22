@@ -47,6 +47,21 @@ int Window::getDyTrans() const
     return ui->dyTranslate->text().toInt();
 }
 
+int Window::getXRotate() const
+{
+    return ui->xRolate->text().toInt();
+}
+
+int Window::getYRotate() const
+{
+    return ui->yRolate->text().toInt();
+}
+
+int Window::getAngleRotate() const
+{
+    return ui->angleRolate->text().toInt();
+}
+
 //void Window::setInforFrame(QWidget *widget)
 //{
 
@@ -94,6 +109,7 @@ void Window::on_scaleBtn_clicked()
 
 void Window::on_rolateBtn_clicked()
 {
+    scene->doRotation();
 }
 
 void Window::on_circleBtn_clicked()

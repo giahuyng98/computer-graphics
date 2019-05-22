@@ -30,6 +30,9 @@ public:
     ShapeKind getCurrentShape();
     int getDxTrans() const;
     int getDyTrans() const;
+    int getXRotate() const;
+    int getYRotate() const;
+    int getAngleRotate() const;
 
 private slots:
     void on_changeColorBtn_clicked();
