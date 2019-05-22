@@ -10,6 +10,7 @@
 #include <QGraphicsItem>
 #include <QTreeWidgetItem>
 #include <vector>
+#include <cmath>
 #include "items.h"
 #include "line.h"
 #include "rectangle.h"
@@ -17,6 +18,8 @@
 #include "rectinfo.h"
 #include "affine.h"
 #include "circle.h"
+#include "ellipse.h"
+
 class Window;
 
 
@@ -60,6 +63,7 @@ private:
     Line *tmpLine = nullptr;
     Rectangle *tmpRectange = nullptr;
     Circle *tmpCircle = nullptr;
+    Ellipse *tmpEllipse = nullptr;
     LineInfo *lineInfo;
     RectInfo *rectInfo;
     std::vector<QPoint> points;
