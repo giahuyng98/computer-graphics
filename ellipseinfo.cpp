@@ -28,3 +28,13 @@ void EllipseInfo::setEllipse(Ellipse *value)
         ui->ellipseRy->clear();
     }
 }
+
+void EllipseInfo::on_applyBtn_clicked()
+{
+    if (!ellipse) return;
+    ellipse->setX(ui->ellipsePointx->text().toInt());
+    ellipse->setY(ui->ellipsePointy->text().toInt());
+    ellipse->setXRadius(ui->ellipseRx->text().toInt());
+    ellipse->setYRadius(ui->ellipseRy->text().toInt());
+    ellipse->reDraw();
+}
