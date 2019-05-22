@@ -50,7 +50,7 @@ template<class T>
 std::vector<T> Affine::rotate(const std::vector<T> &point, int x, int y, int angle)
 {
     setRotate(angle);
-
+    return mul(point, rotateMat);
 }
 
 #endif // AFFINE_H
