@@ -164,8 +164,7 @@ void Window::on_elipBtn_clicked()
 //    ui->splitter->replaceWidget(0, scene->getEllipseInfo());
 }
 
-<<<<<<< HEAD
-=======
+
 void Window::on_tabWidget_currentChanged(int index)
 {
     switch (index){
@@ -179,4 +178,4 @@ void Window::on_tabWidget_currentChanged(int index)
         exit(23);
     }
 }
->>>>>>> d78b721ce4e8f743d7ce69fbd248121d1922abbb
+
