@@ -7,8 +7,6 @@
 #include <QPoint>
 #include "window.h"
 
-#include <math.h>
-
 Scene::Scene(QWidget *parent) : QGraphicsScene (parent)
 {
     const int WIDTH = 1200;
