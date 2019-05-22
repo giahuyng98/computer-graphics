@@ -90,3 +90,8 @@ void Window::on_scaleBtn_clicked()
 {
 
 }
+
+void Window::on_rolateBtn_clicked()
+{
+
+}
