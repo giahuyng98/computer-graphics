@@ -9,6 +9,11 @@ void Item::drawPixel(int x, int y)
     path.addRect((x + offx) * thickness, (offy - y) * thickness, thickness, thickness);
 }
 
+void Item::drawPixel(const QPoint &p)
+{
+    drawPixel(p.x(), p.y());
+}
+
 QPoint Item::toScenePos(const QPoint &userPos) const
 {
     const int offx = this->scene->getOffx();

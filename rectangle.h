@@ -10,9 +10,7 @@ class Rectangle : public Item
 {
 public:    
     Rectangle(const QPoint &pos, const QSize &size, Scene *scene, QGraphicsItem *parent = nullptr);
-    QRectF boundingRect() const override;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
-//    QStringList getInfo() const override;
+    Type getType() const override;
 
     vector<vector<int>> getPoint();
     void setPoint(const vector<vector<int>> &mat);
@@ -23,10 +21,12 @@ public:
     QSize getSize() const;
     void setSize(const QSize &value);
 
-    void set4Line();
-    void reDraw();
-    Type getType() const override;    
+    void reDraw();    
 
+protected:
+    QRectF boundingRect() const override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
+    void drawRectanlge();
 private:
     QPoint pos;
     QSize size;

@@ -8,6 +8,7 @@
 #include "oxy.h"
 #include "scene.h"
 #include "scene3d.h"
+#include "apidrawer.h"
 
 namespace Ui {
 class Window;
@@ -69,6 +70,12 @@ private slots:
 
     void on_tabWidget_currentChanged(int index);
     void on_addCubeBtn_clicked();
+
+    void on_cavalier_toggled(bool checked);
+
+    void on_clear3Dbtn_clicked();
+
+    void on_addSphereBtn_clicked();
 
 private:
     Ui::Window *ui;

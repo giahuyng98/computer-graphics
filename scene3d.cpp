@@ -1,4 +1,5 @@
 #include "scene3d.h"
+#include <cmath>
 #include <QPainter>
 
 Scene3D::Scene3D(QWidget *parent) : QGraphicsScene (parent)
@@ -40,6 +41,24 @@ void Scene3D::addCube(int x, int y, int z, int width, int height, int length)
     addItem(cube);
 }
 
+void Scene3D::addSphere(int x, int y, int z, int r)
+{
+    Sphere *sphere = new Sphere(x, y, z, r, this);
+    addItem(sphere);
+}
+
+void Scene3D::setMethod(bool method)
+{
+    if (method) {
+        projection = CAVALIER;
+        to2D = Drawer::cavalier;
+    } else {
+        projection = CABINET;
+        to2D = Drawer::cabinet;
+    }
+    update();
+}
+
 void Scene3D::drawBackground(QPainter *painter, const QRectF &rect)
 {
     Q_UNUSED(rect);
@@ -55,32 +74,32 @@ void Scene3D::drawBackground(QPainter *painter, const QRectF &rect)
     const int square = std::min(halfHeight, halfWidth) + halfThick * 2;
     painter->drawLine(halfWidth + square , 0, square, static_cast<int>(this->height()));
 
-//    const int space = thickness * 5; //line spacing
-//    painter->setOpacity(0.25);
+    const int space = thickness * 5; //line spacing
+    painter->setOpacity(0.25);
 
-//    // Draw vertical line
-//    for(int xJump = halfThick; xJump < this->width(); xJump += space){
-//        painter->drawLine(xJump, 0, xJump, static_cast<int>(this->height()));
-//    }
+    // Draw vertical line
+    for(int xJump = halfThick; xJump < this->width(); xJump += space){
+        painter->drawLine(xJump, 0, xJump, static_cast<int>(this->height()));
+    }
 
-//    // Draw horizontal line
-//    for(int yJump = halfThick; yJump < this->height(); yJump += space){
-//        painter->drawLine(0, yJump, static_cast<int>(this->width()), yJump);
-//    }
+    // Draw horizontal line
+    for(int yJump = halfThick; yJump < this->height(); yJump += space){
+        painter->drawLine(0, yJump, static_cast<int>(this->width()), yJump);
+    }
 
-//    // Draw grid
-//    painter->setOpacity(0.08);
-//    for(int xJump = halfThick; xJump < this->width(); xJump += thickness){
-//        painter->drawLine(xJump, 0, xJump, static_cast<int>(this->height()));
-//    }
-//    for(int yJump = halfThick; yJump < this->height(); yJump += thickness){
-//        painter->drawLine(0, yJump, static_cast<int>(this->width()), yJump);
-//    }
+    // Draw grid
+    painter->setOpacity(0.08);
+    for(int xJump = halfThick; xJump < this->width(); xJump += thickness){
+        painter->drawLine(xJump, 0, xJump, static_cast<int>(this->height()));
+    }
+    for(int yJump = halfThick; yJump < this->height(); yJump += thickness){
+        painter->drawLine(0, yJump, static_cast<int>(this->width()), yJump);
+    }
 
     //Draw ruler
     painter->setOpacity(0.8);
     painter->setFont(QFont("Segoe UI", 8));
-    const int jump = 10 * thickness;
+    int jump = 10 * thickness;
 
     for(int xJump = halfThick + jump, y = halfHeight + halfThick + 10, x = -offx + 10;
          xJump < this->width(); xJump += jump, x += 10){
@@ -91,10 +110,14 @@ void Scene3D::drawBackground(QPainter *painter, const QRectF &rect)
         if (y == 0) continue;
         painter->drawText(x, yJump + 5, QString::number(y));
     }
-    for(int x = square + halfWidth, y = halfThick, val = -std::min(offx, offy);
-         x > 0 && y < this->height(); x -= jump, y += jump, val += 10){
-        if (val == 0) continue;
-        painter->drawText(x, y + 5, QString::number(val));
+    jump = static_cast<int>(std::round(jump * projection));
+    for(int x = halfWidth + jump, y = halfHeight - jump, val = -10; x < this->width() && y > 0;
+         x += jump, y -= jump, val -= 10){
+        painter->drawText(x + 5, y + 5, QString::number(val));
+    }
+    for(int x = halfWidth - jump, y = halfHeight + jump, val = 10; x > 0 && y < this->height();
+         x -= jump, y += jump, val += 10){
+        painter->drawText(x + 5, y + 8, QString::number(val));
     }
 
     painter->setOpacity(1.0);

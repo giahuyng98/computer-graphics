@@ -29,6 +29,7 @@ protected:
 
     QPainterPath shape() const override;
     void drawPixel(int x, int y);
+    void drawPixel(const QPoint &p);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 //    QRectF boundingRect() const override;
 };

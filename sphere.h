@@ -1,5 +1,5 @@
-#ifndef CUBE_H
-#define CUBE_H
+#ifndef SPHERE_H
+#define SPHERE_H
 
 #include <QWidget>
 #include <QGraphicsItem>
@@ -8,10 +8,10 @@
 
 class Scene3D;
 
-class Cube : public QGraphicsItem
+class Sphere : public QGraphicsItem
 {
 public:
-    Cube(int x, int y, int z, int width, int height, int length, Scene3D *scene, QGraphicsItem *parent = nullptr);
+    Sphere(int x, int y, int z, int r, Scene3D *scene, QGraphicsItem *parent = nullptr);
 
 protected:
     QPainterPath shape() const override;
@@ -19,14 +19,14 @@ protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
     void drawPixel(const QPoint &point);
-    void drawCube();
+    void drawSphere();
     QPoint toScenePos(const QPoint &userPos) const;
 
 private:
-    int x, y, z, width, height, length;
+    int x, y, z, r;
     QBrush brush = QBrush(Qt::black);
     QPainterPath path;
     Scene3D *scene;
 };
 
-#endif // CUBE_H
+#endif // SPHERE_H

@@ -26,18 +26,13 @@ public:
 
     void reDraw();
 
-protected:
-    void drawPixel(int x, int y);
-    void drawCircle(int xc, int yc, int x, int y);
-    void circleBres();
+protected:    
+    void drawCircle();
     QRectF boundingRect() const override;
-//    void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
-//    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
 private:
     int x, y, r;
-    std::vector<QPoint> points;
 };
 
 #endif // CIRCLE_H
