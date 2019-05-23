@@ -38,7 +38,7 @@ vector<vector<int> > Affine::round(vector<vector<float> > mat) const
     {
         for (size_t j = 0; j < mat.front().size(); ++j)
         {
-            result[i][j] = std::round(mat[i][j]);
+            result[i][j] = static_cast<int>(std::round(mat[i][j]));
         }
     }
     return result;
@@ -58,7 +58,6 @@ void Affine::setScale(float sx, float sy)
 
 void Affine::setRotate(int angle)
 {
-
     rotateMat[0][0] = std::cos(angle * M_PI/180.f);
     rotateMat[0][1] = std::sin(angle * M_PI/180.f);
     rotateMat[1][0] = -rotateMat[0][1];

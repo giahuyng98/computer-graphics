@@ -2,7 +2,6 @@
 #define AFFINE_H
 
 #include <vector>
-#define _USE_MATH_DEFINES
 #include <cmath>
 using std::vector;
 

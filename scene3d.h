@@ -14,6 +14,9 @@ public:
 
     void setWindow(Window *value);
 
+protected:
+    void drawBackground(QPainter *painter, const QRectF &rect) override;
+
 private:
     int lenx, leny;
     int offx, offy;
