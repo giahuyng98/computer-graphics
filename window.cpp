@@ -167,9 +167,10 @@ void Window::on_elipBtn_clicked()
 
 void Window::on_tabWidget_currentChanged(int index)
 {
+    ui->stackedWidget->setCurrentIndex(index);
     switch (index){
     case 0:
-        ui->graphicsView->setScene(scene);
+        ui->graphicsView->setScene(scene);        
         break;
     case 1:
         ui->graphicsView->setScene(scene3d);
@@ -177,4 +178,10 @@ void Window::on_tabWidget_currentChanged(int index)
     default:
         exit(23);
     }
+}
+
+void Window::on_addCubeBtn_clicked()
+{
+    scene3d->addCube(ui->cubeX->text().toInt(), ui->cubeY->text().toInt(), ui->cubeZ->text().toInt(),
+                     ui->cubeW->text().toInt(), ui->cubeH->text().toInt(), ui->cubeL->text().toInt());
 }

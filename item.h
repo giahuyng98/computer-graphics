@@ -16,7 +16,7 @@ public:
     };
     QPainterPath getPath() const;
     Item(Scene *scene = nullptr, QGraphicsItem *parent = nullptr);
-    virtual Type getType() const;
+    virtual Type getType() const;    
 //    virtual QStringList getInfo() const;
 
     void setBrush(const QBrush &value);
@@ -26,9 +26,11 @@ protected:
     QBrush brush = QBrush(Qt::black);
     QPainterPath path;
     Scene *scene;
+
     QPainterPath shape() const override;
     void drawPixel(int x, int y);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+//    QRectF boundingRect() const override;
 };
 
 

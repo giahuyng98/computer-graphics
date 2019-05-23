@@ -14,9 +14,30 @@ Scene3D::Scene3D(QWidget *parent) : QGraphicsScene (parent)
     offy = leny / 2;
 }
 
+int Scene3D::getOffx() const
+{
+    return offx;
+}
+
+int Scene3D::getOffy() const
+{
+    return offy;
+}
+
+int Scene3D::getThickness() const
+{
+    return thickness;
+}
+
 void Scene3D::setWindow(Window *value)
 {
     window = value;
+}
+
+void Scene3D::addCube(int x, int y, int z, int width, int height, int length)
+{
+    Cube *cube = new Cube(x, y, z, width, height, length, this);
+    addItem(cube);
 }
 
 void Scene3D::drawBackground(QPainter *painter, const QRectF &rect)
@@ -31,8 +52,8 @@ void Scene3D::drawBackground(QPainter *painter, const QRectF &rect)
     painter->setOpacity(0.6);
     painter->drawLine(0, halfHeight + halfThick, static_cast<int>(this->width()), halfHeight + halfThick);
     painter->drawLine(halfWidth + halfThick, 0, halfWidth + halfThick, static_cast<int>(this->height()));
-    const int square = std::min(halfHeight, halfWidth) + halfThick;
-    painter->drawLine(halfWidth + square, 0, square, static_cast<int>(this->height()));
+    const int square = std::min(halfHeight, halfWidth) + halfThick * 2;
+    painter->drawLine(halfWidth + square , 0, square, static_cast<int>(this->height()));
 
 //    const int space = thickness * 5; //line spacing
 //    painter->setOpacity(0.25);

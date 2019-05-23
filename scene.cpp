@@ -230,7 +230,7 @@ void Scene::doScaling()
 }
 
 void Scene::doReflection()
-{
+{    
     if (selectedItems().isEmpty()) return;
     Item *selectedItem = static_cast<Item*>(selectedItems().first());
     const int x = window->getXReflection();

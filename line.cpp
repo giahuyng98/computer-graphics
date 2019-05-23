@@ -70,7 +70,6 @@ QRectF Line::boundingRect() const
 
 void Line::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-//    qDebug() << "item " << this;
     QGraphicsItem::mousePressEvent(event);
 }
 
@@ -85,13 +84,6 @@ QVariant Line::itemChange(QGraphicsItem::GraphicsItemChange change, const QVaria
 //    }
     return QGraphicsItem::itemChange(change, value);
 }
-
-//void Line::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
-//{
-//    Q_UNUSED(option);
-//    Q_UNUSED(widget);
-//    painter->fillPath(path, brush);
-//}
 
 void Line::drawLine()
 {
@@ -161,6 +153,18 @@ void Line::reDraw()
     path = QPainterPath();
     drawLine();
     scene->update();
+}
+
+QPainterPath Line::getLine(int x1, int y1, int x2, int y2)
+{
+    QPainterPath tmp = path;
+    path = QPainterPath();
+    std::tuple<int,int,int,int> t = {this->x1, this->y1, this->x2, this->y2};
+    std::tie(this->x1, this->y1, this->x2, this->y2) = {x1, y1, x2, y2};
+    drawLine();
+    std::swap(tmp, path);
+    std::tie(this->x1, this->y1, this->x2, this->y2) = t;
+    return tmp;
 }
 
 int Line::getX2() const

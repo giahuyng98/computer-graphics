@@ -68,6 +68,8 @@ private slots:
     void on_reflecBtn_clicked();
 
     void on_tabWidget_currentChanged(int index);
+    void on_addCubeBtn_clicked();
+
 private:
     Ui::Window *ui;
     Scene *scene;

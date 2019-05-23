@@ -44,6 +44,7 @@ public:
     void setY2(int value);
 
     void reDraw();
+    QPainterPath getLine(int x1, int y1, int x2, int y2);
 
 protected:
     QRectF boundingRect() const override;
