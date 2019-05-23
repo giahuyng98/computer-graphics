@@ -143,7 +143,7 @@
            </font>
           </property>
           <property name="text">
-           <string>LINE</string>
+           <string>Line</string>
           </property>
           <property name="checkable">
            <bool>true</bool>

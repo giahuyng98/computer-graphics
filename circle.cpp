@@ -67,7 +67,7 @@ QRectF Circle::boundingRect() const
     QPoint topLeft = toScenePos({x, y});
     topLeft.setX(topLeft.x() - len - thickness);
     topLeft.setY(topLeft.y() - len - thickness);
-    return QRectF(topLeft, QSize(len * 2 + thickness * 2, len * 2 + thickness * 2));
+    return QRectF(topLeft, QSize(len * 2 + thickness * 3, len * 2 + thickness * 3));
 }
 
 void Circle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
