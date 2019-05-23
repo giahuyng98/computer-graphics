@@ -71,9 +71,7 @@ void Scene::deleteItem()
 
 void Scene::clearAll()
 {
-    for(auto &item : this->items()){
-        this->removeItem(item);
-    }
+    this->clear();
     lineInfo->setLine(nullptr);
     rectInfo->setRect(nullptr);
     circleInfo->setCircle(nullptr);
