@@ -25,9 +25,11 @@ public:
     void setPoint(const QPoint &point);
 
     void reDraw();
-    void fill(const QColor &color);
 
-protected:    
+    void setFillColor(const QColor &value);
+
+protected:
+    void fillCircle();
     void drawCircle();
     QRectF boundingRect() const override;
     QPainterPath shape() const override;

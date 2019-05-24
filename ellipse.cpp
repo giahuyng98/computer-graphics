@@ -35,6 +35,12 @@ void Ellipse::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     painter->fillPath(fillPath, fillColor);
 }
 
+void Ellipse::setFillColor(const QColor &value)
+{
+    fillColor = value;
+    reDraw();
+}
+
 int Ellipse::getYRadius() const
 {
     return yRadius;
@@ -43,6 +49,15 @@ int Ellipse::getYRadius() const
 void Ellipse::setYRadius(int value)
 {
     yRadius = value;
+}
+
+void Ellipse::fillEllipse()
+{
+    fillPath = QPainterPath();
+    if (xRadius == 0 || yRadius == 0) return;
+    for(const auto &point : Drawer::floodFill(Drawer::drawEllipse({x, y}, xRadius, yRadius), {x, y})){
+        drawPixel(point, fillPath);
+    }
 }
 
 int Ellipse::getXRadius() const
@@ -84,17 +99,7 @@ void Ellipse::reDraw()
 {
     path = QPainterPath();
     drawEllipse();
-    if (fillColor != Qt::color0) fill(fillColor);
-    scene->update();
-}
-
-void Ellipse::fill(const QColor &color)
-{
-    fillColor = color;
-    fillPath = QPainterPath();
-    for(const auto &point : Drawer::floodFill(Drawer::drawEllipse({x, y}, xRadius, yRadius), {x, y})){
-        drawPixel(point, fillPath);
-    }
+    if (fillColor != Qt::color0) fillEllipse();
     scene->update();
 }
 

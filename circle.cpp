@@ -42,6 +42,12 @@ void Circle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     painter->fillPath(fillPath, fillColor);
 }
 
+void Circle::setFillColor(const QColor &value)
+{
+    fillColor = value;
+    reDraw();
+}
+
 int Circle::getR() const
 {
     return r;
@@ -67,14 +73,14 @@ void Circle::reDraw()
 {
     path = QPainterPath();
     drawCircle();
-    if (fillColor != Qt::color0) fill(fillColor);
+    if (fillColor != Qt::color0) fillCircle();
     scene->update();
 }
 
-void Circle::fill(const QColor &color)
-{
-    fillColor = color;
+void Circle::fillCircle()
+{    
     fillPath = QPainterPath();
+    if (r == 0) return;
     for(const auto &point : Drawer::floodFill(Drawer::drawCircle({x, y}, r), {x, y})){
         drawPixel(point, fillPath);
     }

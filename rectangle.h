@@ -17,8 +17,7 @@ public:
 
     Type getType() const override;
 
-    void reDraw();
-    void fill(const QColor &color);
+    void reDraw();    
 
     QPoint getTopLeft() const;
     void setTopLeft(const QPoint &value);
@@ -32,11 +31,14 @@ public:
     QPoint getBottomRight() const;
     void setBottomRight(const QPoint &value);
 
+    void setFillColor(const QColor &value);
+
 protected:
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
-    void drawRectangel();
+    void drawRectangle();
+    void fillRectangle();
 
 private:
     QPoint topLeft, topRight, bottomLeft, bottomRight;

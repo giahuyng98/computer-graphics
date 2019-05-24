@@ -42,13 +42,13 @@ void Scene::doFillColor(const QColor &color)
     Item *item = static_cast<Item*>(this->selectedItems().first());
     switch (item->getType()) {
     case Item::Type::RECT:
-        static_cast<Rectangle*>(item)->fill(color);
+        static_cast<Rectangle*>(item)->setFillColor(color);
         break;
     case Item::Type::CIRCLE:
-        static_cast<Circle*>(item)->fill(color);
+        static_cast<Circle*>(item)->setFillColor(color);
         break;
     case Item::Type::ELIP:
-        static_cast<Ellipse*>(item)->fill(color);
+        static_cast<Ellipse*>(item)->setFillColor(color);
         break;
     default:
         break;
@@ -57,8 +57,8 @@ void Scene::doFillColor(const QColor &color)
 
 void Scene::deleteItem()
 {
-    for(auto &item : this->selectedItems()){
-        this->removeItem(item);
+    for(auto &item : this->selectedItems()){        
+        delete item;
     }
     if (!this->items().isEmpty()) {
         Item *item = static_cast<Item*>(this->items().first());

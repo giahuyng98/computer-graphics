@@ -13,8 +13,7 @@ public:
     Ellipse(int x, int y, int xRadius, int yRadius, Scene *scene, QGraphicsItem *parent = nullptr);
     Type getType() const override;
 
-    void reDraw();
-    void fill(const QColor &color);
+    void reDraw();    
 
     QPoint getPoint() const;
     void setPoint(const QPoint &point);
@@ -31,7 +30,10 @@ public:
     int getYRadius() const;
     void setYRadius(int value);
 
+    void setFillColor(const QColor &value);
+
 protected:
+    void fillEllipse();
     void drawEllipse();
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
