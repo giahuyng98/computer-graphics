@@ -84,6 +84,7 @@ void Rectangle::fill(const QColor &color)
              Drawer::drawRect(pos, size), {pos.x() + size.width()/2,pos.y() - size.height() / 2})){
         drawPixel(point, fillPath);
     }
+    scene->update();
 }
 
 Item::Type Rectangle::getType() const

@@ -68,15 +68,7 @@ VPoints drawLine(const QPoint &from, const QPoint &to){
 }
 
 VPoints drawDashedLine(const QPoint &from, const QPoint &to, int dash, int dot){
-    auto tmp = drawLine(from, to);
-    VPoints result;
-    for(auto it = tmp.begin(); it < tmp.end();){
-        int addDash = 0;
-        while (addDash < dash && it < tmp.end()) result.emplace_back(*it++), ++addDash;
-        int ignoreDot = 0;
-        while (ignoreDot < dot && it < tmp.end()) ++it, ++ignoreDot;
-    }
-    return result;
+    return toDashDot(drawLine(from, to), dash, dot);
 }
 
 VPoints drawRect(const QPoint &topLelf, const QSize &size){
@@ -183,10 +175,19 @@ VPoints drawCube(int x, int y, int z, int width, int height, int length, QPoint 
 VPoints drawSphere(int x, int y, int z, int r, QPoint (*method)(int, int, int)){
     QPoint center = method(x, y, z);
     auto circle = drawCircle(center, r);
-    auto ellipse = drawEllipse(center, r, r / 4);
+    const int DASH = 2, DOT = 1;
+    int yRadius;
+    if (method == cavalier){
+        yRadius = r / 4;
+    } else {
+        yRadius = r / 8;
+    }
+    auto ellipseTop = toDashDot(drawHalfTopEllipse(center, r, yRadius), DASH, DOT);
+    auto ellipseBot = drawHalfBotEllipse(center, r, yRadius);
     VPoints result;
     std::move(circle.begin(), circle.end(), std::back_inserter(result));
-    std::move(ellipse.begin(), ellipse.end(), std::back_inserter(result));
+    std::move(ellipseTop.begin(), ellipseTop.end(), std::back_inserter(result));
+    std::move(ellipseBot.begin(), ellipseBot.end(), std::back_inserter(result));
     std::sort(result.begin(), result.end());
     result.erase(std::unique(result.begin(), result.end()), result.end());
     return result;
@@ -309,6 +310,16 @@ VPoints floodFill(const VPoints &border, const QPoint &point){
     return result;
 }
 
-
+VPoints toDashDot(const VPoints &points, int dash, int dot)
+{
+    VPoints result;
+    for(auto it = points.begin(); it < points.end();){
+        int addDash = 0;
+        while (addDash < dash && it < points.end()) result.emplace_back(*it++), ++addDash;
+        int ignoreDot = 0;
+        while (ignoreDot < dot && it < points.end()) ++it, ++ignoreDot;
+    }
+    return result;
+}
 
 }

@@ -37,8 +37,8 @@ QPoint Item::toScenePos(const QPoint &userPos) const
 
 void Item::setBrush(const QBrush &value)
 {
-    brush = value;
-    update();
+    brush = value;    
+    scene->update();
 }
 
 QPainterPath Item::getPath() const

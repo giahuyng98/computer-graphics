@@ -79,6 +79,7 @@ void Circle::fill(const QColor &color)
     for(const auto &point : Drawer::floodFill(Drawer::drawCircle({x, y}, r), {x, y})){
         drawPixel(point, fillPath);
     }
+    scene->update();
 }
 
 int Circle::getY() const

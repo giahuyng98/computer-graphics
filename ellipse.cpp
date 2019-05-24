@@ -94,6 +94,7 @@ void Ellipse::fill(const QColor &color)
     for(const auto &point : Drawer::floodFill(Drawer::drawEllipse({x, y}, xRadius, yRadius), {x, y})){
         drawPixel(point, fillPath);
     }
+    scene->update();
 }
 
 
