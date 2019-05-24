@@ -26,6 +26,7 @@ CONFIG += c++14
 
 SOURCES += \
         affine.cpp \
+        apidrawer.cpp \
         circle.cpp \
         circleinfo.cpp \
         cube.cpp \
@@ -39,10 +40,12 @@ SOURCES += \
         rectinfo.cpp \
         scene.cpp \
         scene3d.cpp \
+        sphere.cpp \
         window.cpp
 
 HEADERS += \
         affine.h \
+        apidrawer.h \
         circle.h \
         circleinfo.h \
         cube.h \
@@ -55,6 +58,7 @@ HEADERS += \
         rectinfo.h \
         scene.h \
         scene3d.h \
+        sphere.h \
         window.h
 
 FORMS += \

@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QGraphicsScene>
 #include "cube.h"
+#include "sphere.h"
+#include "apidrawer.h"
 
 class Window;
 
@@ -17,6 +19,9 @@ public:
     int getThickness() const;
     void setWindow(Window *value);
     void addCube(int x, int y, int z, int width, int height, int length);
+    void addSphere(int x, int y, int z, int r);
+    QPoint (*to2D)(int x, int y, int z) = Drawer::cavalier;
+    void setMethod(bool method);
 
 protected:
     void drawBackground(QPainter *painter, const QRectF &rect) override;
@@ -25,6 +30,7 @@ private:
     int lenx, leny;
     int offx, offy;
     int thickness = 5;
+    float projection = CAVALIER;
     Window *window;
 
 };

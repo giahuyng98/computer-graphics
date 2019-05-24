@@ -174,6 +174,7 @@ void Window::on_tabWidget_currentChanged(int index)
         break;
     case 1:
         ui->graphicsView->setScene(scene3d);
+//        ui->tabWidget->removeTab(index);
         break;
     default:
         exit(23);
@@ -184,4 +185,24 @@ void Window::on_addCubeBtn_clicked()
 {
     scene3d->addCube(ui->cubeX->text().toInt(), ui->cubeY->text().toInt(), ui->cubeZ->text().toInt(),
                      ui->cubeW->text().toInt(), ui->cubeH->text().toInt(), ui->cubeL->text().toInt());
+}
+
+void Window::on_cavalier_toggled(bool checked)
+{
+    if (checked){
+        scene3d->setMethod(1);
+    } else {
+        scene3d->setMethod(0);
+    }
+}
+
+void Window::on_clear3Dbtn_clicked()
+{
+    scene3d->clear();
+}
+
+void Window::on_addSphereBtn_clicked()
+{
+    scene3d->addSphere(ui->xSphere->text().toInt(), ui->ySphere->text().toInt(), ui->zSphere->text().toInt(),
+                       ui->rShere->text().toInt());
 }

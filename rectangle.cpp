@@ -6,7 +6,7 @@ Rectangle::Rectangle(const QPoint &pos, const QSize &size, Scene *scene, QGraphi
     : Item(scene, parent),     
       pos(pos), size(size)
 {
-    set4Line();
+    drawRectanlge();
 }
 
 QRectF Rectangle::boundingRect() const
@@ -23,6 +23,13 @@ void Rectangle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     Q_UNUSED(option);
     Q_UNUSED(widget);
     painter->fillPath(path, brush);
+}
+
+void Rectangle::drawRectanlge()
+{
+    for(const auto &point : Drawer::drawRect(pos, size)){
+        drawPixel(point);
+    }
 }
 
 vector<vector<int> > Rectangle::getPoint()
@@ -57,18 +64,10 @@ void Rectangle::setSize(const QSize &value)
     size = value;
 }
 
-void Rectangle::set4Line()
-{
-    path = QPainterPath();
-    path = path.united((Line(pos, QPoint(pos.x() + size.width(), pos.y()), scene).getPath()));
-    path = path.united((Line(pos, QPoint(pos.x(), pos.y() - size.height()), scene).getPath()));
-    path = path.united((Line(pos.x(), pos.y() - size.height(), pos.x() + size.width(), pos.y() - size.height(), scene).getPath()));
-    path = path.united((Line(pos.x() + size.width(), pos.y(), pos.x() + size.width(), pos.y() - size.height(), scene).getPath()));
-}
-
 void Rectangle::reDraw()
 {
-    set4Line();    
+    path = QPainterPath();
+    drawRectanlge();
     scene->update();
 }
 

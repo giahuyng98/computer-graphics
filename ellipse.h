@@ -30,15 +30,12 @@ public:
     void setYRadius(int value);
 
 protected:
-    void drawEllipse(int xs, int ys, int x, int y);
-    void ellipseMidpoint(int xs1, int ys1, int rx, int ry);
-    void drawPixel(int x, int y);
+    void drawEllipse();
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;    
 
 private:
-    int x, y, xRadius, yRadius;
-    std::vector<QPoint> points;
+    int x, y, xRadius, yRadius;    
 };
 
 
