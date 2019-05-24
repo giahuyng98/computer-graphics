@@ -7,7 +7,8 @@
 #include <QVBoxLayout>
 #include "oxy.h"
 #include "scene.h"
-#include "lineinfo.h"
+#include "scene3d.h"
+#include "apidrawer.h"
 
 namespace Ui {
 class Window;
@@ -35,7 +36,11 @@ public:
     int getAngleRotate() const;
     float getSXScale() const;
     float getSYScale() const;
+    int getXReflection() const;
+    int getYReflection() const;
 
+    void setShapeKind(ShapeKind shape);
+    void setEnableFillButton(bool enable);
 
 
 private slots:
@@ -61,9 +66,27 @@ private slots:
 
     void on_elipBtn_clicked();
 
+
+    void on_reflecBtn_clicked();
+
+    void on_tabWidget_currentChanged(int index);
+
+    void on_addCubeBtn_clicked();
+
+    void on_cavalier_toggled(bool checked);
+
+    void on_clear3Dbtn_clicked();
+
+    void on_addSphereBtn_clicked();
+
+    void on_fillColorBtn_clicked();
+
+    void on_playBtn_clicked();
+
 private:
     Ui::Window *ui;
-    Scene *scene;
+    Scene *scene, *frame;
+    Scene3D *scene3d;
 };
 
 #endif // WINDOW_H

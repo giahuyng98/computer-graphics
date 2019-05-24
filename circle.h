@@ -10,7 +10,7 @@ class Scene;
 class Circle : public Item
 {
 public:
-    Circle(int x, int y, int r,Scene *scene, QGraphicsItem *parent = nullptr);
+    Circle(int x, int y, int r, Scene *scene, QGraphicsItem *parent = nullptr);
     Type getType() const override;
     int getX() const;
     void setX(int value);
@@ -21,23 +21,24 @@ public:
     int getR() const;
     void setR(int value);
 
-    vector<vector<int>> getPoint();
-    void setPoint(const vector<vector<int>> &mat);
+    QPoint getPoint() const;
+    void setPoint(const QPoint &point);
 
     void reDraw();
 
+    void setFillColor(const QColor &value);
+
 protected:
-    void drawPixel(int x, int y);
-    void drawCircle(int xc, int yc, int x, int y);
-    void circleBres();
+    void fillCircle();
+    void drawCircle();
     QRectF boundingRect() const override;
-//    void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
-//    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+    QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
 private:
+    QPainterPath fillPath;
+    QColor fillColor = Qt::color0;
     int x, y, r;
-    std::vector<QPoint> points;
 };
 
 #endif // CIRCLE_H

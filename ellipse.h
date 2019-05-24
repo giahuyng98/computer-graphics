@@ -13,10 +13,11 @@ public:
     Ellipse(int x, int y, int xRadius, int yRadius, Scene *scene, QGraphicsItem *parent = nullptr);
     Type getType() const override;
 
-    void reDraw();
+    void reDraw();    
 
-    vector<vector<int>> getPoint();
-    void setPoint(const vector<vector<int>> &mat);
+    QPoint getPoint() const;
+    void setPoint(const QPoint &point);
+
     int getX() const;
     void setX(int value);
 
@@ -29,16 +30,19 @@ public:
     int getYRadius() const;
     void setYRadius(int value);
 
+    void setFillColor(const QColor &value);
+
 protected:
-    void drawEllipse(int xs, int ys, int x, int y);
-    void ellipseMidpoint(int xs1, int ys1, int rx, int ry);
-    void drawPixel(int x, int y);
+    void fillEllipse();
+    void drawEllipse();
     QRectF boundingRect() const override;
+    QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;    
 
 private:
-    int x, y, xRadius, yRadius;
-    std::vector<QPoint> points;
+    QPainterPath fillPath;
+    QColor fillColor = Qt::color0;
+    int x, y, xRadius, yRadius;    
 };
 
 

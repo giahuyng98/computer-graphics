@@ -2,20 +2,34 @@
 #include "scene.h"
 #include "line.h"
 
-Rectangle::Rectangle(const QPoint &pos, const QSize &size, Scene *scene, QGraphicsItem *parent)
-    : Item(scene, parent),     
-      pos(pos), size(size)
+Rectangle::Rectangle(const QPoint &topLeft, const QPoint &topRight, const QPoint &bottomLeft, const QPoint &bottomRight, Scene *scene, QGraphicsItem *parent)
+    : Item(scene, parent),
+      topLeft(topLeft), topRight(topRight), bottomLeft(bottomLeft), bottomRight(bottomRight)
 {
-    set4Line();
+    drawRectangle();
+}
+
+Rectangle::Rectangle(const QPoint &topLeft, const QSize &size, Scene *scene, QGraphicsItem *parent)
+    : Item(scene, parent), topLeft(topLeft), topRight(topLeft.x() + size.width(), topLeft.y()),
+      bottomLeft(topLeft.x(), topLeft.y() - size.height()),
+      bottomRight(topLeft.x() + size.width(), topLeft.y() - size.height())
+{
+    drawRectangle();
 }
 
 QRectF Rectangle::boundingRect() const
-{
+{        
     const int thickness = this->scene->getThickness();
-    QPoint topleft = toScenePos(pos);
-    topleft = QPoint(topleft.x() - thickness, topleft.y() - thickness);
-    QSize sceneSize = QSize(size.width() * thickness + thickness*2 , size.height() * thickness + thickness*2);
-    return QRectF(topleft, sceneSize);
+    int minX = std::min({topLeft.x(), topRight.x(), bottomLeft.x(), bottomRight.x()});
+    int minY = std::min({topLeft.y(), topRight.y(), bottomLeft.y(), bottomRight.y()});
+    int maxX = std::max({topLeft.x(), topRight.x(), bottomLeft.x(), bottomRight.x()});
+    int maxY = std::max({topLeft.y(), topRight.y(), bottomLeft.y(), bottomRight.y()});
+    return QRectF(toScenePos({minX, maxY}) - QPoint(thickness, thickness),
+                  toScenePos({maxX, minY}) + QPoint(thickness, thickness));
+}
+
+QPainterPath Rectangle::shape() const{
+    return path + fillPath;
 }
 
 void Rectangle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -23,52 +37,76 @@ void Rectangle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     Q_UNUSED(option);
     Q_UNUSED(widget);
     painter->fillPath(path, brush);
+    painter->fillPath(fillPath, fillColor);
 }
 
-vector<vector<int> > Rectangle::getPoint()
+void Rectangle::drawRectangle()
 {
-    return {
-        {pos.x(), pos.y(), 1}
-    };
+    for(const auto &point : Drawer::drawRect(topLeft, topRight, bottomLeft, bottomRight)){
+        drawPixel(point);
+    }
 }
 
-void Rectangle::setPoint(const vector<vector<int> > &mat)
+void Rectangle::fillRectangle()
 {
-    pos = {mat[0][0], mat[0][1]};
+    fillPath = QPainterPath();
+    for(const auto &point : Drawer::floodFill(
+             Drawer::drawRect(topLeft, topRight, bottomLeft, bottomRight), {(topLeft + bottomRight) / 2})){
+        drawPixel(point, fillPath);
+    }
 }
 
-QPoint Rectangle::getPos() const
+void Rectangle::setFillColor(const QColor &value)
 {
-    return pos;
+    fillColor = value;
+    reDraw();
 }
 
-void Rectangle::setPos(const QPoint &value)
+QPoint Rectangle::getBottomRight() const
 {
-    pos = value;
+    return bottomRight;
 }
 
-QSize Rectangle::getSize() const
+void Rectangle::setBottomRight(const QPoint &value)
 {
-    return size;
+    bottomRight = value;
 }
 
-void Rectangle::setSize(const QSize &value)
+QPoint Rectangle::getBottomLeft() const
 {
-    size = value;
+    return bottomLeft;
 }
 
-void Rectangle::set4Line()
+void Rectangle::setBottomLeft(const QPoint &value)
 {
-    path = QPainterPath();
-    path = path.united((Line(pos, QPoint(pos.x() + size.width(), pos.y()), scene).getPath()));
-    path = path.united((Line(pos, QPoint(pos.x(), pos.y() - size.height()), scene).getPath()));
-    path = path.united((Line(pos.x(), pos.y() - size.height(), pos.x() + size.width(), pos.y() - size.height(), scene).getPath()));
-    path = path.united((Line(pos.x() + size.width(), pos.y(), pos.x() + size.width(), pos.y() - size.height(), scene).getPath()));
+    bottomLeft = value;
+}
+
+QPoint Rectangle::getTopRight() const
+{
+    return topRight;
+}
+
+void Rectangle::setTopRight(const QPoint &value)
+{
+    topRight = value;
+}
+
+QPoint Rectangle::getTopLeft() const
+{
+    return topLeft;
+}
+
+void Rectangle::setTopLeft(const QPoint &value)
+{
+    topLeft = value;
 }
 
 void Rectangle::reDraw()
 {
-    set4Line();    
+    path = QPainterPath();
+    drawRectangle();
+    if (fillColor != Qt::color0) fillRectangle();
     scene->update();
 }
 

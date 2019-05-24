@@ -4,7 +4,7 @@
 Circle::Circle(int x, int y, int r, Scene *scene, QGraphicsItem *parent)
 :Item(scene, parent), x(x), y(y), r(r)
 {
-    circleBres();
+    drawCircle();
 }
 
 Item::Type Circle::getType() const
@@ -12,51 +12,10 @@ Item::Type Circle::getType() const
     return Type::CIRCLE;
 }
 
-void Circle::drawPixel(int x, int y)
+void Circle::drawCircle()
 {
-    points.push_back({x, y});
-}
-
-void Circle::drawCircle(int xc, int yc, int x, int y)
-{
-    drawPixel(xc + x, yc + y);
-    drawPixel(xc - x, yc + y);
-    drawPixel(xc + x, yc - y);
-    drawPixel(xc - x, yc - y);
-
-    drawPixel(xc + y, yc + x);
-    drawPixel(xc - y, yc + x);
-    drawPixel(xc + y, yc - x);
-    drawPixel(xc - y, yc - x);
-}
-
-void Circle::circleBres()
-{
-    path = QPainterPath();
-    points.clear();
-    int p = 0, q = r;
-    int d = 3 - 2 * r;
-
-    drawCircle(x, y, p, q);
-    while(q >= p)
-    {
-
-        ++p;
-        if(d <= 0) d = d + 4*p + 6;
-        else
-        {
-            --q;
-            d = d + 4 * (p - q) + 10;
-        }
-        drawCircle(x, y, p, q);
-    }
-
-    std::sort(points.begin(), points.end(), [](const QPoint &p1, const QPoint &p2){
-        return std::make_pair(p1.x(), p1.y()) < std::make_pair(p2.x(), p2.y());}
-              );
-    points.resize(std::unique(points.begin(), points.end())- points.begin());
-    for(auto &p : points){
-        Item::drawPixel(p.x(), p.y());
+    for(const auto &point : Drawer::drawCircle({x, y}, r)){
+        drawPixel(point);
     }
 }
 
@@ -67,12 +26,26 @@ QRectF Circle::boundingRect() const
     QPoint topLeft = toScenePos({x, y});
     topLeft.setX(topLeft.x() - len - thickness);
     topLeft.setY(topLeft.y() - len - thickness);
-    return QRectF(topLeft, QSize(len * 2 + thickness * 2, len * 2 + thickness * 2));
+    return QRectF(topLeft, QSize(len * 2 + thickness * 3, len * 2 + thickness * 3));
+}
+
+QPainterPath Circle::shape() const
+{
+    return path + fillPath;
 }
 
 void Circle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
     painter->fillPath(path, brush);
+    painter->fillPath(fillPath, fillColor);
+}
+
+void Circle::setFillColor(const QColor &value)
+{
+    fillColor = value;
+    reDraw();
 }
 
 int Circle::getR() const
@@ -85,22 +58,32 @@ void Circle::setR(int value)
     r = value;
 }
 
-vector<vector<int> > Circle::getPoint()
+QPoint Circle::getPoint() const
 {
-    return {
-        {x, y, 1}
-    };
+    return {x, y};
 }
 
-void Circle::setPoint(const vector<vector<int> > &mat)
+void Circle::setPoint(const QPoint &point)
 {
-    x = mat[0][0];
-    y = mat[0][1];
+    x = point.x();
+    y = point.y();
 }
 
 void Circle::reDraw()
 {
-    circleBres();
+    path = QPainterPath();
+    drawCircle();
+    if (fillColor != Qt::color0) fillCircle();
+    scene->update();
+}
+
+void Circle::fillCircle()
+{    
+    fillPath = QPainterPath();
+    if (r == 0) return;
+    for(const auto &point : Drawer::floodFill(Drawer::drawCircle({x, y}, r), {x, y})){
+        drawPixel(point, fillPath);
+    }
     scene->update();
 }
 

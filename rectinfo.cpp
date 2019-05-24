@@ -16,7 +16,9 @@ RectInfo::~RectInfo()
 void RectInfo::setRect(Rectangle *value)
 {
     rect = value;
-    if (rect){
+    if (rect)
+    {
+        ui->rectE
         ui->rectEditPoint1->setText(QString::number(rect->getPos().x()));
         ui->rectEditPoint2->setText(QString::number(rect->getPos().y()));
         ui->rectEditWidth->setText(QString::number(rect->getSize().width()));
@@ -32,7 +34,7 @@ void RectInfo::setRect(Rectangle *value)
 void RectInfo::on_applyBtn_clicked()
 {
     if (!rect) return;
-    rect->setPos(QPoint(ui->rectEditPoint1->text().toInt(), ui->rectEditPoint2->text().toInt()));
-    rect->setSize(QSize(ui->rectEditWidth->text().toInt(), ui->rectEditHeight->text().toInt()));
+//    rect->setPos(QPoint(ui->rectEditPoint1->text().toInt(), ui->rectEditPoint2->text().toInt()));
+//    rect->setSize(QSize(ui->rectEditWidth->text().toInt(), ui->rectEditHeight->text().toInt()));
     rect->reDraw();
 }
