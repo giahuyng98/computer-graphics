@@ -13,10 +13,11 @@ void Item::drawPixel(const QPoint &p)
 
 void Item::drawPixel(int x, int y, QPainterPath &painterPath)
 {
-    const int offx = this->scene->getOffx();
-    const int offy = this->scene->getOffy();
+    const QPoint scenePos = toScenePos({x, y});
     const int thickness = this->scene->getThickness();
-    painterPath.addRect((x + offx) * thickness, (offy - y) * thickness, thickness, thickness);
+    if (scenePos.x() < 0 || scenePos.x() > this->scene->width() ||
+        scenePos.y() < 0 || scenePos.y() > this->scene->height()) return;
+    painterPath.addRect(QRect(scenePos, QSize(thickness, thickness)));
 }
 
 void Item::drawPixel(const QPoint &p, QPainterPath &painterPath)
@@ -41,7 +42,7 @@ void Item::setBrush(const QBrush &value)
 Item::Item(Scene *scene, QGraphicsItem *parent)
     : QGraphicsItem(parent), scene(scene)
 {
-    setFlag(ItemIsSelectable);
+    setFlag(ItemIsSelectable); //| ItemSendsGeometryChanges | ItemSendsScenePositionChanges
 }
 
 Item::Type Item::getType() const

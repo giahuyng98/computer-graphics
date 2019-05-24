@@ -57,9 +57,12 @@ void Scene::doFillColor(const QColor &color)
 
 void Scene::deleteItem()
 {
-    for(auto &item : this->selectedItems()){        
+    if (!this->selectedItems().isEmpty()){
+        Item *item = static_cast<Item*>(this->selectedItems().first());
         delete item;
+//        removeItem(item);
     }
+
     if (!this->items().isEmpty()) {
         Item *item = static_cast<Item*>(this->items().first());
         item->setSelected(true);
@@ -90,6 +93,7 @@ void Scene::deleteItem()
         circleInfo->setCircle(nullptr);
         ellipseInfo->setEllipse(nullptr);
     }
+
 }
 
 void Scene::clearAll()

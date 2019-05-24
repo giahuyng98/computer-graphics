@@ -26,10 +26,11 @@ QRectF Cube::boundingRect() const
 
 void Cube::drawPixel(const QPoint &point)
 {
-    const int offx = this->scene->getOffx();
-    const int offy = this->scene->getOffy();
+    const QPoint scenePos = toScenePos(point);
     const int thickness = this->scene->getThickness();
-    path.addRect((point.x() + offx) * thickness, (offy - point.y()) * thickness, thickness, thickness);
+    if (scenePos.x() < 0 || scenePos.x() > this->scene->width() ||
+        scenePos.y() < 0 || scenePos.y() > this->scene->height()) return;
+    path.addRect(QRect(scenePos, QSize(thickness, thickness)));
 }
 
 void Cube::drawCube()
