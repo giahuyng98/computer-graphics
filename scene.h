@@ -51,13 +51,23 @@ public:
 
     void doTranslation();
 
+    void translateItem(Item *item, int dx, int dy);
+
     void doRotation();
+
+    void rotateItem(Item *item, int x, int y, int angle);
 
     void doScaling();
 
+    void scaleItem(Item *item, float sx, float sy);
+
     void doReflection();
 
+    void reflectItem(Item *item, int x, int y);
+
     void play(int delay);
+
+    void updateInfo(Item *item);
 
     RectInfo *getRectInfo() const;
 

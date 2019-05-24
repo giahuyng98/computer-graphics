@@ -85,16 +85,20 @@ void Window::setShapeKind(Window::ShapeKind shape)
 {
     switch (shape) {
     case NORMAL_LINE:
-        ui->splitter->replaceWidget(0, scene->getLineInfo());
+        if (ui->splitter->widget(0) != scene->getLineInfo())
+            ui->splitter->replaceWidget(0, scene->getLineInfo());
         break;
     case RECTANGLE:
-       ui->splitter->replaceWidget(0, scene->getRectInfo());
+        if (ui->splitter->widget(0) != scene->getRectInfo())
+            ui->splitter->replaceWidget(0, scene->getRectInfo());
         break;
     case CIRCLE:
-        ui->splitter->replaceWidget(0, scene->getCircleInfo());
+        if (ui->splitter->widget(0) != scene->getCircleInfo())
+            ui->splitter->replaceWidget(0, scene->getCircleInfo());
         break;
     case ELIP:
-        ui->splitter->replaceWidget(0, scene->getEllipseInfo());
+        if (ui->splitter->widget(0) != scene->getEllipseInfo())
+            ui->splitter->replaceWidget(0, scene->getEllipseInfo());
         break;
     }
 }

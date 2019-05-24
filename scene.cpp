@@ -109,213 +109,232 @@ void Scene::doTranslation()
 {
     if (selectedItems().isEmpty()) return;
     Item *selectedItem = static_cast<Item*>(selectedItems().first());
-    const int dx = window->getDxTrans();
-    const int dy = window->getDyTrans();
     if (selectedItem){
-        switch (selectedItem->getType()) {
-        case Item::Type::LINE:
-        {
-            Line *line = static_cast<Line*>(selectedItem);
-            line->setPoint1(affine.translate(line->getPoint1(), dx, dy));
-            line->setPoint2(affine.translate(line->getPoint2(), dx, dy));
-            line->reDraw();
-            lineInfo->setLine(line);
-            break;
-        }
-        case Item::Type::RECT:
-        {
-            Rectangle *rect = static_cast<Rectangle*>(selectedItem);
-            rect->setTopLeft(affine.translate(rect->getTopLeft(), dx, dy));
-            rect->setTopRight(affine.translate(rect->getTopRight(), dx, dy));
-            rect->setBottomLeft(affine.translate(rect->getBottomLeft(), dx, dy));
-            rect->setBottomRight(affine.translate(rect->getBottomRight(), dx, dy));
-            rect->reDraw();
-            rectInfo->setRect(rect);
-            break;
-        }
-        case Item::Type::CIRCLE:
-        {
-            Circle *circle = static_cast<Circle*>(selectedItem);
-            circle->setPoint(affine.translate(circle->getPoint(), dx, dy));
-            circle->reDraw();
-            circleInfo->setCircle(circle);
-            break;
-        }
-        case Item::Type::ELIP:
-        {
-            Ellipse *ellipse = static_cast<Ellipse*>(selectedItem);
-            ellipse->setPoint(affine.translate(ellipse->getPoint(), dx, dy));
-            ellipse->reDraw();
-            ellipseInfo->setEllipse(ellipse);
-            break;
-        }
-        default:
-            break;
-        }
+        translateItem(selectedItem, window->getDxTrans(), window->getDyTrans());
+        updateInfo(selectedItem);
     }
+}
+
+void Scene::translateItem(Item *item, int dx, int dy)
+{
+    switch (item->getType()) {
+    case Item::Type::LINE:
+    {
+        Line *line = static_cast<Line*>(item);
+        line->setPoint1(affine.translate(line->getPoint1(), dx, dy));
+        line->setPoint2(affine.translate(line->getPoint2(), dx, dy));
+        line->reDraw();
+        break;
+    }
+    case Item::Type::RECT:
+    {
+        Rectangle *rect = static_cast<Rectangle*>(item);
+        rect->setTopLeft(affine.translate(rect->getTopLeft(), dx, dy));
+        rect->setTopRight(affine.translate(rect->getTopRight(), dx, dy));
+        rect->setBottomLeft(affine.translate(rect->getBottomLeft(), dx, dy));
+        rect->setBottomRight(affine.translate(rect->getBottomRight(), dx, dy));
+        rect->reDraw();
+        break;
+    }
+    case Item::Type::CIRCLE:
+    {
+        Circle *circle = static_cast<Circle*>(item);
+        circle->setPoint(affine.translate(circle->getPoint(), dx, dy));
+        circle->reDraw();
+        break;
+    }
+    case Item::Type::ELIP:
+    {
+        Ellipse *ellipse = static_cast<Ellipse*>(item);
+        ellipse->setPoint(affine.translate(ellipse->getPoint(), dx, dy));
+        ellipse->reDraw();
+        break;
+    }
+    default:
+        break;
+    }
+
 }
 
 void Scene::doRotation()
 {
     if (selectedItems().isEmpty()) return;
-    Item *selectedItem = static_cast<Item*>(selectedItems().first());
-    const int x = window->getXRotate();
-    const int y = window->getYRotate();
-    const int angle = window->getAngleRotate();
+    Item *selectedItem = static_cast<Item*>(selectedItems().first());    
     if (selectedItem){
-        switch (selectedItem->getType()) {
-        case Item::Type::LINE:
-        {
-            Line *line = static_cast<Line*>(selectedItem);
-            line->setPoint1(affine.rotate(line->getPoint1(), x, y, angle));
-            line->setPoint2(affine.rotate(line->getPoint2(), x, y, angle));
-            line->reDraw();
-            lineInfo->setLine(line);
-            break;
-        }
-        case Item::Type::RECT:
-        {
-            Rectangle *rect = static_cast<Rectangle*>(selectedItem);
-            rect->setTopLeft(affine.rotate(rect->getTopLeft(), x, y, angle));
-            rect->setTopRight(affine.rotate(rect->getTopRight(), x, y, angle));
-            rect->setBottomLeft(affine.rotate(rect->getBottomLeft(), x, y, angle));
-            rect->setBottomRight(affine.rotate(rect->getBottomRight(), x, y, angle));
-            rect->reDraw();
-            rectInfo->setRect(rect);
-            break;
-        }
-        case Item::Type::CIRCLE:
-        {
-            Circle *circle = static_cast<Circle*>(selectedItem);
-            circle->setPoint(affine.rotate(circle->getPoint(), x, y, angle));
-            circle->reDraw();
-            circleInfo->setCircle(circle);
-            break;
-        }
-        case Item::Type::ELIP:
-        {
-            Ellipse *ellipse = static_cast<Ellipse*>(selectedItem);
-            ellipse->setPoint(affine.rotate(ellipse->getPoint(), x, y, angle));
-            ellipse->reDraw();
-            ellipseInfo->setEllipse(ellipse);
-            break;
-        }
-        default:
-            break;
-        }
+        rotateItem(selectedItem, window->getXRotate(), window->getYRotate(), window->getAngleRotate());
+        updateInfo(selectedItem);
     }
+}
 
+void Scene::rotateItem(Item *item, int x, int y, int angle)
+{
+    switch (item->getType()) {
+    case Item::Type::LINE:
+    {
+        Line *line = static_cast<Line*>(item);
+        line->setPoint1(affine.rotate(line->getPoint1(), x, y, angle));
+        line->setPoint2(affine.rotate(line->getPoint2(), x, y, angle));
+        line->reDraw();
+        break;
+    }
+    case Item::Type::RECT:
+    {
+        Rectangle *rect = static_cast<Rectangle*>(item);
+        rect->setTopLeft(affine.rotate(rect->getTopLeft(), x, y, angle));
+        rect->setTopRight(affine.rotate(rect->getTopRight(), x, y, angle));
+        rect->setBottomLeft(affine.rotate(rect->getBottomLeft(), x, y, angle));
+        rect->setBottomRight(affine.rotate(rect->getBottomRight(), x, y, angle));
+        rect->reDraw();
+        break;
+    }
+    case Item::Type::CIRCLE:
+    {
+        Circle *circle = static_cast<Circle*>(item);
+        circle->setPoint(affine.rotate(circle->getPoint(), x, y, angle));
+        circle->reDraw();
+        break;
+    }
+    case Item::Type::ELIP:
+    {
+        Ellipse *ellipse = static_cast<Ellipse*>(item);
+        ellipse->setPoint(affine.rotate(ellipse->getPoint(), x, y, angle));
+        ellipse->reDraw();
+        break;
+    }
+    default:
+        break;
+    }
 }
 
 void Scene::doScaling()
 {
     if (selectedItems().isEmpty()) return;
-    Item *selectedItem = static_cast<Item*>(selectedItems().first());
-    const float sx = window->getSXScale();
-    const float sy = window->getSYScale();
+    Item *selectedItem = static_cast<Item*>(selectedItems().first());    
     if (selectedItem){
-        switch (selectedItem->getType()) {
-        case Item::Type::LINE:
-        {
-            Line *line = static_cast<Line*>(selectedItem);
-            line->setPoint1(affine.scale(line->getPoint1(), sx, sy));
-            line->setPoint2(affine.scale(line->getPoint2(), sx, sy));
-            line->reDraw();
-            lineInfo->setLine(line);
-            break;
-        }
-        case Item::Type::RECT:
-        {
-            Rectangle *rect = static_cast<Rectangle*>(selectedItem);
-            rect->setTopLeft(affine.scale(rect->getTopLeft(), sx, sy));
-            rect->setTopRight(affine.scale(rect->getTopRight(), sx, sy));
-            rect->setBottomLeft(affine.scale(rect->getBottomLeft(), sx, sy));
-            rect->setBottomRight(affine.scale(rect->getBottomRight(), sx, sy));
-            rect->reDraw();
-            rectInfo->setRect(rect);
-            break;
-        }
-        case Item::Type::CIRCLE:
-        {
+        scaleItem(selectedItem, window->getSXScale(), window->getSYScale());
+        updateInfo(selectedItem);
+    }
+}
 
-            Circle *circle = static_cast<Circle*>(selectedItem);
-            circle->setPoint(affine.scale(circle->getPoint(), sx, sy));
-
-            circle->reDraw();
-            circleInfo->setCircle(circle);
-            break;
-        }
-        case Item::Type::ELIP:
-        {
-            Ellipse *ellipse = static_cast<Ellipse*>(selectedItem);
-            ellipse->setPoint(affine.scale(ellipse->getPoint(), sx, sy));
-            ellipse->reDraw();
-            ellipseInfo->setEllipse(ellipse);
-            break;
-        }
-        default:
-            break;
-        }
+void Scene::scaleItem(Item *item, float sx, float sy)
+{
+    switch (item->getType()) {
+    case Item::Type::LINE:
+    {
+        Line *line = static_cast<Line*>(item);
+        line->setPoint1(affine.scale(line->getPoint1(), sx, sy));
+        line->setPoint2(affine.scale(line->getPoint2(), sx, sy));
+        line->reDraw();
+        break;
+    }
+    case Item::Type::RECT:
+    {
+        Rectangle *rect = static_cast<Rectangle*>(item);
+        rect->setTopLeft(affine.scale(rect->getTopLeft(), sx, sy));
+        rect->setTopRight(affine.scale(rect->getTopRight(), sx, sy));
+        rect->setBottomLeft(affine.scale(rect->getBottomLeft(), sx, sy));
+        rect->setBottomRight(affine.scale(rect->getBottomRight(), sx, sy));
+        rect->reDraw();
+        break;
+    }
+    case Item::Type::CIRCLE:
+    {
+        Circle *circle = static_cast<Circle*>(item);
+        circle->setPoint(affine.scale(circle->getPoint(), sx, sy));
+        circle->reDraw();
+        break;
+    }
+    case Item::Type::ELIP:
+    {
+        Ellipse *ellipse = static_cast<Ellipse*>(item);
+        ellipse->setPoint(affine.scale(ellipse->getPoint(), sx, sy));
+        ellipse->reDraw();
+        break;
+    }
+    default:
+        break;
     }
 }
 
 void Scene::doReflection()
 {    
     if (selectedItems().isEmpty()) return;
-    Item *selectedItem = static_cast<Item*>(selectedItems().first());
-    const int x = window->getXReflection();
-    const int y = window->getYReflection();
+    Item *selectedItem = static_cast<Item*>(selectedItems().first());    
     if (selectedItem){
-        switch (selectedItem->getType()) {
-        case Item::Type::LINE:
-        {
-            Line *line = static_cast<Line*>(selectedItem);
-            line->setPoint1(affine.reflect(line->getPoint1(), x, y));
-            line->setPoint2(affine.reflect(line->getPoint2(), x, y));
-            line->reDraw();
-            lineInfo->setLine(line);
-            break;
-        }
-        case Item::Type::RECT:
-        {
-            Rectangle *rect = static_cast<Rectangle*>(selectedItem);
-            rect->setTopLeft(affine.reflect(rect->getTopLeft(), x, y));
-            rect->setTopRight(affine.reflect(rect->getTopRight(), x, y));
-            rect->setBottomLeft(affine.reflect(rect->getBottomLeft(), x, y));
-            rect->setBottomRight(affine.reflect(rect->getBottomRight(), x, y));
-            rect->reDraw();
-            rectInfo->setRect(rect);
-            break;
-        }
-        case Item::Type::CIRCLE:
-        {
-            Circle *circle = static_cast<Circle*>(selectedItem);
-            circle->setPoint(affine.reflect(circle->getPoint(), x, y));
-            circle->reDraw();
-            circleInfo->setCircle(circle);
-            break;
-        }
-        case Item::Type::ELIP:
-        {
-            Ellipse *ellipse = static_cast<Ellipse*>(selectedItem);
-            ellipse->setPoint(affine.reflect(ellipse->getPoint(), x, y));
-            ellipse->reDraw();
-            ellipseInfo->setEllipse(ellipse);
-            break;
-        }
-        default:
-            break;
-        }
+        reflectItem(selectedItem, window->getXReflection(), window->getYReflection());
+        updateInfo(selectedItem);
+    }
+}
+
+void Scene::reflectItem(Item *item, int x, int y)
+{
+    switch (item->getType()) {
+    case Item::Type::LINE:
+    {
+        Line *line = static_cast<Line*>(item);
+        line->setPoint1(affine.reflect(line->getPoint1(), x, y));
+        line->setPoint2(affine.reflect(line->getPoint2(), x, y));
+        line->reDraw();
+        break;
+    }
+    case Item::Type::RECT:
+    {
+        Rectangle *rect = static_cast<Rectangle*>(item);
+        rect->setTopLeft(affine.reflect(rect->getTopLeft(), x, y));
+        rect->setTopRight(affine.reflect(rect->getTopRight(), x, y));
+        rect->setBottomLeft(affine.reflect(rect->getBottomLeft(), x, y));
+        rect->setBottomRight(affine.reflect(rect->getBottomRight(), x, y));
+        rect->reDraw();
+        break;
+    }
+    case Item::Type::CIRCLE:
+    {
+        Circle *circle = static_cast<Circle*>(item);
+        circle->setPoint(affine.reflect(circle->getPoint(), x, y));
+        circle->reDraw();
+        break;
+    }
+    case Item::Type::ELIP:
+    {
+        Ellipse *ellipse = static_cast<Ellipse*>(item);
+        ellipse->setPoint(affine.reflect(ellipse->getPoint(), x, y));
+        ellipse->reDraw();
+        break;
+    }
+    default:
+        break;
     }
 }
 
 void Scene::play(int delay)
 {
+    Q_UNUSED(delay);
     if (timer) delete timer;
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(doAnimation()));
     timer->start(100);
 }
+
+void Scene::updateInfo(Item *item)
+{
+    switch (item->getType()) {
+    case Item::Type::LINE:
+        lineInfo->setLine(static_cast<Line*>(item));
+        break;
+    case Item::Type::RECT:
+        rectInfo->setRect(static_cast<Rectangle*>(item));
+        break;
+    case Item::Type::CIRCLE:
+        circleInfo->setCircle(static_cast<Circle*>(item));
+        break;
+    case Item::Type::ELIP:
+        ellipseInfo->setEllipse(static_cast<Ellipse*>(item));
+        break;
+    default:
+        break;
+    }
+}
+
 
 int Scene::getOffx() const
 {
