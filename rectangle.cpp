@@ -105,6 +105,7 @@ void Rectangle::setTopLeft(const QPoint &value)
 void Rectangle::reDraw()
 {
     path = QPainterPath();
+//    topLeft.setX();
     drawRectangle();
     if (fillColor != Qt::color0) fillRectangle();
     scene->update();
