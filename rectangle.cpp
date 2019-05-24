@@ -2,20 +2,25 @@
 #include "scene.h"
 #include "line.h"
 
-Rectangle::Rectangle(const QPoint &pos, const QSize &size, Scene *scene, QGraphicsItem *parent)
-    : Item(scene, parent),     
-      pos(pos), size(size)
+Rectangle::Rectangle(const QPoint &topLeft, const QPoint &topRight, const QPoint &bottomLeft, const QPoint &bottomRight, Scene *scene, QGraphicsItem *parent)
+    : Item(scene, parent),
+      topLeft(topLeft), topRight(topRight), bottomLeft(bottomLeft), bottomRight(bottomRight)
 {
-    drawRectanlge();
+    drawRectangel();
+}
+
+Rectangle::Rectangle(const QPoint &topLeft, const QSize &size, Scene *scene, QGraphicsItem *parent)
+    : Item(scene, parent), topLeft(topLeft), topRight(topLeft.x() + size.width(), topLeft.y()),
+      bottomLeft(topLeft.x(), topLeft.y() - size.height()),
+      bottomRight(topLeft.x() + size.width(), topLeft.y() - size.height())
+{
+    drawRectangel();
 }
 
 QRectF Rectangle::boundingRect() const
-{
+{    
     const int thickness = this->scene->getThickness();
-    QPoint topleft = toScenePos(pos);
-    topleft = QPoint(topleft.x() - thickness, topleft.y() - thickness);
-    QSize sceneSize = QSize(size.width() * thickness + thickness*2 , size.height() * thickness + thickness*2);
-    return QRectF(topleft, sceneSize);
+    return QRectF(toScenePos(topLeft) * (thickness - 1) , toScenePos(bottomRight) * (thickness + 1));
 }
 
 void Rectangle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -25,51 +30,58 @@ void Rectangle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->fillPath(path, brush);
 }
 
-void Rectangle::drawRectanlge()
+void Rectangle::drawRectangel()
 {
-    for(const auto &point : Drawer::drawRect(pos, size)){
+    for(const auto &point : Drawer::drawRect(topLeft, topRight, bottomLeft, bottomRight)){
         drawPixel(point);
     }
 }
 
-vector<vector<int> > Rectangle::getPoint()
-{
-    return {
-        {pos.x(), pos.y(), 1}
-    };
-}
+//vector<vector<int> > Rectangle::getPoint()
+//{
+//    return {
+//        {topLeft.x(), topLeft.y(), 1},
+//        {topRight.x(), topRight.y(), 1},
+//        {bottomLeft.x(), bottomLeft.y(), 1},
+//        {bottomRight.x(), bottomRight.y(), 1}
+//    };
+//}
 
-void Rectangle::setPoint(const vector<vector<int> > &mat)
-{
-    pos = {mat[0][0], mat[0][1]};
-}
+//void Rectangle::setPoint(const vector<vector<int> > &mat)
+//{
+//    topLeft = {mat[0][0], mat[0][1]};
+//    topRight = {mat[1][0], mat[1][1]};
+//    bottomLeft = {mat[2][0], mat[2][1]};
+//    bottomRight = {mat[3][0], mat[3][1]};
+//}
 
-QPoint Rectangle::getPos() const
-{
-    return pos;
-}
+//QPoint Rectangle::getPos() const
+//{
+//    return topLeft;
+//}
 
-void Rectangle::setPos(const QPoint &value)
-{
-    pos = value;
-}
+//void Rectangle::setPos(const QPoint &value)
+//{
+//    topLeft = value;
+//}
 
-QSize Rectangle::getSize() const
-{
-    return size;
-}
+//QSize Rectangle::getSize() const
+//{
+//    return size;
+//}
 
-void Rectangle::setSize(const QSize &value)
-{
-    size = value;
-}
+//void Rectangle::setSize(const QSize &value)
+//{
+//    size = value;
+//}
 
 void Rectangle::reDraw()
 {
     path = QPainterPath();
-    drawRectanlge();
+    drawRectangel();
     scene->update();
 }
+
 
 Item::Type Rectangle::getType() const
 {

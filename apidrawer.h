@@ -18,6 +18,7 @@ VPoints drawLine(int x1, int y1, int x2, int y2);
 VPoints drawLine(const QPoint &from, const QPoint &to);
 VPoints drawDashedLine(const QPoint &from, const QPoint &to, int dash, int dot);
 VPoints drawRect(const QPoint &topLelf, const QSize &size);
+VPoints drawRect(const QPoint &topLeft, const QPoint &topRight,const QPoint &bottomLeft, const QPoint &bottomRight);
 VPoints drawCircle(const QPoint &center, int radius);
 VPoints drawHalfTopEllipse(const QPoint &center, int xRadius, int yRadius);
 VPoints drawHalfBotEllipse(const QPoint &center, int xRadius, int yRadius);

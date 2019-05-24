@@ -98,7 +98,7 @@ void Scene::doTranslation()
         case Item::Type::RECT:
         {
             Rectangle *rect = static_cast<Rectangle*>(selectedItem);
-            rect->setPoint(affine.translate(rect->getPoint(), dx, dy));
+//            rect->setPoint(affine.translate(rect->getPoint(), dx, dy));
             rect->reDraw();
             rectInfo->setRect(rect);
             break;
@@ -146,10 +146,15 @@ void Scene::doRotation()
         case Item::Type::RECT:
         {
             Rectangle *rect = static_cast<Rectangle*>(selectedItem);
-            rect->setPoint(affine.translate(rect->getPoint(), rect->getSize().width() / 2, -rect->getSize().height() / 2));
-            rect->setPoint(affine.rotate(rect->getPoint(), x, y, angle));
-            rect->setPoint(affine.translate(rect->getPoint(), -rect->getSize().width() / 2, rect->getSize().height() / 2));
-            rect->reDraw();
+
+
+//            auto k = rect->getPoint();
+//            k[0][0] += rect->getSize().width();
+//            rect->setPoint(affine.translate(rect->getPoint(), rect->getSize().width() / 2, -rect->getSize().height() / 2));
+//            rect->setPoint(affine.rotate(k, x, y, angle));
+//            rect->setPoint(affine.translate(rect->getPoint(), -rect->getSize().width() / 2, rect->getSize().height() / 2));
+//            rect->setSize(QSize(rect->getSize().height(), rect->getSize().width()));
+//            rect->reDraw4();
             rectInfo->setRect(rect);
             break;
         }
@@ -198,11 +203,24 @@ void Scene::doScaling()
 
             Rectangle *rect = static_cast<Rectangle*>(selectedItem);
 
-            auto t = rect->getPoint();
-            t[0][0] = static_cast<int>((rect->getSize().width() / 2.0) * (1 - sx) + t[0][0]);
-            t[0][1] = t[0][1] - (rect->getSize().height() / 2.0) * (1 - sy);
-            rect->setPoint(t);
-            rect->setSize(QSize(rect->getSize().width() * sx, rect->getSize().height() * sy));
+//            rect->setPoint(affine.translate(rect->getPoint(), rect->getSize().width() / 2, -rect->getSize().height() / 2));
+
+//            auto t = rect->getPoint();
+
+//            t[0][0] += rect->getSize().width() / 2;
+//            t[0][1] -= rect->getSize().height() / 2;
+
+//            auto nt = affine.translate(t, -t[0][0], -t[0][1]);
+//            rect->setPoint();
+
+//            rect->setPoint(affine.scale(rect->getPoint(), sx, sy));
+//            rect->setPoint(affine.translate(rect->getPoint(), rect->getSize().width() / 2, -rect->getSize().height() / 2));
+//            auto t = rect->getPoint();
+//            t[0][0] = static_cast<int>((rect->getSize().width() / 2.0) * (1 - sx) + t[0][0]);
+//            t[0][1] = t[0][1] - (rect->getSize().height() / 2.0) * (1 - sy);
+//            rect->setPoint(t);
+
+//            rect->setSize(QSize(rect->getSize().width() * sx, rect->getSize().height() * sy));
             rect->reDraw();
             rectInfo->setRect(rect);
             break;
@@ -251,9 +269,9 @@ void Scene::doReflection()
         case Item::Type::RECT:
         {
             Rectangle *rect = static_cast<Rectangle*>(selectedItem);
-            rect->setPoint(affine.translate(rect->getPoint(), rect->getSize().width() / 2, -rect->getSize().height() / 2));
-            rect->setPoint(affine.reflect(rect->getPoint(), x, y));
-            rect->setPoint(affine.translate(rect->getPoint(), -rect->getSize().width() / 2, rect->getSize().height() / 2));
+//            rect->setPoint(affine.translate(rect->getPoint(), rect->getSize().width() / 2, -rect->getSize().height() / 2));
+//            rect->setPoint(affine.reflect(rect->getPoint(), x, y));
+//            rect->setPoint(affine.translate(rect->getPoint(), -rect->getSize().width() / 2, rect->getSize().height() / 2));
             rect->reDraw();
             rectInfo->setRect(rect);
             break;
@@ -407,8 +425,7 @@ void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
             points.pop_back();
             points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
             removeItem(tmpRectange);
-            delete tmpRectange;
-
+            delete tmpRectange;            
             tmpRectange = new Rectangle(QPoint(std::min(points.front().x(), points.back().x()), std::max(points.front().y(), points.back().y())),
                                         QSize(std::abs(points.back().x() - points.front().x()),
                                                               std::abs(points.back().y() - points.front().y())), this);

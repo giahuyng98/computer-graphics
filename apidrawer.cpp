@@ -81,7 +81,7 @@ VPoints drawRect(const QPoint &topLelf, const QSize &size){
     line3 = drawLine(topLelf.x(), topLelf.y() - size.height(), topLelf.x() + size.width(), topLelf.y() - size.height());
     line4 = drawLine(topLelf.x() + size.width(), topLelf.y(), topLelf.x() + size.width(), topLelf.y() - size.height());
     VPoints result;
-    result.reserve(line1.size() * 4);
+//    result.reserve(line1.size() * 4);
     std::move(line1.begin(), line1.end(), std::back_inserter(result));
     std::move(line2.begin(), line2.end(), std::back_inserter(result));
     std::move(line3.begin(), line3.end(), std::back_inserter(result));
@@ -90,6 +90,8 @@ VPoints drawRect(const QPoint &topLelf, const QSize &size){
     result.erase(std::unique(result.begin(), result.end()), result.end());
     return result;
 }
+
+
 
 VPoints drawCircle(const QPoint &center, int radius){
     VPoints result;
@@ -265,6 +267,25 @@ VPoints drawEllipseUtil(const QPoint &center, int xRadius, int yRadius, void (*a
     result.erase(std::unique(result.begin(), result.end()), result.end());
     return result;
 }
+
+VPoints drawRect(const QPoint &topLeft, const QPoint &topRight, const QPoint &bottomLeft, const QPoint &bottomRight)
+{
+    VPoints line1, line2, line3, line4;
+    line1 = drawLine(topLeft.x(), topLeft.y(), topRight.x(), topRight.y());
+    line2 = drawLine(topLeft.x(), topLeft.y(), bottomLeft.x(), bottomLeft.y());
+    line3 = drawLine(bottomLeft.x(), bottomLeft.y(), bottomRight.x(), bottomRight.y());
+    line4 = drawLine(topRight.x(), topRight.y(), bottomRight.x(), bottomRight.y());
+
+    VPoints result;
+    std::move(line1.begin(), line1.end(), std::back_inserter(result));
+    std::move(line2.begin(), line2.end(), std::back_inserter(result));
+    std::move(line3.begin(), line3.end(), std::back_inserter(result));
+    std::move(line4.begin(), line4.end(), std::back_inserter(result));
+    std::sort(result.begin(), result.end());
+    result.erase(std::unique(result.begin(), result.end()), result.end());
+    return result;
+}
+
 
 
 }

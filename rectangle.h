@@ -8,28 +8,27 @@ class Scene;
 
 class Rectangle : public Item
 {
-public:    
-    Rectangle(const QPoint &pos, const QSize &size, Scene *scene, QGraphicsItem *parent = nullptr);
+public:        
+    Rectangle(const QPoint &topLeft, const QPoint &topRight,
+              const QPoint &bottomLeft, const QPoint &bottomRight,
+              Scene *scene, QGraphicsItem *parent = nullptr);
+    Rectangle(const QPoint &topLeft, const QSize &size,
+              Scene *scene, QGraphicsItem *parent = nullptr);
+
     Type getType() const override;
 
-    vector<vector<int>> getPoint();
-    void setPoint(const vector<vector<int>> &mat);
-
-    QPoint getPos() const;
-    void setPos(const QPoint &value);
-
-    QSize getSize() const;
-    void setSize(const QSize &value);
+//    vector<vector<int>> getPoint();
+//    void setPoint(const vector<vector<int>> &mat);
 
     void reDraw();    
 
 protected:
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
-    void drawRectanlge();
+    void drawRectangel();
+
 private:
-    QPoint pos;
-    QSize size;
+    QPoint topLeft, topRight, bottomLeft, bottomRight;
 };
 
 #endif // RECTANGLE_H
