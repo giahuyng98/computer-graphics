@@ -220,7 +220,11 @@ void Scene::doScaling()
         {
 
             Rectangle *rect = static_cast<Rectangle*>(selectedItem);
-            rect->setPoint(affine.scale(rect->getPoint(), sx, sy));
+
+            auto t = rect->getPoint();
+            t[0][0] = static_cast<int>((rect->getSize().width() / 2.0) * (1 - sx) + t[0][0]);
+            t[0][1] = t[0][1] - (rect->getSize().height() / 2.0) * (1 - sy);
+            rect->setPoint(t);
             rect->setSize(QSize(rect->getSize().width() * sx, rect->getSize().height() * sy));
             rect->reDraw();
             rectInfo->setRect(rect);
