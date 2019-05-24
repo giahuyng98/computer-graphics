@@ -52,23 +52,22 @@ void Circle::setR(int value)
     r = value;
 }
 
-vector<vector<int> > Circle::getPoint()
+QPoint Circle::getPoint() const
 {
-    return {
-        {x, y, 1}
-    };
+    return {x, y};
 }
 
-void Circle::setPoint(const vector<vector<int> > &mat)
+void Circle::setPoint(const QPoint &point)
 {
-    x = mat[0][0];
-    y = mat[0][1];
+    x = point.x();
+    y = point.y();
 }
 
 void Circle::reDraw()
 {
     path = QPainterPath();
     drawCircle();
+    if (fillColor != Qt::color0) fill(fillColor);
     scene->update();
 }
 

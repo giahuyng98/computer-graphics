@@ -511,7 +511,7 @@
                        </sizepolicy>
                       </property>
                       <property name="text">
-                       <string>Translation</string>
+                       <string>Transale</string>
                       </property>
                      </widget>
                     </item>
@@ -648,7 +648,7 @@
                        </sizepolicy>
                       </property>
                       <property name="text">
-                       <string>Rotation</string>
+                       <string>Rotate</string>
                       </property>
                      </widget>
                     </item>
@@ -756,7 +756,7 @@
                        </sizepolicy>
                       </property>
                       <property name="text">
-                       <string>Scaling</string>
+                       <string>Scale</string>
                       </property>
                      </widget>
                     </item>
@@ -864,7 +864,7 @@
                        </sizepolicy>
                       </property>
                       <property name="text">
-                       <string>Reflection</string>
+                       <string>Reflect</string>
                       </property>
                      </widget>
                     </item>
@@ -1165,7 +1165,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="to2DMethod"/>
   <buttongroup name="shapeKind"/>
+  <buttongroup name="to2DMethod"/>
  </buttongroups>
 </ui>

@@ -10,6 +10,13 @@ bool operator<(const QPoint &p1, const QPoint &p2){
 }
 
 namespace Drawer{
+int sqr(int num){
+    return num * num;
+}
+
+int dist(const QPoint &p1, const QPoint &p2){
+    return static_cast<int>(std::round(sqrt(sqr(p1.x() - p2.x()) + sqr(p1.y() - p2.y()))));
+}
 VPoints drawLine(int x1, int y1, int x2, int y2){
     VPoints result;
 
@@ -292,6 +299,47 @@ VPoints drawRect(const QPoint &topLeft, const QPoint &topRight, const QPoint &bo
     return result;
 }
 
+VPoints toDashDot(const VPoints &points, int dash, int dot)
+{
+    VPoints result;
+    for(auto it = points.begin(); it < points.end();){
+        int addDash = 0;
+        while (addDash < dash && it < points.end()) result.emplace_back(*it++), ++addDash;
+        int ignoreDot = 0;
+        while (ignoreDot < dot && it < points.end()) ++it, ++ignoreDot;
+    }
+    return result;
+}
+
+VPoints floodFill(const VPoints &border, const QPoint &point){
+    static const int dr[] = {-1, 1, 0, 0};
+    static const int dc[] = {0, 0, -1, 1};
+    static const int MAX_POINTS = 1e6;
+
+    std::set<QPoint> close(std::make_move_iterator(border.begin()),
+                           std::make_move_iterator(border.end()));
+    close.insert(point);
+
+    std::stack<QPoint> open;
+    open.push(point);
+
+    VPoints result;
+    while (!open.empty() && result.size() <= MAX_POINTS){
+        QPoint p = open.top();
+        open.pop();
+        result.emplace_back(p);
+
+        for(int k = 0; k < 4; ++k){
+            QPoint next(p.x() + dr[k], p.y() + dc[k]);
+            if (close.find(next) == close.end()){
+                close.insert(next);
+                open.push(next);
+            }
+        }
+    }
+
+    return result;
+}
 
 
 }

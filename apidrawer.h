@@ -16,7 +16,6 @@ int sqr(int num);
 int dist(const QPoint &p1, const QPoint &p2);
 QPoint cabinet(int x, int y, int z);
 QPoint cavalier(int x, int y, int z);
-
 VPoints drawLine(int x1, int y1, int x2, int y2);
 VPoints drawLine(const QPoint &from, const QPoint &to);
 VPoints drawDashedLine(const QPoint &from, const QPoint &to, int dash, int dot);

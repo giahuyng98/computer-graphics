@@ -26,10 +26,12 @@ public:
     Type getType() const override;
     void fill(const QColor &color) const = delete;
 
-    vector<vector<int>> getPoint1();
-    vector<vector<int>> getPoint2();
-    void setPoint1(const vector<vector<int>> &mat);
-    void setPoint2(const vector<vector<int>> &mat);
+    QPoint getPoint1() const;
+    QPoint getPoint2() const;
+
+    void setPoint1(const QPoint &point);
+    void setPoint2(const QPoint &point);
+
 
     int getX1() const;
     void setX1(int value);

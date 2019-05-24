@@ -16,8 +16,9 @@ public:
     void reDraw();
     void fill(const QColor &color);
 
-    vector<vector<int>> getPoint();
-    void setPoint(const vector<vector<int>> &mat);
+    QPoint getPoint() const;
+    void setPoint(const QPoint &point);
+
     int getX() const;
     void setX(int value);
 
@@ -38,7 +39,7 @@ protected:
 
 private:
     QPainterPath fillPath;
-    QColor fillColor;
+    QColor fillColor = Qt::color0;
     int x, y, xRadius, yRadius;    
 };
 

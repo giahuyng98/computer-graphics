@@ -84,6 +84,7 @@ void Ellipse::reDraw()
 {
     path = QPainterPath();
     drawEllipse();
+    if (fillColor != Qt::color0) fill(fillColor);
     scene->update();
 }
 
@@ -97,16 +98,15 @@ void Ellipse::fill(const QColor &color)
     scene->update();
 }
 
-
-vector<vector<int> > Ellipse::getPoint()
+QPoint Ellipse::getPoint() const
 {
     return {
-        {x, y, 1}
+        x, y
     };
 }
 
-void Ellipse::setPoint(const vector<vector<int> > &mat)
+void Ellipse::setPoint(const QPoint &point)
 {
-    x = mat[0][0];
-    y = mat[0][1];
+    x = point.x();
+    y = point.y();
 }

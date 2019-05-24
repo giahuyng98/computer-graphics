@@ -3,73 +3,30 @@
 
 #include <vector>
 #include <cmath>
+#include <QPoint>
 using std::vector;
 
 class Affine
 {
 public:
     explicit Affine();
-    template<class T> std::vector<T> translate(const std::vector<T> &point, int dx, int dy);
-    template<class T> std::vector<T> rotate(const std::vector<T> &point, int x, int y, int angle);
-    template<class T> std::vector<T> scale(const std::vector<T> &point, float sX, float sY);
-    template<class T> std::vector<T> reflect(const std::vector<T> &point, int x, int y);
+    QPoint translate(const QPoint &point, int dx, int dy);
+    QPoint rotate(const QPoint &point, int x, int y, int angle);
+    QPoint scale(const QPoint &point, float sX, float sY);
+    QPoint reflect(const QPoint &point, int x, int y);
 
 private:
+    vector<vector<double>> getMatFromPoint(const QPoint &point) const;
+    QPoint getPointFromMat(const vector<vector<double>> &mat) const;
 
-    vector<vector<int>> round(vector<vector<float>> mat) const;
     void setTranslate(int dx, int dy);
     void setScale(float sx, float sy);
     void setRotate(int angle);
     void setReflect(int x, int y);
 
-    template<class T, class E> std::vector<E> mul(const std::vector<T> &point, const std::vector<E> &mat) const;
-
-    vector<vector<int>> transMat, refMat;
-    vector<vector<float>> rotateMat, scaleMat;
+    vector<vector<double>> mul(const vector<vector<double>> &point,
+                               const vector<vector<double>> &mat) const;
+    vector<vector<double>> rotateMat, scaleMat, transMat, refMat;
 };
 
-template<class T, class E>
-vector<E> Affine::mul(const vector<T> &point, const vector<E> &mat) const
-{
-    vector<E> result(point.size(), E(mat.front().size()));
-    for(size_t i = 0; i < result.size(); ++i){
-        for(size_t j = 0; j < result.front().size(); ++j){
-            for(size_t k = 0; k < point.front().size(); ++k){
-                result[i][j] += point[i][k] * mat[k][j];
-            }            
-        }
-    }
-    return result;
-}
-
-template<class T>
-std::vector<T> Affine::translate(const std::vector<T> &point, int dx, int dy)
-{
-    setTranslate(dx, dy);
-    return mul(point, transMat);
-}
-
-template<class T>
-std::vector<T> Affine::rotate(const std::vector<T> &point, int x, int y, int angle)
-{
-    setRotate(angle);
-    setTranslate(-x, -y);
-    auto tran = mul(point, transMat);
-    auto rot = round(mul(tran, rotateMat));
-    setTranslate(x, y);
-    return mul(rot, transMat);
-}
-
-template<class T>
-std::vector<T> Affine::scale(const std::vector<T> &point, float sX, float sY)
-{
-    setScale(sX, sY);
-    return round(mul(point, scaleMat));
-}
-template<class T>
-std::vector<T> Affine::reflect(const std::vector<T> &point, int x, int y)
-{
-    setReflect(x, y);
-    return mul(point, refMat);
-}
 #endif // AFFINE_H

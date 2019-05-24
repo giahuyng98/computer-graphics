@@ -17,11 +17,20 @@ public:
 
     Type getType() const override;
 
-//    vector<vector<int>> getPoint();
-//    void setPoint(const vector<vector<int>> &mat);
-
     void reDraw();
     void fill(const QColor &color);
+
+    QPoint getTopLeft() const;
+    void setTopLeft(const QPoint &value);
+
+    QPoint getTopRight() const;
+    void setTopRight(const QPoint &value);
+
+    QPoint getBottomLeft() const;
+    void setBottomLeft(const QPoint &value);
+
+    QPoint getBottomRight() const;
+    void setBottomRight(const QPoint &value);
 
 protected:
     QRectF boundingRect() const override;
@@ -32,7 +41,7 @@ protected:
 private:
     QPoint topLeft, topRight, bottomLeft, bottomRight;
     QPainterPath fillPath;
-    QBrush fillColor;
+    QColor fillColor = Qt::color0;
 };
 
 #endif // RECTANGLE_H

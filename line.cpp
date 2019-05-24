@@ -22,30 +22,30 @@ Item::Type Line::getType() const
     return Type::LINE;
 }
 
-vector<vector<int> > Line::getPoint1()
+QPoint Line::getPoint1() const
 {
     return {
-        {x1, y1, 1}
+        x1, y1
     };
 }
 
-vector<vector<int> > Line::getPoint2()
+QPoint Line::getPoint2() const
 {
     return {
-        {x2, y2, 1}
+        x2, y2
     };
 }
 
-void Line::setPoint1(const vector<vector<int> > &mat)
+void Line::setPoint1(const QPoint &point)
 {
-    x1 = mat[0][0];
-    y1 = mat[0][1];
+    x1 = point.x();
+    y1 = point.y();
 }
 
-void Line::setPoint2(const vector<vector<int> > &mat)
+void Line::setPoint2(const QPoint &point)
 {
-    x2 = mat[0][0];
-    y2 = mat[0][1];
+    x2 = point.x();
+    y2 = point.y();
 }
 
 QRectF Line::boundingRect() const
@@ -56,23 +56,6 @@ QRectF Line::boundingRect() const
     return QRectF((std::min(x1, x2) + offx) * thickness, (offy - std::max(y1, y2)) * thickness,
                   (std::max(x1, x2) + offx) * thickness, (offy - std::min(y1, y2)) * thickness);
 }
-
-//void Line::mousePressEvent(QGraphicsSceneMouseEvent *event)
-//{
-//    QGraphicsItem::mousePressEvent(event);
-//}
-
-//QVariant Line::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
-//{
-//    if (change == QGraphicsItem::ItemSelectedChange){
-//        if (value == true){
-//            brush = QBrush(Qt::blue);
-//        } else{
-//            brush = QBrush(Qt::black);
-//        }
-//    }
-//    return QGraphicsItem::itemChange(change, value);
-//}
 
 void Line::drawLine()
 {
