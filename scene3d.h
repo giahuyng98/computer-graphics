@@ -23,6 +23,8 @@ public:
     QPoint (*to2D)(int x, int y, int z) = Drawer::cavalier;
     void setMethod(bool method);
 
+    void setThickness(int value);
+
 protected:
     void drawBackground(QPainter *painter, const QRectF &rect) override;
 

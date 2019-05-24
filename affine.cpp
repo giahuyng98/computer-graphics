@@ -100,9 +100,11 @@ void Affine::setReflect(int x, int y)
     refMat[2][1] = y << 1;
 }
 
-vector<vector<double> > Affine::mul(const vector<vector<double> > &point, const vector<vector<double> > &mat) const
+vector<vector<double> > Affine::mul(const vector<vector<double> > &point,
+                                   const vector<vector<double> > &mat) const
 {
-    vector<vector<double> > result(point.size(), vector<double>(mat.front().size()));
+    vector<vector<double> > result(point.size(),
+                                  vector<double>(mat.front().size()));
     for(size_t i = 0; i < result.size(); ++i){
         for(size_t j = 0; j < result.front().size(); ++j){
             for(size_t k = 0; k < point.front().size(); ++k){

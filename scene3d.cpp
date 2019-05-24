@@ -137,3 +137,14 @@ void Scene3D::drawBackground(QPainter *painter, const QRectF &rect)
     painter->drawLine(square, static_cast<int>(this->height()) - 7, square, static_cast<int>(this->height()));
     painter->drawLine(square, static_cast<int>(this->height()) - 1, square + 7, static_cast<int>(this->height()) - 1);
 }
+
+void Scene3D::setThickness(int value)
+{
+    thickness = value;
+    lenx = static_cast<int>(width()) / thickness;
+    leny = static_cast<int>(height()) / thickness;
+
+    offx = lenx / 2;
+    offy = leny / 2;
+    update(0, 0, this->width(), this->height());
+}

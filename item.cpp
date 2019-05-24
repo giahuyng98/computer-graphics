@@ -49,11 +49,6 @@ Item::Type Item::getType() const
     return NULL_TYPE;
 }
 
-//QStringList Item::getInfo() const
-//{
-//    return QStringList();
-//}
-
 QPainterPath Item::shape() const{
     return path;
 }

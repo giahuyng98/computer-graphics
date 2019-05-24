@@ -24,11 +24,6 @@ Window::Window(QWidget *parent) :
     ui->shapeKind->setId(ui->elipBtn, ShapeKind::ELIP);
 
     ui->splitter->insertWidget(0, scene->getLineInfo());
-
-//    scene->setTree(ui->treeWidget);
-//    ui->treeWidget->setColumnCount(2);
-//    ui->treeWidget->setHeaderLabels(QStringList() << "Name" << "Value");
-
 }
 
 Window::~Window()
@@ -109,12 +104,6 @@ void Window::setEnableFillButton(bool enable)
     ui->fillColorBtn->setEnabled(enable);
 }
 
-//void Window::setInforFrame(QWidget *widget)
-//{
-
-//    ui->infoLayout->addWidget(widget);
-//}
-
 void Window::on_changeColorBtn_clicked()
 {
     QColor color = QColorDialog::getColor(Qt::black, this);
@@ -124,18 +113,6 @@ void Window::on_changeColorBtn_clicked()
 void Window::on_deleteBtn_clicked()
 {
     scene->deleteItem();
-}
-
-void Window::on_rectBtn_clicked()
-{
-//    ui->splitter->replaceWidget(0, scene->getRectInfo());
-}
-
-void Window::on_lineBtn_clicked()
-{
-//    ui->splitter->replaceWidget(0, scene->getLineInfo());
-//    ui->infoLayout->removeItem(ui->infoLayout->takeAt(0));
-//    ui->infoLayout->addWidget(scene->getLineInfo());
 }
 
 void Window::on_clearSceneBtn_clicked()
@@ -161,26 +138,21 @@ void Window::on_reflecBtn_clicked()
 {
     scene->doReflection();
 }
-void Window::on_circleBtn_clicked()
-{
-//    ui->splitter->replaceWidget(0, scene->getCircleInfo());
-}
-
-void Window::on_elipBtn_clicked()
-{
-//    ui->splitter->replaceWidget(0, scene->getEllipseInfo());
-}
-
 
 void Window::on_tabWidget_currentChanged(int index)
 {
     ui->stackedWidget->setCurrentIndex(index);
+    ui->verticalSlider->setDisabled(index == 2);
     switch (index){
     case 0:
-        ui->graphicsView->setScene(scene);        
+        ui->graphicsView->setScene(scene);
+        ui->thicknessLabel->setNum(scene->getThickness());
+        ui->verticalSlider->setValue(scene->getThickness());
         break;
     case 1:
         ui->graphicsView->setScene(scene3d);
+        ui->thicknessLabel->setNum(scene3d->getThickness());
+        ui->verticalSlider->setValue(scene3d->getThickness());
         break;
     case 2:
         ui->graphicsView->setScene(frame);
@@ -223,4 +195,19 @@ void Window::on_fillColorBtn_clicked()
 void Window::on_playBtn_clicked()
 {
     frame->play(0);
+}
+
+void Window::on_verticalSlider_valueChanged(int value)
+{
+    ui->thicknessLabel->setNum(value);
+    switch (ui->tabWidget->currentIndex()){
+    case 0:
+        scene->setThickness(value);
+        break;
+    case 1:
+        scene3d->setThickness(value);
+        break;
+    case 2:
+        break;
+    }
 }

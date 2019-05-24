@@ -22,7 +22,7 @@ Scene::Scene(QWidget *parent) : QGraphicsScene (parent)
     lineInfo = new LineInfo();
     rectInfo = new RectInfo();
     circleInfo = new CircleInfo();
-    ellipseInfo = new EllipseInfo();
+    ellipseInfo = new EllipseInfo();    
 }
 
 void Scene::setWindow(Window *value){
@@ -559,6 +559,34 @@ void Scene::doAnimation()
     --cnt;
     this->clear();
     addItem(new Rectangle(QPoint(cnt, 0), QSize(10, 10), this));
+}
+
+void Scene::setThickness(int value)
+{
+    thickness = value;
+    lenx = static_cast<int>(width()) / thickness;
+    leny = static_cast<int>(height()) / thickness;
+
+    offx = lenx / 2;
+    offy = leny / 2;
+    for(auto &item : this->items()){
+        switch (static_cast<Item*>(item)->getType()) {
+        case Item::Type::LINE:
+            static_cast<Line*>(item)->reDraw();
+            break;
+        case Item::Type::RECT:
+            static_cast<Rectangle*>(item)->reDraw();
+            break;
+        case Item::Type::CIRCLE:
+            static_cast<Circle*>(item)->reDraw();
+            break;
+        case Item::Type::ELIP:
+            static_cast<Ellipse*>(item)->reDraw();
+            break;
+        default: break;
+        }
+    }
+    update(0, 0, this->width(), this->height());
 }
 
 EllipseInfo *Scene::getEllipseInfo() const
