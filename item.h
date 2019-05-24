@@ -13,11 +13,9 @@ public:
         RECT,
         CIRCLE,
         ELIP
-    };
-    QPainterPath getPath() const;
+    };    
     Item(Scene *scene = nullptr, QGraphicsItem *parent = nullptr);
     virtual Type getType() const;
-    void fill(const QColor &color);
 //    virtual QStringList getInfo() const;
 
     void setBrush(const QBrush &value);    
@@ -34,7 +32,6 @@ protected:
     void drawPixel(int x, int y, QPainterPath &painterPath);
     void drawPixel(const QPoint &p, QPainterPath &painterPath);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
-//    QRectF boundingRect() const override;
 };
 
 

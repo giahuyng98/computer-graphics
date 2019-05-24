@@ -6,7 +6,7 @@ Rectangle::Rectangle(const QPoint &topLeft, const QPoint &topRight, const QPoint
     : Item(scene, parent),
       topLeft(topLeft), topRight(topRight), bottomLeft(bottomLeft), bottomRight(bottomRight)
 {
-    drawRectangel();
+    drawRectangle();
 }
 
 Rectangle::Rectangle(const QPoint &topLeft, const QSize &size, Scene *scene, QGraphicsItem *parent)
@@ -14,7 +14,7 @@ Rectangle::Rectangle(const QPoint &topLeft, const QSize &size, Scene *scene, QGr
       bottomLeft(topLeft.x(), topLeft.y() - size.height()),
       bottomRight(topLeft.x() + size.width(), topLeft.y() - size.height())
 {
-    drawRectangel();
+    drawRectangle();
 }
 
 QRectF Rectangle::boundingRect() const
@@ -40,11 +40,26 @@ void Rectangle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->fillPath(fillPath, fillColor);
 }
 
-void Rectangle::drawRectangel()
+void Rectangle::drawRectangle()
 {
     for(const auto &point : Drawer::drawRect(topLeft, topRight, bottomLeft, bottomRight)){
         drawPixel(point);
     }
+}
+
+void Rectangle::fillRectangle()
+{
+    fillPath = QPainterPath();
+    for(const auto &point : Drawer::floodFill(
+             Drawer::drawRect(topLeft, topRight, bottomLeft, bottomRight), {(topLeft + bottomRight) / 2})){
+        drawPixel(point, fillPath);
+    }
+}
+
+void Rectangle::setFillColor(const QColor &value)
+{
+    fillColor = value;
+    reDraw();
 }
 
 QPoint Rectangle::getBottomRight() const
@@ -90,19 +105,8 @@ void Rectangle::setTopLeft(const QPoint &value)
 void Rectangle::reDraw()
 {
     path = QPainterPath();
-    drawRectangel();
-    if (fillColor != Qt::color0) fill(fillColor);
-    scene->update();
-}
-
-void Rectangle::fill(const QColor &color)
-{
-    fillColor = color;
-    fillPath = QPainterPath();
-    for(const auto &point : Drawer::floodFill(
-            Drawer::drawRect(topLeft, topRight, bottomLeft, bottomRight), {(topLeft + bottomRight) / 2})){
-        drawPixel(point, fillPath);
-    }
+    drawRectangle();
+    if (fillColor != Qt::color0) fillRectangle();
     scene->update();
 }
 
