@@ -31,7 +31,7 @@ public:
 
     int getThickness() const;
 
-    void setThickness(int value);
+    virtual void setThickness(int value);
 
     QPoint toScenePos(const QPoint &userPos) const;
 
@@ -47,8 +47,12 @@ public:
 
     void reflectItem(Item *item, int x, int y);
 
+
 protected:
     void drawBackground(QPainter *painter, const QRectF &rect) override;
+
+    void wheelEvent(QGraphicsSceneWheelEvent *wheelEvent) override;
+
 
     Affine affine;
     int lenx, leny;

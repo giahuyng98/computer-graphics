@@ -21,7 +21,7 @@ public:
 
     void setMethod(bool method);
 
-    void setThickness(int value);
+    void setThickness(int value) override;
 
     void translateItem(Item *item, int dx, int dy) = delete;
 
@@ -34,7 +34,7 @@ public:
 protected:
     void drawBackground(QPainter *painter, const QRectF &rect) override;
 
-private:    
+private:
     float projection = CAVALIER;
 
 };

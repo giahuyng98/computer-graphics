@@ -33,7 +33,7 @@ public:
 
     void updateInfo(Item *item);
 
-    void setThickness(int value);
+    void setThickness(int value) override;
 
     RectInfo *getRectInfo() const;
 

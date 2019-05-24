@@ -41,6 +41,7 @@ public:
 
     void setShapeKind(ShapeKind shape);
     void setEnableFillButton(bool enable);
+    void setThickness(int value);
 
 
 private slots:

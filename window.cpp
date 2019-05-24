@@ -109,6 +109,12 @@ void Window::setEnableFillButton(bool enable)
     ui->fillColorBtn->setEnabled(enable);
 }
 
+void Window::setThickness(int value)
+{
+    ui->verticalSlider->setValue(value);
+    ui->thicknessLabel->setNum(value);
+}
+
 void Window::on_changeColorBtn_clicked()
 {
     QColor color = QColorDialog::getColor(Qt::black, this);
