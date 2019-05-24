@@ -294,9 +294,9 @@
         </property>
        </layout>
       </widget>
-      <widget class="QWidget" name="ahihi">
+      <widget class="QWidget" name="tabFrame">
        <attribute name="title">
-        <string>taito</string>
+        <string>Frame</string>
        </attribute>
       </widget>
      </widget>
@@ -1082,6 +1082,30 @@
              <size>
               <width>20</width>
               <height>283</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="page_2">
+         <layout class="QVBoxLayout" name="verticalLayout_6">
+          <item>
+           <widget class="QPushButton" name="playBtn">
+            <property name="text">
+             <string>Play</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
              </size>
             </property>
            </spacer>

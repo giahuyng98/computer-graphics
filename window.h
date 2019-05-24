@@ -81,9 +81,11 @@ private slots:
 
     void on_fillColorBtn_clicked();
 
+    void on_playBtn_clicked();
+
 private:
     Ui::Window *ui;
-    Scene *scene;
+    Scene *scene, *frame;
     Scene3D *scene3d;
 };
 

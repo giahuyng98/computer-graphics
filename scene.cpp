@@ -303,6 +303,14 @@ void Scene::doReflection()
     }
 }
 
+void Scene::play(int delay)
+{
+    if (timer) delete timer;
+    timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(doAnimation()));
+    timer->start(100);
+}
+
 int Scene::getOffx() const
 {
     return offx;
@@ -536,7 +544,20 @@ void Scene::drawBackground(QPainter *painter, const QRectF &rect)
     painter->drawLine(static_cast<int>(this->width()) - 5, halfHeight - 5, static_cast<int>(this->width()), halfHeight);
     painter->drawLine(static_cast<int>(this->width()) - 5, halfHeight + 5, static_cast<int>(this->width()), halfHeight);
     painter->drawLine(halfWidth - 5, 5, halfWidth, 0);
-    painter->drawLine(halfWidth + 5, 5, halfWidth, 0);        
+    painter->drawLine(halfWidth + 5, 5, halfWidth, 0);
+}
+
+void Scene::doAnimation()
+{
+    static int cnt = 80;
+    if (cnt == -80) {
+        timer->stop();
+        disconnect(timer, SIGNAL(timeout()), this, SLOT(doAnimation()));
+        cnt = 0;
+    }
+    --cnt;
+    this->clear();
+    addItem(new Rectangle(QPoint(cnt, 0), QSize(10, 10), this));
 }
 
 EllipseInfo *Scene::getEllipseInfo() const

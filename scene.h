@@ -39,6 +39,7 @@ public:
     void setWindow(Window *value);
 
     void doChangeColor(const QColor &color);
+
     void doFillColor(const QColor &color);
 
     void deleteItem();
@@ -52,6 +53,8 @@ public:
     void doScaling();
 
     void doReflection();
+
+    void play(int delay);
 
     RectInfo *getRectInfo() const;
 
@@ -70,7 +73,12 @@ protected:
 //    void resizeEvent(QResizeEvent *event) override;
 //    void paintEvent(QPaintEvent *event) override;
 
+private slots:
+    void doAnimation();
+
 private:
+    QTimer *timer;
+
     Affine affine;
     int lenx, leny;
     int offx, offy;

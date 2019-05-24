@@ -15,6 +15,8 @@ Window::Window(QWidget *parent) :
     scene->setWindow(this);
     scene3d = new Scene3D(ui->graphicsView);
     scene3d->setWindow(this);
+    frame = new Scene(ui->graphicsView);
+    frame->setWindow(this);
     ui->graphicsView->setScene(scene);
     ui->shapeKind->setId(ui->lineBtn, ShapeKind::NORMAL_LINE);
     ui->shapeKind->setId(ui->rectBtn, ShapeKind::RECTANGLE);
@@ -179,10 +181,10 @@ void Window::on_tabWidget_currentChanged(int index)
         break;
     case 1:
         ui->graphicsView->setScene(scene3d);
-//        ui->tabWidget->removeTab(index);
         break;
-    default:
-        exit(23);
+    case 2:
+        ui->graphicsView->setScene(frame);
+        break;
     }
 }
 
@@ -216,4 +218,9 @@ void Window::on_fillColorBtn_clicked()
 {
     QColor color = QColorDialog::getColor(Qt::black, this);
     if (color.isValid()) scene->doFillColor(color);
+}
+
+void Window::on_playBtn_clicked()
+{
+    frame->play(0);
 }
