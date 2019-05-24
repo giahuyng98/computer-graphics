@@ -13,11 +13,10 @@ public:
         RECT,
         CIRCLE,
         ELIP
-    };    
+    };
+
     Item(Scene *scene = nullptr, QGraphicsItem *parent = nullptr);
     virtual Type getType() const;
-//    virtual QStringList getInfo() const;
-
     void setBrush(const QBrush &value);    
 
 protected:

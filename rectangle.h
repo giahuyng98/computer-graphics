@@ -17,7 +17,7 @@ public:
 
     Type getType() const override;
 
-    void reDraw();    
+    void reDraw();
 
     QPoint getTopLeft() const;
     void setTopLeft(const QPoint &value);

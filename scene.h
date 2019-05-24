@@ -30,10 +30,13 @@ class Scene : public QGraphicsScene
     Q_OBJECT
 public:
     explicit Scene(QWidget *parent = nullptr);
-//    void setTree(QTreeWidget *tree);
+
     int getOffx() const;
+
     int getOffy() const;
+
     int getThickness() const;
+
     QPoint toUserCoordinate(const QPointF &scenePos) const;
 
     void setWindow(Window *value);
@@ -64,6 +67,8 @@ public:
 
     EllipseInfo *getEllipseInfo() const;
 
+    void setThickness(int value);
+
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
@@ -93,9 +98,7 @@ private:
     CircleInfo *circleInfo;
     EllipseInfo *ellipseInfo;
     std::vector<QPoint> points;
-    Window *window;
-
-//    QTreeWidget *tree;
+    Window *window;    
 };
 
 #endif // SCENE_H
