@@ -40,6 +40,7 @@ public:
     int getYReflection() const;
 
     void setShapeKind(ShapeKind shape);
+    void setEnableFillButton(bool enable);
 
 
 private slots:
@@ -69,6 +70,7 @@ private slots:
     void on_reflecBtn_clicked();
 
     void on_tabWidget_currentChanged(int index);
+
     void on_addCubeBtn_clicked();
 
     void on_cavalier_toggled(bool checked);
@@ -76,6 +78,8 @@ private slots:
     void on_clear3Dbtn_clicked();
 
     void on_addSphereBtn_clicked();
+
+    void on_fillColorBtn_clicked();
 
 private:
     Ui::Window *ui;

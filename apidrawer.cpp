@@ -1,9 +1,14 @@
 #include "apidrawer.h"
+#include <utility>
+#include <functional>
 #include <cmath>
+#include <stack>
+#include <set>
 
 bool operator<(const QPoint &p1, const QPoint &p2){
     return std::make_pair(p1.x(), p1.y()) < std::make_pair(p2.x(), p2.y());
 }
+
 namespace Drawer{
 VPoints drawLine(int x1, int y1, int x2, int y2){
     VPoints result;
@@ -190,7 +195,7 @@ VPoints drawCube(int x, int y, int z, int width, int height, int length, QPoint 
     QPoint p7 = method(x + length, y + width, z + height);
     QPoint p8 = method(x, y + width, z + height);
 
-    const int DASH = 2, DOT = 2;
+    const int DASH = 2, DOT = 1;
 
     auto line1 = drawDashedLine(p1, p2, DASH, DOT);
     auto line2 = drawLine(p2, p3);
@@ -253,6 +258,45 @@ VPoints drawHalfBotEllipse(const QPoint &center, int xRadius, int yRadius)
 {
 
 }
+
+int sqr(int num){
+    return num * num;
+}
+
+int dist(const QPoint &p1, const QPoint &p2){
+    return static_cast<int>(std::round(sqrt(sqr(p1.x() - p2.x()) + sqr(p1.y() - p2.y()))));
+}
+
+VPoints floodFill(const VPoints &border, const QPoint &point){
+    static const int dr[] = {-1, 1, 0, 0};
+    static const int dc[] = {0, 0, -1, 1};
+    static const int MAX_POINTS = 1e6;
+
+    std::set<QPoint> close(std::make_move_iterator(border.begin()),
+                           std::make_move_iterator(border.end()));
+    close.insert(point);
+
+    std::stack<QPoint> open;
+    open.push(point);
+
+    VPoints result;
+    while (!open.empty() && result.size() <= MAX_POINTS){
+        QPoint p = open.top();
+        open.pop();
+        result.emplace_back(p);
+
+        for(int k = 0; k < 4; ++k){
+            QPoint next(p.x() + dr[k], p.y() + dc[k]);
+            if (close.find(next) == close.end()){
+                close.insert(next);
+                open.push(next);
+            }
+        }
+    }
+
+    return result;
+}
+
 
 
 }

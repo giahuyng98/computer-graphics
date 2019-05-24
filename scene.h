@@ -37,8 +37,12 @@ public:
     QPoint toUserCoordinate(const QPointF &scenePos) const;
 
     void setWindow(Window *value);
-    void changeColor(const QColor &color);
+
+    void doChangeColor(const QColor &color);
+    void doFillColor(const QColor &color);
+
     void deleteItem();
+
     void clearAll();
 
     void doTranslation();

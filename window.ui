@@ -365,6 +365,9 @@
                 </item>
                 <item>
                  <widget class="QPushButton" name="fillColorBtn">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
                   <property name="text">
                    <string>Fill color</string>
                   </property>
@@ -880,7 +883,7 @@
         <widget class="QWidget" name="page">
          <layout class="QVBoxLayout" name="verticalLayout_5">
           <item>
-           <widget class="QGroupBox" name="">
+           <widget class="QGroupBox" name="groupBox">
             <property name="title">
              <string>Method</string>
             </property>
@@ -1138,7 +1141,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="shapeKind"/>
   <buttongroup name="to2DMethod"/>
+  <buttongroup name="shapeKind"/>
  </buttongroups>
 </ui>

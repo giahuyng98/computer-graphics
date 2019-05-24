@@ -29,11 +29,17 @@ QRectF Circle::boundingRect() const
     return QRectF(topLeft, QSize(len * 2 + thickness * 3, len * 2 + thickness * 3));
 }
 
+QPainterPath Circle::shape() const
+{
+    return path + fillPath;
+}
+
 void Circle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);
     painter->fillPath(path, brush);
+    painter->fillPath(fillPath, fillColor);
 }
 
 int Circle::getR() const
@@ -64,6 +70,15 @@ void Circle::reDraw()
     path = QPainterPath();
     drawCircle();
     scene->update();
+}
+
+void Circle::fill(const QColor &color)
+{
+    fillColor = color;
+    fillPath = QPainterPath();
+    for(const auto &point : Drawer::floodFill(Drawer::drawCircle({x, y}, r), {x, y})){
+        drawPixel(point, fillPath);
+    }
 }
 
 int Circle::getY() const

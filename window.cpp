@@ -102,6 +102,11 @@ void Window::setShapeKind(Window::ShapeKind shape)
     }
 }
 
+void Window::setEnableFillButton(bool enable)
+{
+    ui->fillColorBtn->setEnabled(enable);
+}
+
 //void Window::setInforFrame(QWidget *widget)
 //{
 
@@ -111,7 +116,7 @@ void Window::setShapeKind(Window::ShapeKind shape)
 void Window::on_changeColorBtn_clicked()
 {
     QColor color = QColorDialog::getColor(Qt::black, this);
-    if (color.isValid()) scene->changeColor(color);
+    if (color.isValid()) scene->doChangeColor(color);
 }
 
 void Window::on_deleteBtn_clicked()
@@ -205,4 +210,10 @@ void Window::on_addSphereBtn_clicked()
 {
     scene3d->addSphere(ui->xSphere->text().toInt(), ui->ySphere->text().toInt(), ui->zSphere->text().toInt(),
                        ui->rShere->text().toInt());
+}
+
+void Window::on_fillColorBtn_clicked()
+{
+    QColor color = QColorDialog::getColor(Qt::black, this);
+    if (color.isValid()) scene->doFillColor(color);
 }

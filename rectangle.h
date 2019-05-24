@@ -21,15 +21,19 @@ public:
     QSize getSize() const;
     void setSize(const QSize &value);
 
-    void reDraw();    
+    void reDraw();
+    void fill(const QColor &color);
 
 protected:
     QRectF boundingRect() const override;
+    QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
     void drawRectanlge();
 private:
     QPoint pos;
     QSize size;
+    QPainterPath fillPath;
+    QBrush fillColor;
 };
 
 #endif // RECTANGLE_H
