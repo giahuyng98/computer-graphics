@@ -14,6 +14,7 @@ public:
     Type getType() const override;
 
     void reDraw();
+    void fill(const QColor &color);
 
     vector<vector<int>> getPoint();
     void setPoint(const vector<vector<int>> &mat);
@@ -32,9 +33,12 @@ public:
 protected:
     void drawEllipse();
     QRectF boundingRect() const override;
+    QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;    
 
 private:
+    QPainterPath fillPath;
+    QColor fillColor;
     int x, y, xRadius, yRadius;    
 };
 

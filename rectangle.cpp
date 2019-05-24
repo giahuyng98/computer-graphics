@@ -23,11 +23,16 @@ QRectF Rectangle::boundingRect() const
     return QRectF(toScenePos(topLeft) * (thickness - 1) , toScenePos(bottomRight) * (thickness + 1));
 }
 
+QPainterPath Rectangle::shape() const{
+    return path + fillPath;
+}
+
 void Rectangle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);
     painter->fillPath(path, brush);
+    painter->fillPath(fillPath, fillColor);
 }
 
 void Rectangle::drawRectangel()
@@ -82,6 +87,16 @@ void Rectangle::reDraw()
     scene->update();
 }
 
+void Rectangle::fill(const QColor &color)
+{
+    fillColor = color;
+    fillPath = QPainterPath();
+    for(const auto &point : Drawer::floodFill(
+             Drawer::drawRect(pos, size), {pos.x() + size.width()/2,pos.y() - size.height() / 2})){
+        drawPixel(point, fillPath);
+    }
+    scene->update();
+}
 
 Item::Type Rectangle::getType() const
 {

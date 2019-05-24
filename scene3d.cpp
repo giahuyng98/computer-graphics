@@ -74,27 +74,27 @@ void Scene3D::drawBackground(QPainter *painter, const QRectF &rect)
     const int square = std::min(halfHeight, halfWidth) + halfThick * 2;
     painter->drawLine(halfWidth + square , 0, square, static_cast<int>(this->height()));
 
-    const int space = thickness * 5; //line spacing
-    painter->setOpacity(0.25);
+//    const int space = thickness * 5; //line spacing
+//    painter->setOpacity(0.25);
 
-    // Draw vertical line
-    for(int xJump = halfThick; xJump < this->width(); xJump += space){
-        painter->drawLine(xJump, 0, xJump, static_cast<int>(this->height()));
-    }
+//    // Draw vertical line
+//    for(int xJump = halfThick; xJump < this->width(); xJump += space){
+//        painter->drawLine(xJump, 0, xJump, static_cast<int>(this->height()));
+//    }
 
-    // Draw horizontal line
-    for(int yJump = halfThick; yJump < this->height(); yJump += space){
-        painter->drawLine(0, yJump, static_cast<int>(this->width()), yJump);
-    }
+//    // Draw horizontal line
+//    for(int yJump = halfThick; yJump < this->height(); yJump += space){
+//        painter->drawLine(0, yJump, static_cast<int>(this->width()), yJump);
+//    }
 
-    // Draw grid
-    painter->setOpacity(0.08);
-    for(int xJump = halfThick; xJump < this->width(); xJump += thickness){
-        painter->drawLine(xJump, 0, xJump, static_cast<int>(this->height()));
-    }
-    for(int yJump = halfThick; yJump < this->height(); yJump += thickness){
-        painter->drawLine(0, yJump, static_cast<int>(this->width()), yJump);
-    }
+//    // Draw grid
+//    painter->setOpacity(0.08);
+//    for(int xJump = halfThick; xJump < this->width(); xJump += thickness){
+//        painter->drawLine(xJump, 0, xJump, static_cast<int>(this->height()));
+//    }
+//    for(int yJump = halfThick; yJump < this->height(); yJump += thickness){
+//        painter->drawLine(0, yJump, static_cast<int>(this->width()), yJump);
+//    }
 
     //Draw ruler
     painter->setOpacity(0.8);

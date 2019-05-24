@@ -3,15 +3,28 @@
 
 void Item::drawPixel(int x, int y)
 {
-    const int offx = this->scene->getOffx();
-    const int offy = this->scene->getOffy();
-    const int thickness = this->scene->getThickness();
-    path.addRect((x + offx) * thickness, (offy - y) * thickness, thickness, thickness);
+    drawPixel(x, y, path);
 }
 
 void Item::drawPixel(const QPoint &p)
 {
-    drawPixel(p.x(), p.y());
+    drawPixel(p.x(), p.y(), path);
+}
+
+void Item::drawPixel(int x, int y, QPainterPath &painterPath)
+{
+    const int offx = this->scene->getOffx();
+    const int offy = this->scene->getOffy();
+    const int thickness = this->scene->getThickness();
+    painterPath.addRect((x + offx) * thickness, (offy - y) * thickness, thickness, thickness);
+}
+
+void Item::drawPixel(const QPoint &p, QPainterPath &painterPath)
+{
+    const int offx = this->scene->getOffx();
+    const int offy = this->scene->getOffy();
+    const int thickness = this->scene->getThickness();
+    painterPath.addRect((p.x() + offx) * thickness, (offy - p.y()) * thickness, thickness, thickness);
 }
 
 QPoint Item::toScenePos(const QPoint &userPos) const
@@ -24,8 +37,8 @@ QPoint Item::toScenePos(const QPoint &userPos) const
 
 void Item::setBrush(const QBrush &value)
 {
-    brush = value;
-    update();
+    brush = value;    
+    scene->update();
 }
 
 QPainterPath Item::getPath() const

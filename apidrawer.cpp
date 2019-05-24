@@ -1,9 +1,14 @@
 #include "apidrawer.h"
+#include <utility>
+#include <functional>
 #include <cmath>
+#include <stack>
+#include <set>
 
 bool operator<(const QPoint &p1, const QPoint &p2){
     return std::make_pair(p1.x(), p1.y()) < std::make_pair(p2.x(), p2.y());
 }
+
 namespace Drawer{
 VPoints drawLine(int x1, int y1, int x2, int y2){
     VPoints result;
@@ -63,15 +68,7 @@ VPoints drawLine(const QPoint &from, const QPoint &to){
 }
 
 VPoints drawDashedLine(const QPoint &from, const QPoint &to, int dash, int dot){
-    auto tmp = drawLine(from, to);
-    VPoints result;
-    for(auto it = tmp.begin(); it < tmp.end();){
-        int addDash = 0;
-        while (addDash < dash && it < tmp.end()) result.emplace_back(*it++), ++addDash;
-        int ignoreDot = 0;
-        while (ignoreDot < dot && it < tmp.end()) ++it, ++ignoreDot;
-    }
-    return result;
+    return toDashDot(drawLine(from, to), dash, dot);
 }
 
 VPoints drawRect(const QPoint &topLelf, const QSize &size){
@@ -144,7 +141,7 @@ VPoints drawCube(int x, int y, int z, int width, int height, int length, QPoint 
     QPoint p7 = method(x + length, y + width, z + height);
     QPoint p8 = method(x, y + width, z + height);
 
-    const int DASH = 2, DOT = 2;
+    const int DASH = 2, DOT = 1;
 
     auto line1 = drawDashedLine(p1, p2, DASH, DOT);
     auto line2 = drawLine(p2, p3);
@@ -180,10 +177,19 @@ VPoints drawCube(int x, int y, int z, int width, int height, int length, QPoint 
 VPoints drawSphere(int x, int y, int z, int r, QPoint (*method)(int, int, int)){
     QPoint center = method(x, y, z);
     auto circle = drawCircle(center, r);
-    auto ellipse = drawEllipse(center, r, r / 4);
+    const int DASH = 2, DOT = 1;
+    int yRadius;
+    if (method == cavalier){
+        yRadius = r / 4;
+    } else {
+        yRadius = r / 8;
+    }
+    auto ellipseTop = toDashDot(drawHalfTopEllipse(center, r, yRadius), DASH, DOT);
+    auto ellipseBot = drawHalfBotEllipse(center, r, yRadius);
     VPoints result;
     std::move(circle.begin(), circle.end(), std::back_inserter(result));
-    std::move(ellipse.begin(), ellipse.end(), std::back_inserter(result));
+    std::move(ellipseTop.begin(), ellipseTop.end(), std::back_inserter(result));
+    std::move(ellipseBot.begin(), ellipseBot.end(), std::back_inserter(result));
     std::sort(result.begin(), result.end());
     result.erase(std::unique(result.begin(), result.end()), result.end());
     return result;

@@ -24,6 +24,7 @@ public:
     Line(int x1, int y1, int x2, int y2, Scene *scene, QGraphicsItem *parent = nullptr);
     Line(const QPoint &from, const QPoint &to, Scene *scene, QGraphicsItem *parent = nullptr);
     Type getType() const override;
+    void fill(const QColor &color) const = delete;
 
     vector<vector<int>> getPoint1();
     vector<vector<int>> getPoint2();

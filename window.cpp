@@ -15,6 +15,8 @@ Window::Window(QWidget *parent) :
     scene->setWindow(this);
     scene3d = new Scene3D(ui->graphicsView);
     scene3d->setWindow(this);
+    frame = new Scene(ui->graphicsView);
+    frame->setWindow(this);
     ui->graphicsView->setScene(scene);
     ui->shapeKind->setId(ui->lineBtn, ShapeKind::NORMAL_LINE);
     ui->shapeKind->setId(ui->rectBtn, ShapeKind::RECTANGLE);
@@ -102,6 +104,11 @@ void Window::setShapeKind(Window::ShapeKind shape)
     }
 }
 
+void Window::setEnableFillButton(bool enable)
+{
+    ui->fillColorBtn->setEnabled(enable);
+}
+
 //void Window::setInforFrame(QWidget *widget)
 //{
 
@@ -111,7 +118,7 @@ void Window::setShapeKind(Window::ShapeKind shape)
 void Window::on_changeColorBtn_clicked()
 {
     QColor color = QColorDialog::getColor(Qt::black, this);
-    if (color.isValid()) scene->changeColor(color);
+    if (color.isValid()) scene->doChangeColor(color);
 }
 
 void Window::on_deleteBtn_clicked()
@@ -174,10 +181,10 @@ void Window::on_tabWidget_currentChanged(int index)
         break;
     case 1:
         ui->graphicsView->setScene(scene3d);
-//        ui->tabWidget->removeTab(index);
         break;
-    default:
-        exit(23);
+    case 2:
+        ui->graphicsView->setScene(frame);
+        break;
     }
 }
 
@@ -205,4 +212,15 @@ void Window::on_addSphereBtn_clicked()
 {
     scene3d->addSphere(ui->xSphere->text().toInt(), ui->ySphere->text().toInt(), ui->zSphere->text().toInt(),
                        ui->rShere->text().toInt());
+}
+
+void Window::on_fillColorBtn_clicked()
+{
+    QColor color = QColorDialog::getColor(Qt::black, this);
+    if (color.isValid()) scene->doFillColor(color);
+}
+
+void Window::on_playBtn_clicked()
+{
+    frame->play(0);
 }

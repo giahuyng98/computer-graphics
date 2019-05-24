@@ -6,9 +6,7 @@
 #include <QTextItem>
 #include <QPoint>
 #include "window.h"
-auto dist = [](const QPoint &p1, const QPoint &p2){
-    return sqrt(pow(p1.x() - p2.x(),2) + pow(p1.y() - p2.y(), 2));
-};
+
 Scene::Scene(QWidget *parent) : QGraphicsScene (parent)
 {
     const int WIDTH = 1200;
@@ -31,10 +29,29 @@ void Scene::setWindow(Window *value){
     this->window = value;    
 }
 
-void Scene::changeColor(const QColor &color)
+void Scene::doChangeColor(const QColor &color)
 {
     for(auto &item : this->selectedItems()){
         static_cast<Item*>(item)->setBrush(QBrush(color));
+    }
+}
+
+void Scene::doFillColor(const QColor &color)
+{
+    if (this->selectedItems().isEmpty()) return;
+    Item *item = static_cast<Item*>(this->selectedItems().first());
+    switch (item->getType()) {
+    case Item::Type::RECT:
+        static_cast<Rectangle*>(item)->fill(color);
+        break;
+    case Item::Type::CIRCLE:
+        static_cast<Circle*>(item)->fill(color);
+        break;
+    case Item::Type::ELIP:
+        static_cast<Ellipse*>(item)->fill(color);
+        break;
+    default:
+        break;
     }
 }
 
@@ -44,19 +61,25 @@ void Scene::deleteItem()
         this->removeItem(item);
     }
     if (!this->items().isEmpty()) {
-        this->items().first()->setSelected(true);
-        switch (static_cast<Item*>(this->items().first())->getType()) {
+        Item *item = static_cast<Item*>(this->items().first());
+        item->setSelected(true);
+        window->setEnableFillButton(item->getType() != Item::Type::LINE);
+        switch (item->getType()) {
         case Item::Type::LINE:
-            lineInfo->setLine(static_cast<Line*>(this->items().first()));
+            lineInfo->setLine(static_cast<Line*>(item));
+            window->setShapeKind(Window::ShapeKind::NORMAL_LINE);
             break;
         case Item::Type::RECT:
-            rectInfo->setRect(static_cast<Rectangle*>(this->items().first()));
+            rectInfo->setRect(static_cast<Rectangle*>(item));
+            window->setShapeKind(Window::ShapeKind::RECTANGLE);
             break;
         case Item::Type::CIRCLE:
-            circleInfo->setCircle(static_cast<Circle*>(this->items().first()));
+            circleInfo->setCircle(static_cast<Circle*>(item));
+            window->setShapeKind(Window::ShapeKind::CIRCLE);
             break;
         case Item::Type::ELIP:
-            ellipseInfo->setEllipse(static_cast<Ellipse*>(this->items().first()));
+            ellipseInfo->setEllipse(static_cast<Ellipse*>(item));
+            window->setShapeKind(Window::ShapeKind::ELIP);
             break;
         default:
             break;
@@ -298,6 +321,14 @@ void Scene::doReflection()
     }
 }
 
+void Scene::play(int delay)
+{
+    if (timer) delete timer;
+    timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(doAnimation()));
+    timer->start(100);
+}
+
 int Scene::getOffx() const
 {
     return offx;
@@ -322,7 +353,7 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     QGraphicsScene::mousePressEvent(mouseEvent);
     if (mouseEvent->button() == Qt::LeftButton){
-
+        this->clearSelection();
         Item *selectedItem = static_cast<Item*>(this->itemAt(mouseEvent->scenePos(), QTransform()));
 
         if (selectedItem){
@@ -348,14 +379,14 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
                 break;
             }
             selectedItem->setSelected(true);
-
+            window->setEnableFillButton(selectedItem->getType() != Item::Type::LINE);
 
             return;
         }
 
         isDrawing = true;
         points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
-
+        window->setEnableFillButton(window->getCurrentShape() != Window::NORMAL_LINE);
 
         switch (window->getCurrentShape()){
         case Window::ShapeKind::NORMAL_LINE :
@@ -378,7 +409,7 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
         {
             points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
 
-            tmpCircle = new Circle(points.front().x(), points.front().y(), dist(points.front(), points.back()), this);
+            tmpCircle = new Circle(points.front().x(), points.front().y(), Drawer::dist(points.front(), points.back()), this);
             addItem(tmpCircle);
             circleInfo->setCircle(tmpCircle);
             window->setShapeKind(Window::ShapeKind::CIRCLE);
@@ -441,7 +472,7 @@ void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
             points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
             removeItem(tmpCircle);
             delete tmpCircle;
-            tmpCircle = new Circle(points.front().x(), points.front().y(), dist(points.front(), points.back()), this);
+            tmpCircle = new Circle(points.front().x(), points.front().y(), Drawer::dist(points.front(), points.back()), this);
             tmpCircle->setSelected(true);
             tmpCircle->update();
             circleInfo->setCircle(tmpCircle);
@@ -530,7 +561,20 @@ void Scene::drawBackground(QPainter *painter, const QRectF &rect)
     painter->drawLine(static_cast<int>(this->width()) - 5, halfHeight - 5, static_cast<int>(this->width()), halfHeight);
     painter->drawLine(static_cast<int>(this->width()) - 5, halfHeight + 5, static_cast<int>(this->width()), halfHeight);
     painter->drawLine(halfWidth - 5, 5, halfWidth, 0);
-    painter->drawLine(halfWidth + 5, 5, halfWidth, 0);        
+    painter->drawLine(halfWidth + 5, 5, halfWidth, 0);
+}
+
+void Scene::doAnimation()
+{
+    static int cnt = 80;
+    if (cnt == -80) {
+        timer->stop();
+        disconnect(timer, SIGNAL(timeout()), this, SLOT(doAnimation()));
+        cnt = 0;
+    }
+    --cnt;
+    this->clear();
+    addItem(new Rectangle(QPoint(cnt, 0), QSize(10, 10), this));
 }
 
 EllipseInfo *Scene::getEllipseInfo() const

@@ -20,15 +20,19 @@ public:
 //    vector<vector<int>> getPoint();
 //    void setPoint(const vector<vector<int>> &mat);
 
-    void reDraw();    
+    void reDraw();
+    void fill(const QColor &color);
 
 protected:
     QRectF boundingRect() const override;
+    QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
     void drawRectangel();
 
 private:
     QPoint topLeft, topRight, bottomLeft, bottomRight;
+    QPainterPath fillPath;
+    QBrush fillColor;
 };
 
 #endif // RECTANGLE_H

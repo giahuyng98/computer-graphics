@@ -25,13 +25,17 @@ public:
     void setPoint(const vector<vector<int>> &mat);
 
     void reDraw();
+    void fill(const QColor &color);
 
 protected:    
     void drawCircle();
     QRectF boundingRect() const override;
+    QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
 private:
+    QPainterPath fillPath;
+    QColor fillColor;
     int x, y, r;
 };
 

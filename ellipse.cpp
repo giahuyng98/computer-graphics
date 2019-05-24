@@ -23,11 +23,16 @@ QRectF Ellipse::boundingRect() const
     return QRectF(topLeft, QSize(xRadius * thickness * 2 + thickness * 2, yRadius * thickness * 2 + thickness * 2));
 }
 
+QPainterPath Ellipse::shape() const{
+    return path + fillPath;
+}
+
 void Ellipse::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);
     painter->fillPath(path, brush);
+    painter->fillPath(fillPath, fillColor);
 }
 
 int Ellipse::getYRadius() const
@@ -81,6 +86,17 @@ void Ellipse::reDraw()
     drawEllipse();
     scene->update();
 }
+
+void Ellipse::fill(const QColor &color)
+{
+    fillColor = color;
+    fillPath = QPainterPath();
+    for(const auto &point : Drawer::floodFill(Drawer::drawEllipse({x, y}, xRadius, yRadius), {x, y})){
+        drawPixel(point, fillPath);
+    }
+    scene->update();
+}
+
 
 vector<vector<int> > Ellipse::getPoint()
 {
