@@ -122,61 +122,13 @@ VPoints drawCircle(const QPoint &center, int radius){
 }
 
 VPoints drawEllipse(const QPoint &center, int xRadius, int yRadius){
-    VPoints result;
-    auto add4Points = [&result](int x, int y, int dx, int dy){
+    auto add4Points = [](VPoints &result, int x, int y, int dx, int dy){
+        result.emplace_back(x - dx, y + dy);
         result.emplace_back(x + dx, y + dy);
         result.emplace_back(x - dx, y - dy);
         result.emplace_back(x + dx, y - dy);
-        result.emplace_back(x - dx, y + dy);
     };
-
-    double dx, dy, d1, d2;
-    int tx = 0, ty = yRadius;
-    d1 = (yRadius * yRadius) - (xRadius * xRadius * yRadius) + (0.25 * xRadius * xRadius);
-    dx = 2 * yRadius * yRadius * tx;
-    dy = 2 * xRadius * xRadius * ty;
-    while(dx < dy)
-    {
-        add4Points(center.x(), center.y(), tx, ty);
-        if(d1 < 0)
-        {
-            ++tx;
-            dx = dx + (2 * yRadius * yRadius);
-            d1 = d1 + dx + (yRadius * yRadius);
-        }
-        else
-        {
-            ++tx;
-            --ty;
-            dx = dx + (2 * yRadius * yRadius);
-            dy = dy - (2 * xRadius * xRadius);
-            d1 = d1 + dx - dy + (yRadius * yRadius);
-        }
-    }
-    d2 = ((yRadius * yRadius) * ((tx + 0.5) * (tx + 0.5))) +
-        ((xRadius * xRadius) * ((ty - 1) * (ty - 1))) -
-        (xRadius * xRadius * yRadius * yRadius);
-    while(ty >= 0)
-    {
-        add4Points(center.x(), center.y(), tx, ty);
-        if(d2 > 0)
-        {
-            --ty;
-            dy = dy - (2 * xRadius * xRadius);
-            d2 = d2 + (xRadius * xRadius) - dy;
-        }
-        else
-        {
-            --ty;
-            ++tx;
-            dx = dx + (2 * yRadius * yRadius);
-            dy = dy - (2 * xRadius * xRadius);
-            d2 = d2 + dx - dy + (xRadius * xRadius);
-        }
-    }
-    std::sort(result.begin(), result.end());
-    result.erase(std::unique(result.begin(), result.end()), result.end());
-    return result;
+    return drawEllipseUtil(center, xRadius, yRadius, add4Points);
 }
 
 VPoints drawCube(int x, int y, int z, int width, int height, int length, QPoint (*method)(int x, int y, int z))
@@ -246,12 +198,72 @@ QPoint cabinet(int x, int y, int z)
 
 VPoints drawHalfTopEllipse(const QPoint &center, int xRadius, int yRadius)
 {
-
+    auto add2Points = [](VPoints &result, int x, int y, int dx, int dy){
+        result.emplace_back(x - dx, y + dy);
+        result.emplace_back(x + dx, y + dy);
+    };
+    return drawEllipseUtil(center, xRadius, yRadius, add2Points);
 }
 
 VPoints drawHalfBotEllipse(const QPoint &center, int xRadius, int yRadius)
 {
+    auto add2Points = [](VPoints &result, int x, int y, int dx, int dy){
+        result.emplace_back(x - dx, y - dy);
+        result.emplace_back(x + dx, y - dy);
+    };
+    return drawEllipseUtil(center, xRadius, yRadius, add2Points);
+}
 
+VPoints drawEllipseUtil(const QPoint &center, int xRadius, int yRadius, void (*addPoint)(VPoints &, int, int, int, int))
+{
+    VPoints result;
+    double dx, dy, d1, d2;
+    int tx = 0, ty = yRadius;
+    d1 = (yRadius * yRadius) - (xRadius * xRadius * yRadius) + (0.25 * xRadius * xRadius);
+    dx = 2 * yRadius * yRadius * tx;
+    dy = 2 * xRadius * xRadius * ty;
+    while(dx < dy)
+    {
+        addPoint(result, center.x(), center.y(), tx, ty);
+        if(d1 < 0)
+        {
+            ++tx;
+            dx = dx + (2 * yRadius * yRadius);
+            d1 = d1 + dx + (yRadius * yRadius);
+        }
+        else
+        {
+            ++tx;
+            --ty;
+            dx = dx + (2 * yRadius * yRadius);
+            dy = dy - (2 * xRadius * xRadius);
+            d1 = d1 + dx - dy + (yRadius * yRadius);
+        }
+    }
+    d2 = ((yRadius * yRadius) * ((tx + 0.5) * (tx + 0.5))) +
+        ((xRadius * xRadius) * ((ty - 1) * (ty - 1))) -
+        (xRadius * xRadius * yRadius * yRadius);
+    while(ty >= 0)
+    {
+        addPoint(result, center.x(), center.y(), tx, ty);
+        if(d2 > 0)
+        {
+            --ty;
+            dy = dy - (2 * xRadius * xRadius);
+            d2 = d2 + (xRadius * xRadius) - dy;
+        }
+        else
+        {
+            --ty;
+            ++tx;
+            dx = dx + (2 * yRadius * yRadius);
+            dy = dy - (2 * xRadius * xRadius);
+            d2 = d2 + dx - dy + (xRadius * xRadius);
+        }
+    }
+    std::sort(result.begin(), result.end());
+    result.erase(std::unique(result.begin(), result.end()), result.end());
+    return result;
 }
 
 
