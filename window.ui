@@ -480,7 +480,7 @@
                  <number>0</number>
                 </property>
                 <item>
-                 <widget class="QFrame" name="frame">
+                 <widget class="QFrame" name="frameTranslate">
                   <property name="frameShape">
                    <enum>QFrame::Box</enum>
                   </property>
@@ -588,7 +588,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QFrame" name="frame">
+                 <widget class="QFrame" name="frameRotate">
                   <property name="frameShape">
                    <enum>QFrame::Box</enum>
                   </property>
@@ -725,7 +725,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QFrame" name="frame">
+                 <widget class="QFrame" name="frameScale">
                   <property name="frameShape">
                    <enum>QFrame::Box</enum>
                   </property>
@@ -833,7 +833,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QFrame" name="frame">
+                 <widget class="QFrame" name="frameReflect">
                   <property name="frameShape">
                    <enum>QFrame::Box</enum>
                   </property>
@@ -952,7 +952,7 @@
        <widget class="QWidget" name="page">
         <layout class="QVBoxLayout" name="verticalLayout_5">
          <item>
-          <widget class="QGroupBox" name="groupBox">
+          <widget class="QGroupBox" name="groupBoxMethod">
            <property name="title">
             <string>Method</string>
            </property>
@@ -984,7 +984,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QGroupBox" name="groupBox">
+          <widget class="QGroupBox" name="groupBoxCube">
            <property name="title">
             <string>Cube</string>
            </property>
@@ -1070,7 +1070,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QGroupBox" name="groupBox">
+          <widget class="QGroupBox" name="groupBoxSphere">
            <property name="title">
             <string>Sphere</string>
            </property>

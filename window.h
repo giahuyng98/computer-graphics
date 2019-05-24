@@ -5,9 +5,9 @@
 #include <QDebug>
 #include <QLabel>
 #include <QVBoxLayout>
-#include "oxy.h"
-#include "scene.h"
 #include "scene3d.h"
+#include "scene2d.h"
+#include "sceneanimation.h"
 #include "apidrawer.h"
 
 namespace Ui {
@@ -76,8 +76,9 @@ private slots:
 
 private:
     Ui::Window *ui;
-    Scene *scene, *frame;
+    Scene2D *scene2d;
     Scene3D *scene3d;
+    SceneAnimation *sceneAnimation;
 };
 
 #endif // WINDOW_H

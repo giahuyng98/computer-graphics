@@ -27,10 +27,7 @@ void Item::drawPixel(const QPoint &p, QPainterPath &painterPath)
 
 QPoint Item::toScenePos(const QPoint &userPos) const
 {
-    const int offx = this->scene->getOffx();
-    const int offy = this->scene->getOffy();
-    const int thickness = this->scene->getThickness();
-    return QPoint((userPos.x() + offx) * thickness, (offy - userPos.y()) * thickness);
+    return scene->toScenePos(userPos);
 }
 
 void Item::setBrush(const QBrush &value)

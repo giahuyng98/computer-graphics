@@ -11,19 +11,20 @@ Window::Window(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    scene = new Scene(ui->graphicsView);
-    scene->setWindow(this);
+    scene2d = new Scene2D(ui->graphicsView);
+    scene2d->setWindow(this);
     scene3d = new Scene3D(ui->graphicsView);
     scene3d->setWindow(this);
-    frame = new Scene(ui->graphicsView);
-    frame->setWindow(this);
-    ui->graphicsView->setScene(scene);
+    sceneAnimation = new SceneAnimation(ui->graphicsView);
+    sceneAnimation->setWindow(this);
+
+    ui->graphicsView->setScene(scene2d);
     ui->shapeKind->setId(ui->lineBtn, ShapeKind::NORMAL_LINE);
     ui->shapeKind->setId(ui->rectBtn, ShapeKind::RECTANGLE);
     ui->shapeKind->setId(ui->circleBtn, ShapeKind::CIRCLE);
     ui->shapeKind->setId(ui->elipBtn, ShapeKind::ELIP);
 
-    ui->splitter->insertWidget(0, scene->getLineInfo());
+    ui->splitter->insertWidget(0, scene2d->getLineInfo());
 }
 
 Window::~Window()
@@ -85,20 +86,20 @@ void Window::setShapeKind(Window::ShapeKind shape)
 {
     switch (shape) {
     case NORMAL_LINE:
-        if (ui->splitter->widget(0) != scene->getLineInfo())
-            ui->splitter->replaceWidget(0, scene->getLineInfo());
+        if (ui->splitter->widget(0) != scene2d->getLineInfo())
+            ui->splitter->replaceWidget(0, scene2d->getLineInfo());
         break;
     case RECTANGLE:
-        if (ui->splitter->widget(0) != scene->getRectInfo())
-            ui->splitter->replaceWidget(0, scene->getRectInfo());
+        if (ui->splitter->widget(0) != scene2d->getRectInfo())
+            ui->splitter->replaceWidget(0, scene2d->getRectInfo());
         break;
     case CIRCLE:
-        if (ui->splitter->widget(0) != scene->getCircleInfo())
-            ui->splitter->replaceWidget(0, scene->getCircleInfo());
+        if (ui->splitter->widget(0) != scene2d->getCircleInfo())
+            ui->splitter->replaceWidget(0, scene2d->getCircleInfo());
         break;
     case ELIP:
-        if (ui->splitter->widget(0) != scene->getEllipseInfo())
-            ui->splitter->replaceWidget(0, scene->getEllipseInfo());
+        if (ui->splitter->widget(0) != scene2d->getEllipseInfo())
+            ui->splitter->replaceWidget(0, scene2d->getEllipseInfo());
         break;
     }
 }
@@ -111,36 +112,36 @@ void Window::setEnableFillButton(bool enable)
 void Window::on_changeColorBtn_clicked()
 {
     QColor color = QColorDialog::getColor(Qt::black, this);
-    if (color.isValid()) scene->doChangeColor(color);
+    if (color.isValid()) scene2d->doChangeColor(color);
 }
 
 void Window::on_deleteBtn_clicked()
 {
-    scene->deleteItem();
+    scene2d->deleteItem();
 }
 
 void Window::on_clearSceneBtn_clicked()
 {
-    scene->clearAll();
+    scene2d->clearAll();
 }
 
 void Window::on_translateBtn_clicked()
 {
-    scene->doTranslation();
+    scene2d->doTranslation();
 }
 
 void Window::on_scaleBtn_clicked()
 {
-    scene->doScaling();
+    scene2d->doScaling();
 }
 
 void Window::on_rolateBtn_clicked()
 {
-    scene->doRotation();
+    scene2d->doRotation();
 }
 void Window::on_reflecBtn_clicked()
 {
-    scene->doReflection();
+    scene2d->doReflection();
 }
 
 void Window::on_tabWidget_currentChanged(int index)
@@ -149,9 +150,9 @@ void Window::on_tabWidget_currentChanged(int index)
     ui->verticalSlider->setDisabled(index == 2);
     switch (index){
     case 0:
-        ui->graphicsView->setScene(scene);
-        ui->thicknessLabel->setNum(scene->getThickness());
-        ui->verticalSlider->setValue(scene->getThickness());
+        ui->graphicsView->setScene(scene2d);
+        ui->thicknessLabel->setNum(scene2d->getThickness());
+        ui->verticalSlider->setValue(scene2d->getThickness());
         break;
     case 1:
         ui->graphicsView->setScene(scene3d);
@@ -159,7 +160,9 @@ void Window::on_tabWidget_currentChanged(int index)
         ui->verticalSlider->setValue(scene3d->getThickness());
         break;
     case 2:
-        ui->graphicsView->setScene(frame);
+        ui->graphicsView->setScene(sceneAnimation);
+        ui->thicknessLabel->setNum(sceneAnimation->getThickness());
+        ui->verticalSlider->setValue(sceneAnimation->getThickness());
         break;
     }
 }
@@ -186,19 +189,19 @@ void Window::on_clear3Dbtn_clicked()
 
 void Window::on_addSphereBtn_clicked()
 {
-    scene3d->addSphere(ui->xSphere->text().toInt(), ui->ySphere->text().toInt(), ui->zSphere->text().toInt(),
-                       ui->rShere->text().toInt());
+    scene3d->addSphere(ui->xSphere->text().toInt(), ui->ySphere->text().toInt(),
+                       ui->zSphere->text().toInt(), ui->rShere->text().toInt());
 }
 
 void Window::on_fillColorBtn_clicked()
 {
     QColor color = QColorDialog::getColor(Qt::black, this);
-    if (color.isValid()) scene->doFillColor(color);
+    if (color.isValid()) scene2d->doFillColor(color);
 }
 
 void Window::on_playBtn_clicked()
 {
-    frame->play(0);
+    sceneAnimation->play();
 }
 
 void Window::on_verticalSlider_valueChanged(int value)
@@ -206,12 +209,13 @@ void Window::on_verticalSlider_valueChanged(int value)
     ui->thicknessLabel->setNum(value);
     switch (ui->tabWidget->currentIndex()){
     case 0:
-        scene->setThickness(value);
+        scene2d->setThickness(value);
         break;
     case 1:
         scene3d->setThickness(value);
         break;
     case 2:
+//        sceneAnimation->setThickness(value);
         break;
     }
 }

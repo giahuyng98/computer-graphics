@@ -18,101 +18,10 @@ Scene::Scene(QWidget *parent) : QGraphicsScene (parent)
 
     offx = lenx / 2;
     offy = leny / 2;
-
-    lineInfo = new LineInfo();
-    rectInfo = new RectInfo();
-    circleInfo = new CircleInfo();
-    ellipseInfo = new EllipseInfo();    
 }
 
 void Scene::setWindow(Window *value){
     this->window = value;    
-}
-
-void Scene::doChangeColor(const QColor &color)
-{
-    for(auto &item : this->selectedItems()){
-        static_cast<Item*>(item)->setBrush(QBrush(color));
-    }
-}
-
-void Scene::doFillColor(const QColor &color)
-{
-    if (this->selectedItems().isEmpty()) return;
-    Item *item = static_cast<Item*>(this->selectedItems().first());
-    switch (item->getType()) {
-    case Item::Type::RECT:
-        static_cast<Rectangle*>(item)->setFillColor(color);
-        break;
-    case Item::Type::CIRCLE:
-        static_cast<Circle*>(item)->setFillColor(color);
-        break;
-    case Item::Type::ELIP:
-        static_cast<Ellipse*>(item)->setFillColor(color);
-        break;
-    default:
-        break;
-    }
-}
-
-void Scene::deleteItem()
-{
-    if (!this->selectedItems().isEmpty()){
-        Item *item = static_cast<Item*>(this->selectedItems().first());
-        delete item;
-//        removeItem(item);
-    }
-
-    if (!this->items().isEmpty()) {
-        Item *item = static_cast<Item*>(this->items().first());
-        item->setSelected(true);
-        window->setEnableFillButton(item->getType() != Item::Type::LINE);
-        switch (item->getType()) {
-        case Item::Type::LINE:
-            lineInfo->setLine(static_cast<Line*>(item));
-            window->setShapeKind(Window::ShapeKind::NORMAL_LINE);
-            break;
-        case Item::Type::RECT:
-            rectInfo->setRect(static_cast<Rectangle*>(item));
-            window->setShapeKind(Window::ShapeKind::RECTANGLE);
-            break;
-        case Item::Type::CIRCLE:
-            circleInfo->setCircle(static_cast<Circle*>(item));
-            window->setShapeKind(Window::ShapeKind::CIRCLE);
-            break;
-        case Item::Type::ELIP:
-            ellipseInfo->setEllipse(static_cast<Ellipse*>(item));
-            window->setShapeKind(Window::ShapeKind::ELIP);
-            break;
-        default:
-            break;
-        }
-    } else {
-        lineInfo->setLine(nullptr);
-        rectInfo->setRect(nullptr);
-        circleInfo->setCircle(nullptr);
-        ellipseInfo->setEllipse(nullptr);
-    }
-
-}
-
-void Scene::clearAll()
-{
-    this->clear();
-    lineInfo->setLine(nullptr);
-    rectInfo->setRect(nullptr);
-    circleInfo->setCircle(nullptr);
-    ellipseInfo->setEllipse(nullptr);
-}
-
-void Scene::doTranslation()
-{
-    if (selectedItems().isEmpty()) return;
-    Item *selectedItem = static_cast<Item*>(selectedItems().first());
-    if (selectedItem){
-        translateItem(selectedItem, window->getDxTrans(), window->getDyTrans());
-        updateInfo(selectedItem);
-    }
 }
 
 void Scene::translateItem(Item *item, int dx, int dy)
@@ -156,16 +65,6 @@ void Scene::translateItem(Item *item, int dx, int dy)
 
 }
 
-void Scene::doRotation()
-{
-    if (selectedItems().isEmpty()) return;
-    Item *selectedItem = static_cast<Item*>(selectedItems().first());    
-    if (selectedItem){
-        rotateItem(selectedItem, window->getXRotate(), window->getYRotate(), window->getAngleRotate());
-        updateInfo(selectedItem);
-    }
-}
-
 void Scene::rotateItem(Item *item, int x, int y, int angle)
 {
     switch (item->getType()) {
@@ -203,16 +102,6 @@ void Scene::rotateItem(Item *item, int x, int y, int angle)
     }
     default:
         break;
-    }
-}
-
-void Scene::doScaling()
-{
-    if (selectedItems().isEmpty()) return;
-    Item *selectedItem = static_cast<Item*>(selectedItems().first());    
-    if (selectedItem){
-        scaleItem(selectedItem, window->getSXScale(), window->getSYScale());
-        updateInfo(selectedItem);
     }
 }
 
@@ -256,16 +145,6 @@ void Scene::scaleItem(Item *item, float sx, float sy)
     }
 }
 
-void Scene::doReflection()
-{    
-    if (selectedItems().isEmpty()) return;
-    Item *selectedItem = static_cast<Item*>(selectedItems().first());    
-    if (selectedItem){
-        reflectItem(selectedItem, window->getXReflection(), window->getYReflection());
-        updateInfo(selectedItem);
-    }
-}
-
 void Scene::reflectItem(Item *item, int x, int y)
 {
     switch (item->getType()) {
@@ -304,207 +183,6 @@ void Scene::reflectItem(Item *item, int x, int y)
     default:
         break;
     }
-}
-
-void Scene::play(int delay)
-{
-    Q_UNUSED(delay);
-    if (timer) delete timer;
-    timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(doAnimation()));
-    timer->start(100);
-}
-
-void Scene::updateInfo(Item *item)
-{
-    switch (item->getType()) {
-    case Item::Type::LINE:
-        lineInfo->setLine(static_cast<Line*>(item));
-        break;
-    case Item::Type::RECT:
-        rectInfo->setRect(static_cast<Rectangle*>(item));
-        break;
-    case Item::Type::CIRCLE:
-        circleInfo->setCircle(static_cast<Circle*>(item));
-        break;
-    case Item::Type::ELIP:
-        ellipseInfo->setEllipse(static_cast<Ellipse*>(item));
-        break;
-    default:
-        break;
-    }
-}
-
-
-int Scene::getOffx() const
-{
-    return offx;
-}
-
-int Scene::getOffy() const
-{
-    return offy;
-}
-
-int Scene::getThickness() const
-{
-    return thickness;
-}
-
-QPoint Scene::toUserCoordinate(const QPointF &scenePos) const
-{
-    return QPoint(static_cast<int>(scenePos.x()) / thickness - offx, offy - static_cast<int>(scenePos.y()) / thickness);
-}
-
-void Scene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
-{
-    QGraphicsScene::mousePressEvent(mouseEvent);
-    if (mouseEvent->button() == Qt::LeftButton){
-        this->clearSelection();
-        Item *selectedItem = static_cast<Item*>(this->itemAt(mouseEvent->scenePos(), QTransform()));
-
-        if (selectedItem){
-
-            switch (selectedItem->getType()) {
-            case Item::Type::LINE:
-                lineInfo->setLine(static_cast<Line*>(selectedItem));
-                window->setShapeKind(Window::ShapeKind::NORMAL_LINE);
-                break;
-            case Item::Type::RECT:
-                rectInfo->setRect(static_cast<Rectangle*>(selectedItem));
-                window->setShapeKind(Window::ShapeKind::RECTANGLE);
-                break;
-            case Item::Type::CIRCLE:
-                circleInfo->setCircle(static_cast<Circle*>(selectedItem));
-                window->setShapeKind(Window::ShapeKind::CIRCLE);
-                break;
-            case Item::Type::ELIP:
-                ellipseInfo->setEllipse(static_cast<Ellipse*>(selectedItem));
-                window->setShapeKind(Window::ShapeKind::ELIP);
-                break;
-            default:
-                break;
-            }
-            selectedItem->setSelected(true);
-            window->setEnableFillButton(selectedItem->getType() != Item::Type::LINE);
-
-            return;
-        }
-
-        isDrawing = true;
-        points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
-        window->setEnableFillButton(window->getCurrentShape() != Window::NORMAL_LINE);
-
-        switch (window->getCurrentShape()){
-        case Window::ShapeKind::NORMAL_LINE :
-            points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
-            tmpLine = new Line(points.front(), points.back(), this);
-            addItem(tmpLine);
-            lineInfo->setLine(tmpLine);
-            window->setShapeKind(Window::ShapeKind::NORMAL_LINE);
-            break;
-
-        case Window::ShapeKind::RECTANGLE :
-            points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
-            tmpRectange = new Rectangle(points.front(), QSize(std::abs(points.back().x() - points.front().x()),
-                                                        std::abs(points.back().y() - points.front().y())), this);
-            addItem(tmpRectange);
-            rectInfo->setRect(tmpRectange);
-            window->setShapeKind(Window::ShapeKind::RECTANGLE);
-            break;
-        case Window::ShapeKind::CIRCLE :
-        {
-            points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
-
-            tmpCircle = new Circle(points.front().x(), points.front().y(), Drawer::dist(points.front(), points.back()), this);
-            addItem(tmpCircle);
-            circleInfo->setCircle(tmpCircle);
-            window->setShapeKind(Window::ShapeKind::CIRCLE);
-            break;
-        }
-        case Window::ShapeKind::ELIP :
-            points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
-            tmpEllipse = new Ellipse(points.front().x(), points.front().y(),
-                                     std::abs(points.back().x() - points.front().x()),
-                                     std::abs(points.back().y() - points.front().y()), this);
-            addItem(tmpEllipse);
-            ellipseInfo->setEllipse(tmpEllipse);
-            window->setShapeKind(Window::ShapeKind::ELIP);
-            break;
-        }
-
-    }    
-}
-
-void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
-{
-    isDrawing = false;
-    points.clear();
-    QGraphicsScene::mouseReleaseEvent(mouseEvent);
-}
-
-void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
-{
-    if (isDrawing){
-
-        switch (window->getCurrentShape()) {
-        case  Window::ShapeKind::NORMAL_LINE:
-            points.pop_back();
-            points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
-            removeItem(tmpLine);
-            delete tmpLine;
-            this->addItem(tmpLine = new Line(points.front(), points.back(), this));
-            tmpLine->setSelected(true);
-            tmpLine->update();
-            lineInfo->setLine(tmpLine);
-            break;
-        case Window::ShapeKind::RECTANGLE:
-
-            points.pop_back();
-            points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
-            removeItem(tmpRectange);
-            delete tmpRectange;            
-            tmpRectange = new Rectangle(QPoint(std::min(points.front().x(), points.back().x()), std::max(points.front().y(), points.back().y())),
-                                        QSize(std::abs(points.back().x() - points.front().x()),
-                                             std::abs(points.back().y() - points.front().y())), this);
-
-            tmpRectange->setSelected(true);
-            tmpRectange->update();
-            rectInfo->setRect(tmpRectange);
-            this->addItem(tmpRectange);
-
-            break;
-        case Window::ShapeKind::CIRCLE:
-            points.pop_back();
-            points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
-            removeItem(tmpCircle);
-            delete tmpCircle;
-            tmpCircle = new Circle(points.front().x(), points.front().y(), Drawer::dist(points.front(), points.back()), this);
-            tmpCircle->setSelected(true);
-            tmpCircle->update();
-            circleInfo->setCircle(tmpCircle);
-            this->addItem(tmpCircle);
-
-            break;
-        case Window::ShapeKind::ELIP:
-            points.pop_back();
-            points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
-            removeItem(tmpEllipse);
-            delete tmpEllipse;
-            tmpEllipse = new Ellipse(points.front().x(), points.front().y(),
-                                     std::abs(points.back().x() - points.front().x()),
-                                     std::abs(points.back().y() - points.front().y()), this);
-            tmpEllipse->setSelected(true);
-            tmpEllipse->update();
-            ellipseInfo->setEllipse(tmpEllipse);
-            this->addItem(tmpEllipse);
-
-            break;
-        }
-
-    }
-
-    QGraphicsScene::mouseMoveEvent(mouseEvent);
 }
 
 void Scene::drawBackground(QPainter *painter, const QRectF &rect)
@@ -556,7 +234,7 @@ void Scene::drawBackground(QPainter *painter, const QRectF &rect)
         painter->drawText(halfWidth + halfThick - 15, yJump + 5, QString::number(y));
     }
 
-    painter->setOpacity(1.0);    
+    painter->setOpacity(1.0);
     // Draw x, y
     painter->setFont(QFont("Segoe UI", 10));
     painter->drawText(halfWidth - 10, 10, QString("x"));
@@ -569,19 +247,27 @@ void Scene::drawBackground(QPainter *painter, const QRectF &rect)
     painter->drawLine(static_cast<int>(this->width()) - 5, halfHeight + 5, static_cast<int>(this->width()), halfHeight);
     painter->drawLine(halfWidth - 5, 5, halfWidth, 0);
     painter->drawLine(halfWidth + 5, 5, halfWidth, 0);
+
 }
 
-void Scene::doAnimation()
+int Scene::getOffx() const
 {
-    static int cnt = 80;
-    if (cnt == -80) {
-        timer->stop();
-        disconnect(timer, SIGNAL(timeout()), this, SLOT(doAnimation()));
-        cnt = 0;
-    }
-    --cnt;
-    this->clear();
-    addItem(new Rectangle(QPoint(cnt, 0), QSize(10, 10), this));
+    return offx;
+}
+
+int Scene::getOffy() const
+{
+    return offy;
+}
+
+int Scene::getThickness() const
+{
+    return thickness;
+}
+
+QPoint Scene::toUserCoordinate(const QPointF &scenePos) const
+{
+    return QPoint(static_cast<int>(scenePos.x()) / thickness - offx, offy - static_cast<int>(scenePos.y()) / thickness);
 }
 
 void Scene::setThickness(int value)
@@ -589,46 +275,11 @@ void Scene::setThickness(int value)
     thickness = value;
     lenx = static_cast<int>(width()) / thickness;
     leny = static_cast<int>(height()) / thickness;
-
     offx = lenx / 2;
     offy = leny / 2;
-    for(auto &item : this->items()){
-        switch (static_cast<Item*>(item)->getType()) {
-        case Item::Type::LINE:
-            static_cast<Line*>(item)->reDraw();
-            break;
-        case Item::Type::RECT:
-            static_cast<Rectangle*>(item)->reDraw();
-            break;
-        case Item::Type::CIRCLE:
-            static_cast<Circle*>(item)->reDraw();
-            break;
-        case Item::Type::ELIP:
-            static_cast<Ellipse*>(item)->reDraw();
-            break;
-        default: break;
-        }
-    }
-    update(0, 0, this->width(), this->height());
 }
 
-EllipseInfo *Scene::getEllipseInfo() const
+QPoint Scene::toScenePos(const QPoint &userPos) const
 {
-    return ellipseInfo;
+    return QPoint((userPos.x() + offx) * thickness, (offy - userPos.y()) * thickness);
 }
-
-CircleInfo *Scene::getCircleInfo() const
-{
-    return circleInfo;
-}
-
-LineInfo *Scene::getLineInfo() const
-{
-    return lineInfo;
-}
-
-RectInfo *Scene::getRectInfo() const
-{
-    return rectInfo;
-}
-
