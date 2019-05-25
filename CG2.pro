@@ -30,6 +30,7 @@ SOURCES += \
         circle.cpp \
         circleinfo.cpp \
         cube.cpp \
+        cylinder.cpp \
         ellipse.cpp \
         ellipseinfo.cpp \
         item.cpp \
@@ -51,6 +52,7 @@ HEADERS += \
         circle.h \
         circleinfo.h \
         cube.h \
+        cylinder.h \
         ellipse.h \
         ellipseinfo.h \
         item.h \

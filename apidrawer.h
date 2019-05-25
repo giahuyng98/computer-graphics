@@ -27,6 +27,7 @@ VPoints drawHalfBotEllipse(const QPoint &center, int xRadius, int yRadius);
 VPoints drawEllipse(const QPoint &center, int xRadius, int yRadius);
 VPoints drawCube(int x, int y, int z, int width, int height, int length, QPoint (*method)(int, int, int) = cavalier);
 VPoints drawSphere(int x, int y, int z, int r, QPoint (*method)(int, int, int) = cavalier);
+VPoints drawCylinder(int cx, int cy, int cz, int r, int h, QPoint (*method)(int, int, int) = cavalier);
 VPoints floodFill(const VPoints &border, const QPoint &point);
 VPoints toDashDot(const VPoints &points, int dash, int dot);
 

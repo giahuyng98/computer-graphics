@@ -196,7 +196,12 @@ void Window::on_addSphereBtn_clicked()
     scene3d->addSphere(ui->xSphere->text().toInt(), ui->ySphere->text().toInt(),
                        ui->zSphere->text().toInt(), ui->rShere->text().toInt());
 }
-
+void Window::on_addCylinder_clicked()
+{
+    scene3d->addCylinder(ui->cylinderX->text().toInt(), ui->cylinderY->text().toInt(),
+                         ui->cylinderZ->text().toInt(), ui->cylinderR->text().toInt(),
+                         ui->cylinderH->text().toInt());
+}
 void Window::on_fillColorBtn_clicked()
 {
     QColor color = QColorDialog::getColor(Qt::black, this);
@@ -224,3 +229,5 @@ void Window::on_verticalSlider_valueChanged(int value)
         break;
     }
 }
+
+
