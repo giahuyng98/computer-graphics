@@ -27,6 +27,8 @@ void RectInfo::setRect(Rectangle *value)
     } else {
         ui->rectEditTopLeftX->clear();
         ui->rectEditTopLeftY->clear();
+        ui->rectEditBottomRightX->clear();
+        ui->rectEditBottomRightY->clear();
         ui->rectEditWidth->clear();
         ui->rectEditHeight->clear();
     }

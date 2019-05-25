@@ -7,7 +7,7 @@
 #include <algorithm>
 #include <cmath>
 const float CAVALIER = 0.70710678118654752440084436210485f;
-const float CABINET = 0.70710678118654752440084436210485f / 2.f;
+const float CABINET = 0.35355339059327376220042218105242f;
 
 namespace Drawer{
 using std::vector;

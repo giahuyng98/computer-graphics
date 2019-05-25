@@ -24,8 +24,8 @@ QRectF Rectangle::boundingRect() const
     int minY = std::min({topLeft.y(), topRight.y(), bottomLeft.y(), bottomRight.y()});
     int maxX = std::max({topLeft.x(), topRight.x(), bottomLeft.x(), bottomRight.x()});
     int maxY = std::max({topLeft.y(), topRight.y(), bottomLeft.y(), bottomRight.y()});
-    return QRectF(toScenePos({minX, maxY}) - QPoint(thickness, thickness),
-                  toScenePos({maxX, minY}) + QPoint(thickness, thickness));
+    return QRectF(toScenePos({minX, maxY}) - QPoint(thickness, thickness) * 2,
+                  toScenePos({maxX, minY}) + QPoint(thickness, thickness) * 2);
 }
 
 QPainterPath Rectangle::shape() const{
@@ -103,7 +103,7 @@ void Rectangle::setTopLeft(const QPoint &value)
 }
 
 void Rectangle::reDraw()
-{
+{    
     path = QPainterPath();
 //    topLeft.setX();
     drawRectangle();

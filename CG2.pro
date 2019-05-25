@@ -39,7 +39,9 @@ SOURCES += \
         rectangle.cpp \
         rectinfo.cpp \
         scene.cpp \
+        scene2d.cpp \
         scene3d.cpp \
+        sceneanimation.cpp \
         sphere.cpp \
         window.cpp
 
@@ -57,7 +59,9 @@ HEADERS += \
         rectangle.h \
         rectinfo.h \
         scene.h \
+        scene2d.h \
         scene3d.h \
+        sceneanimation.h \
         sphere.h \
         window.h
 
@@ -74,4 +78,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    resources.qrc
+    myicon.qrc
+
+DISTFILES +=
