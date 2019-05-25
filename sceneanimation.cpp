@@ -6,26 +6,35 @@ SceneAnimation::SceneAnimation(QWidget *parent)
 {
 //    setThickness(3);
     connect(&timer, SIGNAL(timeout()), this, SLOT(doAnimation()));
+//    file.setFileName("animation.txt");
+}
+
+void SceneAnimation::open(const QString &fileName)
+{
+    file.close();
+    file.setFileName(fileName);
 }
 
 void SceneAnimation::play()
 {
     file.close();
-    file.setFileName("animation.txt");
-    stream.reset();
+    in.reset();
+    clear();
+    objs.clear();
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)){
-        stream.setDevice(&file);
+        in.setDevice(&file);
     } else {
-        exit(20);
+        QMessageBox(QMessageBox::Icon::Critical, "Error", "Can't open file: " + file.fileName()).exec();
+        return;
     }
-    timer.start(20);
+    timer.start(50);
 }
 
 void SceneAnimation::doAnimation()
 {
     static int frame = 0;
 
-    if (stream.atEnd()) {
+    if (in.atEnd()) {
         timer.stop();
         clear();
         std::cerr << "Frame = " << frame << "\n";
@@ -33,13 +42,15 @@ void SceneAnimation::doAnimation()
     }
     ++frame;
     QString command;
-    while (!stream.atEnd() && command != "STOP"){
-        stream >> command;
+    while (!in.atEnd() && command != "STOP"){
+        in >> command;
         if (command == "ADD") add();
         else if (command == "TRANS") trans();
         else if (command == "ROTATE") rotate();
         else if (command == "SCALE") scale();
         else if (command == "REFLECT") reflect();
+        else if (command == "DELETE") doDelete();
+        else if (command == "CLEAR") doClear();
     }
 }
 
@@ -66,47 +77,51 @@ void SceneAnimation::wheelEvent(QGraphicsSceneWheelEvent *wheelEvent)
 void SceneAnimation::add()
 {
     QString objName, buff;
-    stream >> objName >> buff;
+    in >> objName >> buff;
+    auto it = objs.find(objName);
+    if (it != objs.end()){
+        objs.erase(it);
+        removeItem(it->second);
+    }
     if (buff == "LINE"){
         int x1, y1, x2, y2;
         QString color;
-        stream >> x1 >> y1 >> x2 >> y2 >> color;
-        Line *line = new Line(x1, y1, x2, y2, this);
+        in >> x1 >> y1 >> x2 >> y2 >> color;
+        Item *line = new Line(x1, y1, x2, y2, this);
         line->setBrush(QBrush(QColor(color)));
         addItem(objs[objName] = line);
     } else if (buff == "RECT"){
         int x, y, w, h;
         QString borderColor, fillColor;
-        stream >> x >> y >> w >> h >> borderColor >> fillColor;
+        in >> x >> y >> w >> h >> borderColor >> fillColor;
         Rectangle *rect = new Rectangle(QPoint(x, y), QSize(w, h), this);
         rect->setBrush(QBrush(QColor(borderColor)));
         rect->setFillColor(QColor(fillColor));
-        addItem(objs[objName] = rect);
+        addItem(objs[objName] = static_cast<Item*>(rect));
     } else if (buff == "CIRCLE"){
         int x, y, r;
         QString borderColor, fillColor;
-        stream >> x >> y >> r >> borderColor >> fillColor;
+        in >> x >> y >> r >> borderColor >> fillColor;
         Circle *circle = new Circle(x, y, r, this);
         circle->setBrush(QBrush(QColor(borderColor)));
         circle->setFillColor(QColor(fillColor));
-        addItem(objs[objName] = circle);
+        addItem(objs[objName] = static_cast<Item*>(circle));
     } else if (buff == "ELLIPSE"){
         int x, y, rx, ry;
         QString borderColor, fillColor;
-        stream >> x >> y >> rx >> ry >> borderColor >> fillColor;
+        in >> x >> y >> rx >> ry >> borderColor >> fillColor;
         Ellipse *ellipse = new Ellipse(x, y, rx, ry, this);
         ellipse->setBrush(QBrush(QColor(borderColor)));
         ellipse->setFillColor(QColor(fillColor));
-        addItem(objs[objName] = ellipse);
-    } else exit(23);
-
+        addItem(objs[objName] = static_cast<Item*>(ellipse));
+    }
 }
 
 void SceneAnimation::trans()
 {
     QString objName;
     int dx, dy;
-    stream >> objName >> dx >> dy;
+    in >> objName >> dx >> dy;
     Scene::translateItem(objs[objName], dx, dy);
 }
 
@@ -114,7 +129,7 @@ void SceneAnimation::rotate()
 {
     QString objName;
     int angle, x, y;
-    stream >> objName >> x >> y >> angle;
+    in >> objName >> x >> y >> angle;
     Scene::rotateItem(objs[objName], x, y, angle);
 }
 
@@ -122,7 +137,7 @@ void SceneAnimation::scale()
 {
     QString objName;
     float sx, sy;
-    stream >> objName >> sx >> sy;
+    in >> objName >> sx >> sy;
     Scene::scaleItem(objs[objName], sy, sy);
 }
 
@@ -130,8 +145,22 @@ void SceneAnimation::reflect()
 {
     QString objName;
     int x, y;
-    stream >> objName >> x >> y;
+    in >> objName >> x >> y;
     Scene::reflectItem(objs[objName], x, y);
+}
+
+void SceneAnimation::doDelete()
+{
+    QString objName;
+    in >> objName;
+    delete objs[objName];
+}
+
+void SceneAnimation::doClear()
+{
+    for(auto &it : items()){
+        delete it;
+    }
 }
 
 QPoint SceneAnimation::getRandPoint()

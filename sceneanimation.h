@@ -2,6 +2,7 @@
 #define SCENEANIMATION_H
 
 #include "scene.h"
+#include "scene2d.h"
 #include <QTimer>
 #include <random>
 #include <string>
@@ -18,6 +19,7 @@ class SceneAnimation : public Scene
 public:
     explicit SceneAnimation(QWidget *parent = nullptr);
 
+    void open(const QString &fileName);
     void play();
 
 
@@ -33,10 +35,12 @@ protected:
     void rotate();
     void scale();
     void reflect();
+    void doDelete();
+    void doClear();
 
 private:
     QFile file;
-    QTextStream stream;
+    QTextStream in;
     QPoint getRandPoint();
     std::map<QString, Item*> objs;
     std::mt19937 mt;

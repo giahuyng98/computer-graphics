@@ -4,6 +4,7 @@
 #include <QStringListModel>
 #include <QTimer>
 #include <QColorDialog>
+#include <QFileDialog>
 
 Window::Window(QWidget *parent) :
     QMainWindow(parent),
@@ -233,4 +234,18 @@ void Window::on_verticalSlider_valueChanged(int value)
 void Window::on_toTextFileBtn_clicked()
 {
     scene2d->toTextFile();
+}
+
+void Window::on_openSceneBtn_clicked()
+{
+    sceneAnimation->open(QFileDialog(this, "Select file",
+     QCoreApplication::applicationDirPath()).getOpenFileName());
+}
+
+void Window::on_addSceneBtn_clicked()
+{
+    static int cur = 0;
+    ++cur;
+    ui->addSceneBtn->setText("Add Scene " + QString::number(cur));
+    scene2d->addScene();
 }
