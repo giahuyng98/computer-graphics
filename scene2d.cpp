@@ -18,7 +18,7 @@ Scene2D::Scene2D(QWidget *parent) : Scene(parent)
 void Scene2D::doChangeColor(const QColor &color)
 {
     for(auto &item : this->selectedItems()){
-        static_cast<Item*>(item)->setBrush(QBrush(color));
+        changeColor(static_cast<Item*>(item), color);
     }
 }
 
@@ -26,19 +26,7 @@ void Scene2D::doFillColor(const QColor &color)
 {
     if (this->selectedItems().isEmpty()) return;
     Item *item = static_cast<Item*>(this->selectedItems().first());
-    switch (item->getType()) {
-    case Item::Type::RECT:
-        static_cast<Rectangle*>(item)->setFillColor(color);
-        break;
-    case Item::Type::CIRCLE:
-        static_cast<Circle*>(item)->setFillColor(color);
-        break;
-    case Item::Type::ELIP:
-        static_cast<Ellipse*>(item)->setFillColor(color);
-        break;
-    default:
-        break;
-    }
+    changeFillColor(item, color);
 }
 
 void Scene2D::deleteItem()

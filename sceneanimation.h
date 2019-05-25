@@ -4,6 +4,9 @@
 #include "scene.h"
 #include <QTimer>
 #include <random>
+#include <string>
+#include <fstream>
+#include <map>
 
 class Window;
 
@@ -24,12 +27,18 @@ protected:
     void drawBackground(QPainter *painter, const QRectF &rect) override;
     void wheelEvent(QGraphicsSceneWheelEvent *wheelEvent) override;
 
-private:
-    QPoint getRandPoint();
+    void add();
+    void trans();
+    void rotate();
+    void scale();
+    void reflect();
 
+private:
+    std::ifstream file;
+    QPoint getRandPoint();
+    std::map<std::string, Item*> objs;
     std::mt19937 mt;
-    QTimer timer;
-    int currentFrame;
+    QTimer timer;    
 };
 
 #endif // SCENEANIMATION_H

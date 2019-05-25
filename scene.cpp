@@ -179,6 +179,28 @@ void Scene::reflectItem(Item *item, int x, int y)
     }
 }
 
+void Scene::changeColor(Item *item, const QColor &color)
+{
+    item->setBrush(QBrush(color));
+}
+
+void Scene::changeFillColor(Item *item, const QColor &color)
+{
+    switch (item->getType()) {
+    case Item::Type::RECT:
+        static_cast<Rectangle*>(item)->setFillColor(color);
+        break;
+    case Item::Type::CIRCLE:
+        static_cast<Circle*>(item)->setFillColor(color);
+        break;
+    case Item::Type::ELIP:
+        static_cast<Ellipse*>(item)->setFillColor(color);
+        break;
+    default:
+        break;
+    }
+}
+
 void Scene::drawBackground(QPainter *painter, const QRectF &rect)
 {
     Q_UNUSED(rect);

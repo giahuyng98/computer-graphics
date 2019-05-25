@@ -47,6 +47,10 @@ public:
 
     void reflectItem(Item *item, int x, int y);
 
+    void changeColor(Item *item, const QColor &color);
+
+    void changeFillColor(Item *item, const QColor &color);
+
 
 protected:
     void drawBackground(QPainter *painter, const QRectF &rect) override;
