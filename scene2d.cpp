@@ -282,7 +282,7 @@ void Scene2D::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 void Scene2D::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    if (isDrawing){
+    if (isDrawing && !this->selectedItems().isEmpty()){
         outPutItem(static_cast<Item*>(this->selectedItems().first()));
     }
     isDrawing = false;

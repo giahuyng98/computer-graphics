@@ -161,6 +161,7 @@ void SceneAnimation::doClear()
     for(auto &it : items()){
         delete it;
     }
+    objs.clear();
 }
 
 QPoint SceneAnimation::getRandPoint()

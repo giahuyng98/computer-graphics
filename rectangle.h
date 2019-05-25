@@ -46,7 +46,7 @@ protected:
 private:
     QPoint topLeft, topRight, bottomLeft, bottomRight;
     QPainterPath fillPath;
-    QColor fillColor = Qt::color0;
+    QColor fillColor = QColor::Spec::Invalid;
 };
 
 #endif // RECTANGLE_H
