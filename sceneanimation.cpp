@@ -15,14 +15,18 @@ void SceneAnimation::play()
 void SceneAnimation::doAnimation()
 {
     if (currentFrame == 100){
-        currentFrame = 0;
-        disconnect(&timer, SIGNAL(timeout()), this, SLOT(doAnimation()));
+        currentFrame = 0;        
         timer.stop();
         return;
     }
     ++currentFrame;
     clear();
     addItem(new Line(getRandPoint(), getRandPoint(), this));
+}
+
+void SceneAnimation::wheelEvent(QGraphicsSceneWheelEvent *wheelEvent)
+{
+    QGraphicsScene::wheelEvent(wheelEvent);
 }
 
 QPoint SceneAnimation::getRandPoint()

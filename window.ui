@@ -29,7 +29,11 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Window</string>
+   <string>Computer Graphic</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="myicon.qrc">
+    <normaloff>:/resources/appicon.png</normaloff>:/resources/appicon.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="font">
@@ -1236,7 +1240,9 @@
   <tabstop>rShere</tabstop>
   <tabstop>addSphereBtn</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="myicon.qrc"/>
+ </resources>
  <connections/>
  <buttongroups>
   <buttongroup name="shapeKind"/>

@@ -20,6 +20,9 @@ public:
 private slots:
     void doAnimation();
 
+protected:
+    void wheelEvent(QGraphicsSceneWheelEvent *wheelEvent) override;
+
 private:
     QPoint getRandPoint();
 
