@@ -104,7 +104,7 @@ void Ellipse::reDraw()
 {
     path = QPainterPath();
     drawEllipse();
-    if (fillColor != QColor::Spec::Invalid) fillEllipse();
+    if (fillColor != Qt::color0) fillEllipse();
     scene->update();
 }
 

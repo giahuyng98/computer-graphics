@@ -37,6 +37,8 @@ protected:
     void reflect();
     void doDelete();
     void doClear();
+    void changeColor();
+    void fillColor();
 
 private:
     QFile file;

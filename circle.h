@@ -38,7 +38,7 @@ protected:
 
 private:
     QPainterPath fillPath;
-    QColor fillColor = QColor::Spec::Invalid;
+    QColor fillColor = Qt::color0;
     int x, y, r;
 };
 

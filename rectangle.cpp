@@ -117,7 +117,7 @@ void Rectangle::reDraw()
     path = QPainterPath();
 //    topLeft.setX();
     drawRectangle();
-    if (fillColor != QColor::Spec::Invalid) fillRectangle();
+    if (fillColor != Qt::color0) fillRectangle();
     scene->update();
 }
 

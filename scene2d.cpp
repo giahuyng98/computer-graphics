@@ -43,16 +43,16 @@ void Scene2D::doChangeColor(const QColor &color)
 {
     if (this->selectedItems().isEmpty()) return;
     Item *item = static_cast<Item*>(this->selectedItems().first());
+    out << "CHCOLOR " << item << " " << color.name() << "\n";
     changeColor(item, color);
-    outPutItem(item);
 }
 
 void Scene2D::doFillColor(const QColor &color)
 {
     if (this->selectedItems().isEmpty()) return;
-    Item *item = static_cast<Item*>(this->selectedItems().first());    
-    changeFillColor(item, color);
-    outPutItem(static_cast<Item*>(item));
+    Item *item = static_cast<Item*>(this->selectedItems().first());
+    out << "FILLCOLOR " << item << " " << color.name() << "\n";
+    changeFillColor(item, color);    
 }
 
 void Scene2D::deleteItem()

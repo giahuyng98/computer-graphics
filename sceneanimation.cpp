@@ -11,6 +11,7 @@ SceneAnimation::SceneAnimation(QWidget *parent)
 
 void SceneAnimation::open(const QString &fileName)
 {
+    if (fileName.isEmpty()) return;
     file.close();
     file.setFileName(fileName);
 }
@@ -31,16 +32,14 @@ void SceneAnimation::play()
 }
 
 void SceneAnimation::doAnimation()
-{
-    static int frame = 0;
-
+{    
     if (in.atEnd()) {
         timer.stop();
         clear();
-        std::cerr << "Frame = " << frame << "\n";
-        frame = 0;
-    }
-    ++frame;
+        update();
+        objs.clear();
+        return;
+    }    
     QString command;
     while (!in.atEnd() && command != "STOP"){
         in >> command;
@@ -51,6 +50,8 @@ void SceneAnimation::doAnimation()
         else if (command == "REFLECT") reflect();
         else if (command == "DELETE") doDelete();
         else if (command == "CLEAR") doClear();
+        else if (command == "CHCOLOR") changeColor();
+        else if (command == "FILLCOLOR") fillColor();
     }
 }
 
@@ -162,6 +163,20 @@ void SceneAnimation::doClear()
         delete it;
     }
     objs.clear();
+}
+
+void SceneAnimation::changeColor()
+{
+    QString objName, colorName;
+    in >> objName >> colorName;
+    Scene::changeColor(objs[objName], QColor(colorName));
+}
+
+void SceneAnimation::fillColor()
+{
+    QString objName, colorName;
+    in >> objName >> colorName;
+    Scene::changeFillColor(objs[objName], QColor(colorName));
 }
 
 QPoint SceneAnimation::getRandPoint()
