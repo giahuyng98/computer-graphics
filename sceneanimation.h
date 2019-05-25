@@ -21,6 +21,7 @@ private slots:
     void doAnimation();
 
 protected:
+    void drawBackground(QPainter *painter, const QRectF &rect) override;
     void wheelEvent(QGraphicsSceneWheelEvent *wheelEvent) override;
 
 private:

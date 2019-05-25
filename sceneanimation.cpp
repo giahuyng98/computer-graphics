@@ -9,7 +9,7 @@ SceneAnimation::SceneAnimation(QWidget *parent)
 void SceneAnimation::play()
 {
     connect(&timer, SIGNAL(timeout()), this, SLOT(doAnimation()));
-    timer.start(200);
+    timer.start(20);
 }
 
 void SceneAnimation::doAnimation()
@@ -22,6 +22,20 @@ void SceneAnimation::doAnimation()
     ++currentFrame;
     clear();
     addItem(new Line(getRandPoint(), getRandPoint(), this));
+}
+
+void SceneAnimation::drawBackground(QPainter *painter, const QRectF &rect)
+{
+    Q_UNUSED(rect);
+    int halfHeight = static_cast<int>(this->height()) / 2;
+    int halfWidth = static_cast<int>(this->width()) / 2;
+    const int halfThick = thickness / 2; //make it center
+
+    // Draw ox and oy
+    painter->setPen(QPen(QBrush(Qt::black), 1));
+    painter->setOpacity(0.6);
+    painter->drawLine(0, halfHeight + halfThick, static_cast<int>(this->width()), halfHeight + halfThick);
+    painter->drawLine(halfWidth + halfThick, 0, halfWidth + halfThick, static_cast<int>(this->height()));
 }
 
 void SceneAnimation::wheelEvent(QGraphicsSceneWheelEvent *wheelEvent)

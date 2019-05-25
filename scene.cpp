@@ -1,9 +1,6 @@
 #include "scene.h"
 #include "item.h"
 #include <QDebug>
-#include <QThread>
-#include <QTimer>
-#include <QTextItem>
 #include <QPoint>
 #include "window.h"
 

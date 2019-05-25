@@ -153,6 +153,7 @@ void Window::on_tabWidget_currentChanged(int index)
 {
     ui->stackedWidget->setCurrentIndex(index);
     ui->verticalSlider->setDisabled(index == 2);
+    ui->stackedWidget->setMaximumSize(9999, 9999);
     switch (index){
     case 0:
         ui->graphicsView->setScene(scene2d);        
@@ -165,6 +166,7 @@ void Window::on_tabWidget_currentChanged(int index)
     case 2:
         ui->graphicsView->setScene(sceneAnimation);
         ui->verticalSlider->setValue(sceneAnimation->getThickness() / 5);
+        ui->stackedWidget->setMaximumSize(200, 9999);
         break;
     }
 }
