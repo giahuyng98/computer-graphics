@@ -341,5 +341,45 @@ VPoints floodFill(const VPoints &border, const QPoint &point){
     return result;
 }
 
+VPoints drawCylinder(int cx, int cy, int cz, int r, int h, QPoint (*method)(int, int, int))
+{
+    QPoint centerBot = method(cx, cy, cz);
+    QPoint centerTop = method(cx, cy, cz + h);
+    const int DASH = 3, DOT = 1;
+    int yRadius;
+    if (method == cavalier){
+        yRadius = r / 4;
+    } else {
+        yRadius = r / 8;
+    }
+    auto ellipseTop1 = toDashDot(drawHalfTopEllipse(centerBot, r, yRadius), DASH, DOT);
+    auto ellipseBot1 = drawHalfBotEllipse(centerBot, r, yRadius);
+
+    auto ellipseTop2 = drawHalfTopEllipse(centerTop, r, yRadius);
+    auto ellipseBot2 = drawHalfBotEllipse(centerTop, r, yRadius);
+
+    QPoint botLeft = method(cx - r, cy, cz);
+    QPoint botRight = method(cx + r, cy, cz);
+    QPoint topLeft = method(cx - r, cy, cz + h);
+    QPoint topRight = method(cx + r, cy, cz + h);
+
+    auto lineLeft = drawLine(botLeft, topLeft);
+    auto lineRight = drawLine(botRight, topRight);
+
+    VPoints result;
+//    std::move(circle.begin(), circle.end(), std::back_inserter(result));
+    std::move(ellipseTop1.begin(), ellipseTop1.end(), std::back_inserter(result));
+    std::move(ellipseBot1.begin(), ellipseBot1.end(), std::back_inserter(result));
+    std::move(ellipseTop2.begin(), ellipseTop2.end(), std::back_inserter(result));
+    std::move(ellipseBot2.begin(), ellipseBot2.end(), std::back_inserter(result));
+
+    std::move(lineLeft.begin(), lineLeft.end(), std::back_inserter(result));
+    std::move(lineRight.begin(), lineRight.end(), std::back_inserter(result));
+
+    std::sort(result.begin(), result.end());
+    result.erase(std::unique(result.begin(), result.end()), result.end());
+    return result;
+}
+
 
 }

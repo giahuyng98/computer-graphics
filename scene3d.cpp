@@ -18,6 +18,12 @@ void Scene3D::addSphere(int x, int y, int z, int r)
     addItem(sphere);
 }
 
+void Scene3D::addCylinder(int cx, int cy, int cz, int r, int h)
+{
+    Cylinder *cylinder = new Cylinder(cx, cy, cz, r, h, this);
+    addItem(cylinder);
+}
+
 void Scene3D::setMethod(bool method)
 {
     if (method) {

@@ -75,6 +75,8 @@ private slots:
 
     void on_verticalSlider_valueChanged(int value);
 
+    void on_addCylinder_clicked();
+
 private:
     Ui::Window *ui;
     Scene2D *scene2d;

@@ -4,7 +4,7 @@
 #include "scene.h"
 #include "cube.h"
 #include "sphere.h"
-
+#include "cylinder.h"
 class Window;
 
 class Scene3D : public Scene
@@ -16,6 +16,8 @@ public:
     void addCube(int x, int y, int z, int width, int height, int length);
 
     void addSphere(int x, int y, int z, int r);
+
+    void addCylinder(int cx, int cy, int cz, int r, int h);
 
     QPoint (*to2D)(int x, int y, int z) = Drawer::cavalier;
 
