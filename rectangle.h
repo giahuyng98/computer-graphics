@@ -16,7 +16,7 @@ public:
               Scene *scene, QGraphicsItem *parent = nullptr);
 
     Type getType() const override;
-
+    QColor getFillColor() const override;
     void reDraw();
 
     QPoint getTopLeft() const;
@@ -30,6 +30,9 @@ public:
 
     QPoint getBottomRight() const;
     void setBottomRight(const QPoint &value);
+
+    int getWidth() const;
+    int getHeight() const;
 
     void setFillColor(const QColor &value);
 

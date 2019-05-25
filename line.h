@@ -23,7 +23,8 @@ public:
     Line(Scene *scene, QGraphicsItem *parent = nullptr);
     Line(int x1, int y1, int x2, int y2, Scene *scene, QGraphicsItem *parent = nullptr);
     Line(const QPoint &from, const QPoint &to, Scene *scene, QGraphicsItem *parent = nullptr);
-    Type getType() const override;    
+    Type getType() const override;
+    QColor getFillColor() const override;
 
     QPoint getPoint1() const;
     QPoint getPoint2() const;

@@ -17,7 +17,9 @@ public:
 
     Item(Scene *scene = nullptr, QGraphicsItem *parent = nullptr);
     virtual Type getType() const;
-    void setBrush(const QBrush &value);    
+    virtual QColor getFillColor() const;
+    void setBrush(const QBrush &value);
+    QColor getColor() const;
 
 protected:
     QPoint toScenePos(const QPoint &userPos) const;

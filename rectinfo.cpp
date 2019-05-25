@@ -22,8 +22,8 @@ void RectInfo::setRect(Rectangle *value)
         ui->rectEditTopLeftY->setText(QString::number(rect->getTopLeft().y()));
         ui->rectEditBottomRightX->setText(QString::number(rect->getBottomRight().x()));
         ui->rectEditBottomRightY->setText(QString::number(rect->getBottomRight().y()));
-        ui->rectEditWidth->setText(QString::number(std::abs(rect->getTopRight().x() - rect->getTopLeft().x())));
-        ui->rectEditHeight->setText(QString::number(std::abs(rect->getTopLeft().y() - rect->getBottomLeft().y())));
+        ui->rectEditWidth->setText(QString::number(rect->getWidth()));
+        ui->rectEditHeight->setText(QString::number(rect->getHeight()));
     } else {
         ui->rectEditTopLeftX->clear();
         ui->rectEditTopLeftY->clear();

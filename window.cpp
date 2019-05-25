@@ -230,4 +230,7 @@ void Window::on_verticalSlider_valueChanged(int value)
     }
 }
 
-
+void Window::on_toTextFileBtn_clicked()
+{
+    scene2d->toTextFile();
+}

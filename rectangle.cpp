@@ -72,6 +72,16 @@ void Rectangle::setBottomRight(const QPoint &value)
     bottomRight = value;
 }
 
+int Rectangle::getWidth() const
+{
+    return std::abs(topRight.x() - topLeft.x());
+}
+
+int Rectangle::getHeight() const
+{
+    return std::abs(topLeft.y() - bottomLeft.y());
+}
+
 QPoint Rectangle::getBottomLeft() const
 {
     return bottomLeft;
@@ -114,4 +124,9 @@ void Rectangle::reDraw()
 Item::Type Rectangle::getType() const
 {
     return Type::RECT;
+}
+
+QColor Rectangle::getFillColor() const
+{
+    return fillColor;
 }

@@ -77,6 +77,8 @@ private slots:
 
     void on_addCylinder_clicked();
 
+    void on_toTextFileBtn_clicked();
+
 private:
     Ui::Window *ui;
     Scene2D *scene2d;

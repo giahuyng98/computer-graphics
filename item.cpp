@@ -32,8 +32,13 @@ QPoint Item::toScenePos(const QPoint &userPos) const
 
 void Item::setBrush(const QBrush &value)
 {
-    brush = value;    
+    brush = value;
     scene->update();
+}
+
+QColor Item::getColor() const
+{
+    return brush.color();
 }
 
 Item::Item(Scene *scene, QGraphicsItem *parent)
@@ -45,6 +50,11 @@ Item::Item(Scene *scene, QGraphicsItem *parent)
 Item::Type Item::getType() const
 {
     return NULL_TYPE;
+}
+
+QColor Item::getFillColor() const
+{
+    return Qt::color0;
 }
 
 QPainterPath Item::shape() const{

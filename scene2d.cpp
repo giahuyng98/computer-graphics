@@ -15,6 +15,59 @@ Scene2D::Scene2D(QWidget *parent) : Scene(parent)
     ellipseInfo = new EllipseInfo();
 }
 
+void Scene2D::toTextFile()
+{
+    QFile file("test.txt");
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text)){
+        QTextStream stream(&file);
+        int cnt = 0;
+        for(auto &item : items()){
+            stream << "ADD ";
+            switch (static_cast<Item*>(item)->getType()) {
+            case Item::Type::LINE:
+            {
+                Line *line = static_cast<Line*>(item);
+                stream << ++cnt << " LINE " << line->getX1() << " "
+                       << line->getY1() << " "<< line->getX2() << " "
+                       << line->getY2() << " " << line->getColor().name();
+                break;
+            }
+            case Item::Type::RECT:
+            {
+                Rectangle *rect = static_cast<Rectangle*>(item);
+                stream << ++cnt << " RECT " << rect->getTopLeft().x() << " "
+                       << rect->getTopLeft().y() << " "
+                       << rect->getWidth() << " " << rect->getHeight() << " "
+                       << rect->getColor().name() << " " << rect->getFillColor().name();
+
+                break;
+            }
+            case Item::Type::CIRCLE:
+            {
+                Circle *circle = static_cast<Circle*>(item);
+                stream << ++cnt << " CIRCLE " << circle->getX() << " "
+                       << circle->getY() << " " << circle->getR() << " "
+                       << circle->getColor().name() << " " << circle->getFillColor().name();
+                break;
+            }
+            case Item::Type::ELIP:
+            {
+                Ellipse *ellipse = static_cast<Ellipse*>(item);
+                stream << ++cnt << " ELLIPSE " << ellipse->getX() << " "
+                       << ellipse->getY() << " " << ellipse->getXRadius() << " "
+                       << ellipse->getYRadius() << " "
+                       << ellipse->getColor().name() << " " << ellipse->getFillColor().name();
+                break;
+            }
+            default:
+                break;
+            }
+            stream << "\n";
+        }
+        stream << "STOP\n";
+    }
+}
+
 void Scene2D::doChangeColor(const QColor &color)
 {
     for(auto &item : this->selectedItems()){
@@ -71,7 +124,7 @@ void Scene2D::deleteItem()
 }
 
 void Scene2D::clearAll()
-{
+{    
     this->clear();
     lineInfo->setLine(nullptr);
     rectInfo->setRect(nullptr);

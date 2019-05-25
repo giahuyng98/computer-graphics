@@ -15,6 +15,8 @@ class Scene2D : public Scene
 public:
     explicit Scene2D(QWidget *parent = nullptr);
 
+    void toTextFile();
+
     void doChangeColor(const QColor &color);
 
     void doFillColor(const QColor &color);

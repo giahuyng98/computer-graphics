@@ -469,6 +469,13 @@
               </widget>
              </item>
              <item>
+              <widget class="QPushButton" name="toTextFileBtn">
+               <property name="text">
+                <string>To text file</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QGroupBox" name="groupBox">
                <property name="title">
                 <string>Affine transformation</string>
@@ -1339,19 +1346,13 @@
   <tabstop>tabWidget</tabstop>
   <tabstop>elipBtn</tabstop>
   <tabstop>graphicsView</tabstop>
-  <tabstop>cylinderY_2</tabstop>
-  <tabstop>cubeW_3</tabstop>
-  <tabstop>cylinderZ_2</tabstop>
-  <tabstop>cylinderX_2</tabstop>
-  <tabstop>cubeH_3</tabstop>
-  <tabstop>addCylinder_2</tabstop>
  </tabstops>
  <resources>
   <include location="myicon.qrc"/>
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="to2DMethod"/>
   <buttongroup name="shapeKind"/>
+  <buttongroup name="to2DMethod"/>
  </buttongroups>
 </ui>

@@ -6,6 +6,7 @@
 #include <random>
 #include <string>
 #include <fstream>
+#include <QTextStream>
 #include <map>
 
 class Window;
@@ -34,9 +35,10 @@ protected:
     void reflect();
 
 private:
-    std::ifstream file;
+    QFile file;
+    QTextStream stream;
     QPoint getRandPoint();
-    std::map<std::string, Item*> objs;
+    std::map<QString, Item*> objs;
     std::mt19937 mt;
     QTimer timer;    
 };
