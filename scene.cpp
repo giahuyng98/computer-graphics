@@ -10,14 +10,11 @@
 Scene::Scene(QWidget *parent) : QGraphicsScene (parent)
 {
     const int WIDTH = 1200;
-    const int HEIGH = 600;    
+    const int HEIGH = 600;
 
     this->setSceneRect(0, 0, WIDTH, HEIGH);
-    lenx = static_cast<int>(width()) / thickness;
-    leny = static_cast<int>(height()) / thickness;
-
-    offx = lenx / 2;
-    offy = leny / 2;
+    offx = static_cast<int>(width()) / thickness / 2;
+    offy = static_cast<int>(height()) / thickness / 2;
 }
 
 void Scene::setWindow(Window *value){
@@ -254,9 +251,9 @@ void Scene::wheelEvent(QGraphicsSceneWheelEvent *wheelEvent)
 {
     if (wheelEvent->modifiers() & Qt::ControlModifier){
         if (wheelEvent->delta() > 0){
-            setThickness(std::min(thickness + 1, 20));
+            setThickness(std::min(thickness + 5, 20));
         } else {
-            setThickness(std::max(thickness - 1 , 2));
+            setThickness(std::max(thickness - 5, 5));
         }
         window->setThickness(thickness);
         update();
@@ -281,16 +278,15 @@ int Scene::getThickness() const
 
 QPoint Scene::toUserCoordinate(const QPointF &scenePos) const
 {
-    return QPoint(static_cast<int>(scenePos.x()) / thickness - offx, offy - static_cast<int>(scenePos.y()) / thickness);
+    return QPoint(static_cast<int>(scenePos.x()) / thickness - offx,
+                  offy - static_cast<int>(scenePos.y()) / thickness);
 }
 
 void Scene::setThickness(int value)
 {
     thickness = value;
-    lenx = static_cast<int>(width()) / thickness;
-    leny = static_cast<int>(height()) / thickness;
-    offx = lenx / 2;
-    offy = leny / 2;
+    offx = static_cast<int>(std::round(width() / thickness / 2));
+    offy = static_cast<int>(std::round(height() / thickness / 2));
 }
 
 QPoint Scene::toScenePos(const QPoint &userPos) const

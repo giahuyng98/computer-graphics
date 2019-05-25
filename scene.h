@@ -55,7 +55,6 @@ protected:
 
 
     Affine affine;
-    int lenx, leny;
     int offx, offy;
     int thickness = 5;    
     Window *window;    

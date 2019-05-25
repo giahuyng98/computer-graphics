@@ -111,8 +111,7 @@ void Window::setEnableFillButton(bool enable)
 
 void Window::setThickness(int value)
 {
-    ui->verticalSlider->setValue(value);
-    ui->thicknessLabel->setNum(value);
+    ui->verticalSlider->setValue(value / 5);
 }
 
 void Window::on_changeColorBtn_clicked()
@@ -156,19 +155,16 @@ void Window::on_tabWidget_currentChanged(int index)
     ui->verticalSlider->setDisabled(index == 2);
     switch (index){
     case 0:
-        ui->graphicsView->setScene(scene2d);
-        ui->thicknessLabel->setNum(scene2d->getThickness());
-        ui->verticalSlider->setValue(scene2d->getThickness());
+        ui->graphicsView->setScene(scene2d);        
+        ui->verticalSlider->setValue(scene2d->getThickness() / 5);
         break;
     case 1:
         ui->graphicsView->setScene(scene3d);
-        ui->thicknessLabel->setNum(scene3d->getThickness());
-        ui->verticalSlider->setValue(scene3d->getThickness());
+        ui->verticalSlider->setValue(scene3d->getThickness() / 5);
         break;
     case 2:
         ui->graphicsView->setScene(sceneAnimation);
-        ui->thicknessLabel->setNum(sceneAnimation->getThickness());
-        ui->verticalSlider->setValue(sceneAnimation->getThickness());
+        ui->verticalSlider->setValue(sceneAnimation->getThickness() / 5);
         break;
     }
 }
@@ -212,6 +208,7 @@ void Window::on_playBtn_clicked()
 
 void Window::on_verticalSlider_valueChanged(int value)
 {
+    value *= 5;
     ui->thicknessLabel->setNum(value);
     switch (ui->tabWidget->currentIndex()){
     case 0:
