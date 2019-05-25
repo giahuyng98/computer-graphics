@@ -7,6 +7,7 @@
 #include <QMouseEvent>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsItem>
+#include <QMessageBox>
 #include <vector>
 #include <cmath>
 #include "items.h"

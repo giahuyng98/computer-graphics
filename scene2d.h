@@ -37,6 +37,8 @@ public:
 
     void setThickness(int value) override;
 
+    void addScene();
+
     RectInfo *getRectInfo() const;
 
     LineInfo *getLineInfo() const;
@@ -49,8 +51,11 @@ protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
     void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
+    void outPutItem(Item *item);
 
 private:
+    QFile tmpFile;
+    QTextStream out;
     bool isDrawing = false;
     Line *tmpLine = nullptr;
     Rectangle *tmpRectange = nullptr;

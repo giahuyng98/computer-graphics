@@ -78,7 +78,7 @@ void Circle::reDraw()
 {
     path = QPainterPath();
     drawCircle();
-    if (fillColor != Qt::color0) fillCircle();
+    if (fillColor != QColor::Spec::Invalid) fillCircle();
     scene->update();
 }
 

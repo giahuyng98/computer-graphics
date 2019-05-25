@@ -79,6 +79,10 @@ private slots:
 
     void on_toTextFileBtn_clicked();
 
+    void on_openSceneBtn_clicked();
+
+    void on_addSceneBtn_clicked();
+
 private:
     Ui::Window *ui;
     Scene2D *scene2d;
