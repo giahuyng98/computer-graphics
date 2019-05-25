@@ -29,7 +29,11 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Window</string>
+   <string>Computer Graphic</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="myicon.qrc">
+    <normaloff>:/resources/appicon.png</normaloff>:/resources/appicon.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="font">
@@ -349,19 +353,25 @@
             </size>
            </property>
            <property name="minimum">
-            <number>2</number>
+            <number>1</number>
            </property>
            <property name="maximum">
-            <number>20</number>
+            <number>4</number>
+           </property>
+           <property name="singleStep">
+            <number>1</number>
            </property>
            <property name="pageStep">
-            <number>2</number>
+            <number>1</number>
            </property>
            <property name="value">
-            <number>5</number>
+            <number>1</number>
            </property>
            <property name="orientation">
             <enum>Qt::Vertical</enum>
+           </property>
+           <property name="tickInterval">
+            <number>5</number>
            </property>
           </widget>
          </item>
@@ -371,7 +381,7 @@
      </layout>
     </item>
     <item>
-     <widget class="QSplitter" name="splitter_2">
+     <widget class="QSplitter" name="mySplitter">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
@@ -459,6 +469,13 @@
               </widget>
              </item>
              <item>
+              <widget class="QPushButton" name="toTextFileBtn">
+               <property name="text">
+                <string>To text file</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QGroupBox" name="groupBox">
                <property name="title">
                 <string>Affine transformation</string>
@@ -480,7 +497,7 @@
                  <number>0</number>
                 </property>
                 <item>
-                 <widget class="QFrame" name="frame">
+                 <widget class="QFrame" name="frameTranslate">
                   <property name="frameShape">
                    <enum>QFrame::Box</enum>
                   </property>
@@ -588,7 +605,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QFrame" name="frame">
+                 <widget class="QFrame" name="frameRotate">
                   <property name="frameShape">
                    <enum>QFrame::Box</enum>
                   </property>
@@ -725,7 +742,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QFrame" name="frame">
+                 <widget class="QFrame" name="frameScale">
                   <property name="frameShape">
                    <enum>QFrame::Box</enum>
                   </property>
@@ -833,7 +850,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QFrame" name="frame">
+                 <widget class="QFrame" name="frameReflect">
                   <property name="frameShape">
                    <enum>QFrame::Box</enum>
                   </property>
@@ -952,7 +969,7 @@
        <widget class="QWidget" name="page">
         <layout class="QVBoxLayout" name="verticalLayout_5">
          <item>
-          <widget class="QGroupBox" name="groupBox">
+          <widget class="QGroupBox" name="groupBoxMethod">
            <property name="title">
             <string>Method</string>
            </property>
@@ -984,7 +1001,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QGroupBox" name="groupBox">
+          <widget class="QGroupBox" name="groupBoxCube">
            <property name="title">
             <string>Cube</string>
            </property>
@@ -1070,7 +1087,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QGroupBox" name="groupBox">
+          <widget class="QGroupBox" name="groupBoxSphere">
            <property name="title">
             <string>Sphere</string>
            </property>
@@ -1136,6 +1153,89 @@
           </widget>
          </item>
          <item>
+          <widget class="QGroupBox" name="groupBoxCube_2">
+           <property name="title">
+            <string>Cylinder</string>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_12">
+            <item>
+             <layout class="QGridLayout" name="gridLayout_7">
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_20">
+                <property name="text">
+                 <string>z</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QLineEdit" name="cylinderY"/>
+              </item>
+              <item row="0" column="3">
+               <widget class="QLineEdit" name="cylinderR"/>
+              </item>
+              <item row="2" column="1">
+               <widget class="QLineEdit" name="cylinderZ"/>
+              </item>
+              <item row="0" column="1">
+               <widget class="QLineEdit" name="cylinderX"/>
+              </item>
+              <item row="0" column="2">
+               <widget class="QLabel" name="label_21">
+                <property name="text">
+                 <string>radius</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_22">
+                <property name="text">
+                 <string>y</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="2">
+               <widget class="QLabel" name="label_23">
+                <property name="text">
+                 <string>height</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_24">
+                <property name="text">
+                 <string>x</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="2">
+               <widget class="QLabel" name="label_25">
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="3">
+               <widget class="QLineEdit" name="cylinderH"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QPushButton" name="addCylinder">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Add Cylinder</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
           <widget class="QPushButton" name="clear3Dbtn">
            <property name="text">
             <string>Clear All</string>
@@ -1161,6 +1261,12 @@
         <layout class="QVBoxLayout" name="verticalLayout_6">
          <item>
           <widget class="QPushButton" name="playBtn">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="text">
             <string>Play</string>
            </property>
@@ -1194,12 +1300,12 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
-  <tabstop>tabWidget</tabstop>
-  <tabstop>lineBtn</tabstop>
-  <tabstop>rectBtn</tabstop>
-  <tabstop>circleBtn</tabstop>
-  <tabstop>elipBtn</tabstop>
-  <tabstop>graphicsView</tabstop>
+  <tabstop>cylinderX</tabstop>
+  <tabstop>cylinderY</tabstop>
+  <tabstop>cylinderZ</tabstop>
+  <tabstop>cylinderR</tabstop>
+  <tabstop>cylinderH</tabstop>
+  <tabstop>addCylinder</tabstop>
   <tabstop>changeColorBtn</tabstop>
   <tabstop>fillColorBtn</tabstop>
   <tabstop>deleteBtn</tabstop>
@@ -1229,11 +1335,24 @@
   <tabstop>zSphere</tabstop>
   <tabstop>rShere</tabstop>
   <tabstop>addSphereBtn</tabstop>
+  <tabstop>verticalSlider</tabstop>
+  <tabstop>cavalier</tabstop>
+  <tabstop>cabinet</tabstop>
+  <tabstop>clear3Dbtn</tabstop>
+  <tabstop>playBtn</tabstop>
+  <tabstop>lineBtn</tabstop>
+  <tabstop>circleBtn</tabstop>
+  <tabstop>rectBtn</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>elipBtn</tabstop>
+  <tabstop>graphicsView</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="myicon.qrc"/>
+ </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="to2DMethod"/>
   <buttongroup name="shapeKind"/>
+  <buttongroup name="to2DMethod"/>
  </buttongroups>
 </ui>

@@ -95,6 +95,11 @@ Item::Type Ellipse::getType() const
     return Type::ELIP;
 }
 
+QColor Ellipse::getFillColor() const
+{
+    return fillColor;
+}
+
 void Ellipse::reDraw()
 {
     path = QPainterPath();

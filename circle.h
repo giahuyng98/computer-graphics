@@ -12,6 +12,7 @@ class Circle : public Item
 public:
     Circle(int x, int y, int r, Scene *scene, QGraphicsItem *parent = nullptr);
     Type getType() const override;
+    QColor getFillColor() const override;
     int getX() const;
     void setX(int value);
 

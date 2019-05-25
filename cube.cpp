@@ -18,7 +18,7 @@ QPainterPath Cube::shape() const
 QRectF Cube::boundingRect() const
 {
     const int thickness = this->scene->getThickness();
-    QPoint botLeft = toScenePos(scene->to2D(x, y, z));
+    QPoint botLeft = scene->toScenePos(scene->to2D(x, y, z));
     botLeft.setX(botLeft.x() - width * thickness - thickness * 2);
     botLeft.setY(botLeft.y() - height * thickness - thickness * 2);
     return QRectF(botLeft, QSize((length + width) * thickness + thickness * 4, (height + width) * thickness + thickness * 4));
@@ -26,10 +26,11 @@ QRectF Cube::boundingRect() const
 
 void Cube::drawPixel(const QPoint &point)
 {
-    const int offx = this->scene->getOffx();
-    const int offy = this->scene->getOffy();
+    const QPoint scenePos = scene->toScenePos(point);
     const int thickness = this->scene->getThickness();
-    path.addRect((point.x() + offx) * thickness, (offy - point.y()) * thickness, thickness, thickness);
+    if (scenePos.x() < 0 || scenePos.x() > this->scene->width() ||
+        scenePos.y() < 0 || scenePos.y() > this->scene->height()) return;
+    path.addRect(QRect(scenePos, QSize(thickness, thickness)));
 }
 
 void Cube::drawCube()
@@ -37,14 +38,6 @@ void Cube::drawCube()
     for(const auto &point : Drawer::drawCube(x, y, z, width, height, length, scene->to2D)){
         drawPixel(point);
     }
-}
-
-QPoint Cube::toScenePos(const QPoint &userPos) const
-{
-    const int offx = this->scene->getOffx();
-    const int offy = this->scene->getOffy();
-    const int thickness = this->scene->getThickness();
-    return QPoint((userPos.x() + offx) * thickness, (offy - userPos.y()) * thickness);
 }
 
 void Cube::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

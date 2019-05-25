@@ -22,6 +22,11 @@ Item::Type Line::getType() const
     return Type::LINE;
 }
 
+QColor Line::getFillColor() const
+{
+    return Qt::color0;
+}
+
 QPoint Line::getPoint1() const
 {
     return {

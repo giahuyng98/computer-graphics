@@ -2,37 +2,8 @@
 #include <cmath>
 #include <QPainter>
 
-Scene3D::Scene3D(QWidget *parent) : QGraphicsScene (parent)
+Scene3D::Scene3D(QWidget *parent) : Scene (parent)
 {
-    const int WIDTH = 1200;
-    const int HEIGH = 600;
-
-    this->setSceneRect(0, 0, WIDTH, HEIGH);
-    lenx = static_cast<int>(width()) / thickness;
-    leny = static_cast<int>(height()) / thickness;
-
-    offx = lenx / 2;
-    offy = leny / 2;
-}
-
-int Scene3D::getOffx() const
-{
-    return offx;
-}
-
-int Scene3D::getOffy() const
-{
-    return offy;
-}
-
-int Scene3D::getThickness() const
-{
-    return thickness;
-}
-
-void Scene3D::setWindow(Window *value)
-{
-    window = value;
 }
 
 void Scene3D::addCube(int x, int y, int z, int width, int height, int length)
@@ -45,6 +16,12 @@ void Scene3D::addSphere(int x, int y, int z, int r)
 {
     Sphere *sphere = new Sphere(x, y, z, r, this);
     addItem(sphere);
+}
+
+void Scene3D::addCylinder(int cx, int cy, int cz, int r, int h)
+{
+    Cylinder *cylinder = new Cylinder(cx, cy, cz, r, h, this);
+    addItem(cylinder);
 }
 
 void Scene3D::setMethod(bool method)
@@ -140,11 +117,6 @@ void Scene3D::drawBackground(QPainter *painter, const QRectF &rect)
 
 void Scene3D::setThickness(int value)
 {
-    thickness = value;
-    lenx = static_cast<int>(width()) / thickness;
-    leny = static_cast<int>(height()) / thickness;
-
-    offx = lenx / 2;
-    offy = leny / 2;
-    update(0, 0, this->width(), this->height());
+    Scene::setThickness(value);
+    update();
 }

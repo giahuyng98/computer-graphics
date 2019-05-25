@@ -13,10 +13,11 @@ void Item::drawPixel(const QPoint &p)
 
 void Item::drawPixel(int x, int y, QPainterPath &painterPath)
 {
-    const int offx = this->scene->getOffx();
-    const int offy = this->scene->getOffy();
+    const QPoint scenePos = toScenePos({x, y});
     const int thickness = this->scene->getThickness();
-    painterPath.addRect((x + offx) * thickness, (offy - y) * thickness, thickness, thickness);
+    if (scenePos.x() < 0 || scenePos.x() > this->scene->width() ||
+        scenePos.y() < 0 || scenePos.y() > this->scene->height()) return;
+    painterPath.addRect(QRect(scenePos, QSize(thickness, thickness)));
 }
 
 void Item::drawPixel(const QPoint &p, QPainterPath &painterPath)
@@ -26,27 +27,34 @@ void Item::drawPixel(const QPoint &p, QPainterPath &painterPath)
 
 QPoint Item::toScenePos(const QPoint &userPos) const
 {
-    const int offx = this->scene->getOffx();
-    const int offy = this->scene->getOffy();
-    const int thickness = this->scene->getThickness();
-    return QPoint((userPos.x() + offx) * thickness, (offy - userPos.y()) * thickness);
+    return scene->toScenePos(userPos);
 }
 
 void Item::setBrush(const QBrush &value)
 {
-    brush = value;    
+    brush = value;
     scene->update();
+}
+
+QColor Item::getColor() const
+{
+    return brush.color();
 }
 
 Item::Item(Scene *scene, QGraphicsItem *parent)
     : QGraphicsItem(parent), scene(scene)
 {
-    setFlag(ItemIsSelectable);
+    setFlag(ItemIsSelectable); //| ItemSendsGeometryChanges | ItemSendsScenePositionChanges
 }
 
 Item::Type Item::getType() const
 {
     return NULL_TYPE;
+}
+
+QColor Item::getFillColor() const
+{
+    return Qt::color0;
 }
 
 QPainterPath Item::shape() const{

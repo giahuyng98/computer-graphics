@@ -30,6 +30,7 @@ SOURCES += \
         circle.cpp \
         circleinfo.cpp \
         cube.cpp \
+        cylinder.cpp \
         ellipse.cpp \
         ellipseinfo.cpp \
         item.cpp \
@@ -39,7 +40,9 @@ SOURCES += \
         rectangle.cpp \
         rectinfo.cpp \
         scene.cpp \
+        scene2d.cpp \
         scene3d.cpp \
+        sceneanimation.cpp \
         sphere.cpp \
         window.cpp
 
@@ -49,6 +52,7 @@ HEADERS += \
         circle.h \
         circleinfo.h \
         cube.h \
+        cylinder.h \
         ellipse.h \
         ellipseinfo.h \
         item.h \
@@ -57,7 +61,9 @@ HEADERS += \
         rectangle.h \
         rectinfo.h \
         scene.h \
+        scene2d.h \
         scene3d.h \
+        sceneanimation.h \
         sphere.h \
         window.h
 
@@ -74,4 +80,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    resources.qrc
+    myicon.qrc
+
+DISTFILES +=

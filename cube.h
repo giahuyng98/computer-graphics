@@ -19,8 +19,7 @@ protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
     void drawPixel(const QPoint &point);
-    void drawCube();
-    QPoint toScenePos(const QPoint &userPos) const;
+    void drawCube();    
 
 private:
     int x, y, z, width, height, length;

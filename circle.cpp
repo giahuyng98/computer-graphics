@@ -12,6 +12,11 @@ Item::Type Circle::getType() const
     return Type::CIRCLE;
 }
 
+QColor Circle::getFillColor() const
+{
+    return fillColor;
+}
+
 void Circle::drawCircle()
 {
     for(const auto &point : Drawer::drawCircle({x, y}, r)){
