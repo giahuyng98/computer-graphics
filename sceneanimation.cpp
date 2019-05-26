@@ -154,13 +154,21 @@ void SceneAnimation::doDelete()
 {
     QString objName;
     in >> objName;
-    delete objs[objName];
+    auto it = objs.find(objName);
+    if (it != objs.end()) {
+        objs.erase(it);
+        removeItem(it->second);
+    }
+
+//    removeItem(objs[objName]);
+//    delete objs[objName];
 }
 
 void SceneAnimation::doClear()
 {
     for(auto &it : items()){
-        delete it;
+//        delete it;
+        removeItem(it);
     }
     objs.clear();
 }
