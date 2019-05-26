@@ -314,7 +314,7 @@ VPoints toDashDot(const VPoints &points, int dash, int dot)
 VPoints floodFill(const VPoints &border, const QPoint &point){
     static const int dr[] = {-1, 1, 0, 0};
     static const int dc[] = {0, 0, -1, 1};
-    static const int MAX_POINTS = 1e6;
+    static const int MAX_POINTS = 720000;
 
     std::set<QPoint> close(std::make_move_iterator(border.begin()),
                            std::make_move_iterator(border.end()));
