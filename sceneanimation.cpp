@@ -155,7 +155,7 @@ void SceneAnimation::doDelete()
     QString objName;
     in >> objName;
     auto it = objs.find(objName);
-    if (it != objs.end()) {
+    if (it != objs.end() && it->second) {
         objs.erase(it);
         removeItem(it->second);
     }

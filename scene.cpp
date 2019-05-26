@@ -20,6 +20,7 @@ void Scene::setWindow(Window *value){
 
 void Scene::translateItem(Item *item, int dx, int dy)
 {
+    if (!item) return;
     switch (item->getType()) {
     case Item::Type::LINE:
     {
@@ -61,6 +62,7 @@ void Scene::translateItem(Item *item, int dx, int dy)
 
 void Scene::rotateItem(Item *item, int x, int y, int angle)
 {
+    if (!item) return;
     switch (item->getType()) {
     case Item::Type::LINE:
     {
@@ -101,6 +103,7 @@ void Scene::rotateItem(Item *item, int x, int y, int angle)
 
 void Scene::scaleItem(Item *item, float sx, float sy)
 {
+    if (!item) return;
     switch (item->getType()) {
     case Item::Type::LINE:
     {
@@ -141,6 +144,7 @@ void Scene::scaleItem(Item *item, float sx, float sy)
 
 void Scene::reflectItem(Item *item, int x, int y)
 {
+    if (!item) return;
     switch (item->getType()) {
     case Item::Type::LINE:
     {
@@ -181,11 +185,13 @@ void Scene::reflectItem(Item *item, int x, int y)
 
 void Scene::changeColor(Item *item, const QColor &color)
 {
+    if (!item) return;
     item->setBrush(QBrush(color));
 }
 
 void Scene::changeFillColor(Item *item, const QColor &color)
 {
+    if (!item) return;
     switch (item->getType()) {
     case Item::Type::RECT:
         static_cast<Rectangle*>(item)->setFillColor(color);
