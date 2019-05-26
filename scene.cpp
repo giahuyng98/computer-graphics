@@ -259,8 +259,8 @@ void Scene::drawBackground(QPainter *painter, const QRectF &rect)
     painter->setOpacity(1.0);
     // Draw x, y
     painter->setFont(QFont("Segoe UI", 10));
-    painter->drawText(halfWidth - 10, 10, QString("x"));
-    painter->drawText(static_cast<int>(this->width()) - 10, halfHeight + 15, QString("y"));
+    painter->drawText(halfWidth - 10, 10, QString("y"));
+    painter->drawText(static_cast<int>(this->width()) - 10, halfHeight + 15, QString("x"));
 
     // Draw arrow
     halfWidth += halfThick;
