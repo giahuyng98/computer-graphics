@@ -73,6 +73,7 @@ void Item::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     painter->fillPath(path, brush);
     if (isSelected()) {
         painter->setPen(QPen(Qt::black, 1, Qt::DashLine));
+        painter->setOpacity(0.5);
         painter->drawRect(boundingRect());
     }
 }
