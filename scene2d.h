@@ -7,6 +7,7 @@
 #include "circleinfo.h"
 #include "ellipseinfo.h"
 
+class FrameParser;
 class Window;
 
 class Scene2D : public Scene
@@ -14,6 +15,10 @@ class Scene2D : public Scene
     Q_OBJECT
 public:
     explicit Scene2D(QWidget *parent = nullptr);
+
+    void readTextFile(const QString &fileName);
+
+    bool nextFrame();
 
     void toTextFile();
 
@@ -40,6 +45,7 @@ public:
     void addScene();
 
     void addItemFrom2Points(const QPoint &p1, const QPoint &p2);
+
     void addBoundingRect(const QPoint &p1, const QPoint &p2);
 
     RectInfo *getRectInfo() const;
@@ -53,13 +59,10 @@ public:
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
-    void outPutItem(Item *item);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent) override;    
 
 private:
-    bool isDrawing = false;
-    QFile tmpFile;
-    QTextStream out;    
+    bool isDrawing = false;    
     Item *tmpItem = nullptr;
     Line *tmpLine = nullptr;
     Rectangle *tmpRectange = nullptr;
@@ -69,7 +72,8 @@ private:
     LineInfo *lineInfo;
     RectInfo *rectInfo;
     CircleInfo *circleInfo;
-    EllipseInfo *ellipseInfo;    
+    EllipseInfo *ellipseInfo;
+    FrameParser *parser;
     std::vector<QPoint> points;
 };
 

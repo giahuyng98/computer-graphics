@@ -40,9 +40,13 @@ public:
     int getXReflection() const;
     int getYReflection() const;
 
+    int getDelay() const;
+    bool isPauseAtEnd() const;
+
     void setMode(Mode mode);
     void setEnableFillButton(bool enable);
     void setThickness(int value);
+    void setOpenFileName(const QString &fileName);
 
 
 private slots:
@@ -82,7 +86,11 @@ private slots:
 
     void on_openSceneBtn_clicked();
 
-    void on_addSceneBtn_clicked();
+    void on_addFrameBtn_clicked();
+
+    void on_nextFrameBtn_clicked();
+
+    void on_readTextFileBtn_clicked();
 
 private:
     Ui::Window *ui;

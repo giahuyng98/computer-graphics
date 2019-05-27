@@ -1,12 +1,12 @@
 #include "sceneanimation.h"
 #include <iostream>
+#include "window.h"
 
 SceneAnimation::SceneAnimation(QWidget *parent)
     :Scene (parent), mt(std::random_device()())
 {
 //    setThickness(3);
     connect(&timer, SIGNAL(timeout()), this, SLOT(doAnimation()));
-//    file.setFileName("animation.txt");
 }
 
 void SceneAnimation::open(const QString &fileName)
@@ -24,20 +24,21 @@ void SceneAnimation::play()
     objs.clear();
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)){
         in.setDevice(&file);
+        window->setOpenFileName(file.fileName());
     } else {
         QMessageBox(QMessageBox::Icon::Critical, "Error", "Can't open file: " + file.fileName()).exec();
         return;
     }
-    timer.start(50);
+    timer.start(window->getDelay());
 }
 
 void SceneAnimation::doAnimation()
 {    
     if (in.atEnd()) {
         timer.stop();
-        clear();
+        if (!window->isPauseAtEnd()) clear();
         update();
-        objs.clear();
+        objs.clear();        
         return;
     }    
     QString command;
@@ -139,7 +140,7 @@ void SceneAnimation::scale()
     QString objName;
     float sx, sy;
     in >> objName >> sx >> sy;
-    Scene::scaleItem(objs[objName], sy, sy);
+    Scene::scaleItem(objs[objName], sx, sy);
 }
 
 void SceneAnimation::reflect()
@@ -187,10 +188,10 @@ void SceneAnimation::fillColor()
     Scene::changeFillColor(objs[objName], QColor(colorName));
 }
 
-QPoint SceneAnimation::getRandPoint()
-{
-    return{
-        std::uniform_int_distribution<int>(-offx, offx)(mt),
-        std::uniform_int_distribution<int>(-offy, offy)(mt)
-    };
-}
+//QPoint SceneAnimation::getRandPoint()
+//{
+//    return{
+//        std::uniform_int_distribution<int>(-offx, offx)(mt),
+//        std::uniform_int_distribution<int>(-offy, offy)(mt)
+//    };
+//}

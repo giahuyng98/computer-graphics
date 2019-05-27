@@ -42,8 +42,7 @@ protected:
 
 private:
     QFile file;
-    QTextStream in;
-    QPoint getRandPoint();
+    QTextStream in;    
     std::map<QString, Item*> objs;
     std::mt19937 mt;
     QTimer timer;    

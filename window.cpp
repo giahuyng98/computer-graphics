@@ -84,6 +84,16 @@ int Window::getYReflection() const
     return ui->yReflection->text().toInt();
 }
 
+int Window::getDelay() const
+{
+    return ui->delayValue->text().toInt();
+}
+
+bool Window::isPauseAtEnd() const
+{
+    return ui->pauseAtEndRBtn->isChecked();
+}
+
 void Window::setMode(Window::Mode mode)
 {
     switch (mode) {
@@ -103,6 +113,8 @@ void Window::setMode(Window::Mode mode)
         if (ui->splitter->widget(0) != scene2d->getEllipseInfo())
             ui->splitter->replaceWidget(0, scene2d->getEllipseInfo());
         break;
+    default:
+        break;
     }
 }
 
@@ -114,6 +126,11 @@ void Window::setEnableFillButton(bool enable)
 void Window::setThickness(int value)
 {
     ui->verticalSlider->setValue(value / 5);
+}
+
+void Window::setOpenFileName(const QString &fileName)
+{
+    ui->openFileName->setText(fileName);
 }
 
 void Window::on_changeColorBtn_clicked()
@@ -239,14 +256,34 @@ void Window::on_toTextFileBtn_clicked()
 
 void Window::on_openSceneBtn_clicked()
 {
-    sceneAnimation->open(QFileDialog(this, "Select file",
-     QCoreApplication::applicationDirPath()).getOpenFileName());
+     QString fileName = QFileDialog(this, "Select file",
+                                   QCoreApplication::applicationDirPath()).getOpenFileName();
+     sceneAnimation->open(fileName);
+     setOpenFileName(fileName);
 }
 
-void Window::on_addSceneBtn_clicked()
+void Window::on_addFrameBtn_clicked()
 {
     static int cur = 0;
     ++cur;
-    ui->addSceneBtn->setText("Add Scene " + QString::number(cur));
+    ui->addFrameBtn->setText("Add Frame " + QString::number(cur));
     scene2d->addScene();
+}
+
+void Window::on_nextFrameBtn_clicked()
+{
+    static int cur = 0;
+    if (scene2d->nextFrame()){
+        ++cur;
+        ui->nextFrameBtn->setText("Next Frame " + QString::number(cur));
+    } else {
+        QMessageBox(QMessageBox::Icon::Information, "Information", "End of frame!").exec();
+    }
+}
+
+void Window::on_readTextFileBtn_clicked()
+{
+    QString fileName = QFileDialog(this, "Select file",
+                                   QCoreApplication::applicationDirPath()).getOpenFileName();
+    scene2d->readTextFile(fileName);
 }

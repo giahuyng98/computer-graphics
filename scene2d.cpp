@@ -8,43 +8,51 @@
 #include <QFileDialog>
 #include <QCoreApplication>
 #include "window.h"
+#include "frameparser.h"
 
 Scene2D::Scene2D(QWidget *parent) : Scene(parent)
 {
+    parser = new FrameParser(this);
     lineInfo = new LineInfo();
     rectInfo = new RectInfo();
     circleInfo = new CircleInfo();
-    ellipseInfo = new EllipseInfo();
-    tmpFile.setFileName("tmp.txt");
+    ellipseInfo = new EllipseInfo();    
+}
 
-    if (tmpFile.open(QFile::WriteOnly | QFile::Truncate)){
-        out.setDevice(&tmpFile);
-    } else {
-        QMessageBox(QMessageBox::Icon::Critical, "Error", "Can't load app").exec();
-        return;
+void Scene2D::readTextFile(const QString &fileName)
+{
+    if (!parser->setFile(fileName)) exit(43);
+}
+
+bool Scene2D::nextFrame()
+{
+    if (!parser->nextFrame()){
+//        QFile test("huy.txt");
+//        test.write(parser->getOutPut().toLatin1());
+        return false;
     }
+    return true;
+
 }
 
 void Scene2D::toTextFile()
-{
-    out.flush();
+{    
     QString outFileName = QFileDialog(window, "Save to file",
                                   QCoreApplication::applicationDirPath()).getSaveFileName();
-    if (QFile::exists(outFileName))
-        QFile::remove(outFileName);        
-
-    if (!QFile::copy(tmpFile.fileName(), outFileName)){
-        QMessageBox(QMessageBox::Icon::Critical, "Error", "Can't save file: " + outFileName).exec();
+    QFile outFile(outFileName);
+    if (outFile.open(QIODevice::WriteOnly)){
+        outFile.write(parser->getOutPut().toLatin1());
     } else {
-//        QFile::remove(tmpFile.fileName());
+        QMessageBox(QMessageBox::Icon::Critical, "Error", "Can't not save file: " + outFileName).exec();
     }
+
 }
 
 void Scene2D::doChangeColor(const QColor &color)
 {
     for(auto &it : this->selectedItems()){
-        Item *item = static_cast<Item*>(it);
-        out << "CHCOLOR " << item << " " << color.name() << "\n";
+        Item *item = static_cast<Item*>(it);        
+        parser->outPutChangeColor(item, color);
         changeColor(item, color);
     }
 }
@@ -53,7 +61,7 @@ void Scene2D::doFillColor(const QColor &color)
 {
     for(auto &it : this->selectedItems()){
         Item *item = static_cast<Item*>(it);
-        out << "FILLCOLOR " << item << " " << color.name() << "\n";
+        parser->outPutFillColot(item, color);
         changeFillColor(item, color);
     }
 }
@@ -62,7 +70,7 @@ void Scene2D::deleteItem()
 {
     for(auto &it : this->selectedItems()){
         Item *item = static_cast<Item*>(it);
-        out << "DELETE " << item << "\n";
+        parser->outPutDeletion(item);
         removeItem(item);
     }
 
@@ -83,7 +91,7 @@ void Scene2D::deleteItem()
 
 void Scene2D::clearAll()
 {
-    out << "CLEAR\n";
+    parser->outPutClear();
     this->clear();
     lineInfo->setLine(nullptr);
     rectInfo->setRect(nullptr);
@@ -96,7 +104,7 @@ void Scene2D::doTranslation()
     for(auto &it : selectedItems()){
         Item *selectedItem = static_cast<Item*>(it);
         if (selectedItem){
-            out << "TRANS " << selectedItem << " " << window->getDxTrans() << " " << window->getDyTrans() << "\n";
+            parser->outPutTranslation(selectedItem, window->getDxTrans(), window->getDyTrans());
             translateItem(selectedItem, window->getDxTrans(), window->getDyTrans());
             updateInfo(selectedItem);
         }
@@ -108,8 +116,7 @@ void Scene2D::doRotation()
     for(auto &it : selectedItems()){
         Item *selectedItem = static_cast<Item*>(it);
         if (selectedItem){
-            out << "ROTATE " << selectedItem << " " << window->getXRotate() << " " << window->getYRotate()
-                << " " << window->getAngleRotate() << "\n";
+            parser->outPutRotation(selectedItem, window->getXRotate(), window->getYRotate(), window->getAngleRotate());
             rotateItem(selectedItem, window->getXRotate(), window->getYRotate(), window->getAngleRotate());
             updateInfo(selectedItem);
         }
@@ -121,7 +128,7 @@ void Scene2D::doScaling()
     for(auto &it : selectedItems()){
         Item *selectedItem = static_cast<Item*>(it);
         if (selectedItem){
-            out << "SCALE " << selectedItem << " " << window->getSXScale()<< " " << window->getSYScale() << "\n";
+            parser->outPutScaling(selectedItem, window->getSXScale(), window->getSYScale());
             scaleItem(selectedItem, window->getSXScale(), window->getSYScale());
             updateInfo(selectedItem);
         }
@@ -133,7 +140,7 @@ void Scene2D::doReflection()
     for(auto &it : selectedItems()){
         Item *selectedItem = static_cast<Item*>(it);
         if (selectedItem){
-            out << "REFLECT " << selectedItem << " " <<  window->getXReflection() << " " << window->getYReflection() << "\n";
+            parser->outPutReflection(selectedItem, window->getXReflection(), window->getYReflection());
             reflectItem(selectedItem, window->getXReflection(), window->getYReflection());
             updateInfo(selectedItem);
         }
@@ -190,8 +197,7 @@ void Scene2D::setThickness(int value)
 
 void Scene2D::addScene()
 {
-    out << "STOP\n";
-    out.flush();
+    parser->outPutAddition();
 }
 
 void Scene2D::addItemFrom2Points(const QPoint &p1, const QPoint &p2)
@@ -254,7 +260,7 @@ void Scene2D::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
         if (window->getMode() == Window::Mode::SELECT_ITEMS){
             isDrawing = false;
             QGraphicsItem *selectedItem = (this->itemAt(mouseEvent->scenePos(), QTransform()));
-            if (selectedItem && selectedItem != tmpSelected){
+            if (selectedItem){
                 Item *item = static_cast<Item*>(selectedItem);
                 updateInfo(item);
                 window->setEnableFillButton(item->getType() != Item::Type::LINE);
@@ -273,16 +279,17 @@ void Scene2D::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 void Scene2D::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
+    Q_UNUSED(mouseEvent);
     if (window->getMode() == Window::Mode::SELECT_ITEMS){
         if (tmpSelected) removeItem(tmpSelected);
         tmpSelected = nullptr;
     } else {
-        outPutItem(tmpItem);
+        parser->outPutItem(tmpItem);
         tmpItem = nullptr;
     }
     isDrawing = false;
-    points.clear();
-    QGraphicsScene::mouseReleaseEvent(mouseEvent);
+    points.clear();    
+//    QGraphicsScene::mouseReleaseEvent(mouseEvent);
 }
 
 void Scene2D::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
@@ -297,52 +304,6 @@ void Scene2D::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
         addBoundingRect(points.front(), points.back());
     }
     QGraphicsScene::mouseMoveEvent(mouseEvent);
-}
-
-void Scene2D::outPutItem(Item *item)
-{
-    if (!item) return;
-    out << "ADD ";
-    switch (static_cast<Item*>(item)->getType()) {
-    case Item::Type::LINE:
-    {
-        Line *line = static_cast<Line*>(item);
-        out << item << " LINE " << line->getX1() << " "
-            << line->getY1() << " "<< line->getX2() << " "
-            << line->getY2() << " " << line->getColor().name();
-        break;
-    }
-    case Item::Type::RECT:
-    {
-        Rectangle *rect = static_cast<Rectangle*>(item);
-        out << item << " RECT " << rect->getTopLeft().x() << " "
-            << rect->getTopLeft().y() << " "
-            << rect->getWidth() << " " << rect->getHeight() << " "
-            << rect->getColor().name() << " " << rect->getFillColor().name();
-
-        break;
-    }
-    case Item::Type::CIRCLE:
-    {
-        Circle *circle = static_cast<Circle*>(item);
-        out << item << " CIRCLE " << circle->getX() << " "
-            << circle->getY() << " " << circle->getR() << " "
-            << circle->getColor().name() << " " << circle->getFillColor().name();
-        break;
-    }
-    case Item::Type::ELLIPSE:
-    {
-        Ellipse *ellipse = static_cast<Ellipse*>(item);
-        out << item << " ELLIPSE " << ellipse->getX() << " "
-            << ellipse->getY() << " " << ellipse->getXRadius() << " "
-            << ellipse->getYRadius() << " "
-            << ellipse->getColor().name() << " " << ellipse->getFillColor().name();
-        break;
-    }
-    default:
-        break;
-    }
-    out << "\n";
 }
 
 EllipseInfo *Scene2D::getEllipseInfo() const
