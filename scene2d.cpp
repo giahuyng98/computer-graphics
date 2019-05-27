@@ -141,6 +141,7 @@ void Scene2D::doReflection()
 
 void Scene2D::updateInfo(Item *item)
 {
+    if (!item) return;
     switch (item->getType()) {
     case Item::Type::LINE:
         window->setMode(Window::Mode::DRAW_LINE);
@@ -269,6 +270,7 @@ void Scene2D::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 void Scene2D::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     if (tmpSelected) removeItem(tmpSelected);
+    else outPutItem(tmpItem);
     tmpItem = nullptr;
     tmpSelected = nullptr;
     points.clear();
@@ -285,6 +287,7 @@ void Scene2D::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 void Scene2D::outPutItem(Item *item)
 {
+    if (!item) return;
     out << "ADD ";
     switch (static_cast<Item*>(item)->getType()) {
     case Item::Type::LINE:

@@ -63,13 +63,8 @@ QRectF Line::boundingRect() const
 
     const QPoint topLeft = toScenePos({minx, maxy});
     const QPoint botRight = toScenePos({maxx, miny});
-    return QRectF(topLeft, botRight).adjusted(0, 0, thickness, thickness);
+    return QRectF(topLeft, botRight).adjusted(-1, -1, thickness, thickness);
 }
-
-//void Line::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
-//{
-//    Item::paint(painter, option, widget);
-//}
 
 void Line::drawLine()
 {
@@ -77,7 +72,6 @@ void Line::drawLine()
         drawPixel(point);
     }
 }
-
 
 int Line::getY2() const
 {
