@@ -39,6 +39,8 @@ public:
 
     void addScene();
 
+    void addItemFrom2Points(const QPoint &p1, const QPoint &p2);
+
     RectInfo *getRectInfo() const;
 
     LineInfo *getLineInfo() const;
@@ -57,14 +59,16 @@ private:
     QFile tmpFile;
     QTextStream out;
     bool isDrawing = false;
+    Item *tmpItem = nullptr;
     Line *tmpLine = nullptr;
     Rectangle *tmpRectange = nullptr;
     Circle *tmpCircle = nullptr;
     Ellipse *tmpEllipse = nullptr;
+    QGraphicsRectItem *tmpSelected = nullptr;
     LineInfo *lineInfo;
     RectInfo *rectInfo;
     CircleInfo *circleInfo;
-    EllipseInfo *ellipseInfo;
+    EllipseInfo *ellipseInfo;    
     std::vector<QPoint> points;
 };
 

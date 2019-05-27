@@ -62,8 +62,7 @@ void Scene2D::deleteItem()
     for(auto &it : this->selectedItems()){
         Item *item = static_cast<Item*>(it);
         out << "DELETE " << item << "\n";
-        delete item;
-//        removeItem(item);
+        removeItem(item);
     }
 
 
@@ -71,26 +70,7 @@ void Scene2D::deleteItem()
         Item *item = static_cast<Item*>(this->items().first());
         item->setSelected(true);
         window->setEnableFillButton(item->getType() != Item::Type::LINE);
-        switch (item->getType()) {
-        case Item::Type::LINE:
-            lineInfo->setLine(static_cast<Line*>(item));
-            window->setMode(Window::Mode::DRAW_LINE);
-            break;
-        case Item::Type::RECT:
-            rectInfo->setRect(static_cast<Rectangle*>(item));
-            window->setMode(Window::Mode::DRAW_RECT);
-            break;
-        case Item::Type::CIRCLE:
-            circleInfo->setCircle(static_cast<Circle*>(item));
-            window->setMode(Window::Mode::DRAW_CIRCLE);
-            break;
-        case Item::Type::ELLIPSE:
-            ellipseInfo->setEllipse(static_cast<Ellipse*>(item));
-            window->setMode(Window::Mode::DRAW_ELLIPSE);
-            break;
-        default:
-            break;
-        }
+        updateInfo(item);
     } else {
         lineInfo->setLine(nullptr);
         rectInfo->setRect(nullptr);
@@ -163,15 +143,19 @@ void Scene2D::updateInfo(Item *item)
 {
     switch (item->getType()) {
     case Item::Type::LINE:
+        window->setMode(Window::Mode::DRAW_LINE);
         lineInfo->setLine(static_cast<Line*>(item));
         break;
     case Item::Type::RECT:
+        window->setMode(Window::Mode::DRAW_RECT);
         rectInfo->setRect(static_cast<Rectangle*>(item));
         break;
     case Item::Type::CIRCLE:
+        window->setMode(Window::Mode::DRAW_CIRCLE);
         circleInfo->setCircle(static_cast<Circle*>(item));
         break;
     case Item::Type::ELLIPSE:
+        window->setMode(Window::Mode::DRAW_CIRCLE);
         ellipseInfo->setEllipse(static_cast<Ellipse*>(item));
         break;
     default:
@@ -208,158 +192,94 @@ void Scene2D::addScene()
     out.flush();
 }
 
+void Scene2D::addItemFrom2Points(const QPoint &p1, const QPoint &p2)
+{
+    if (tmpItem){
+        removeItem(tmpItem);
+        tmpItem = nullptr;
+    }
+    if (tmpSelected){
+        removeItem(tmpSelected);
+        tmpSelected = nullptr;
+    }
+    switch (window->getMode()){
+    case Window::Mode::DRAW_LINE :
+        tmpItem = new Line(p1, p2, this);
+        break;
+    case Window::Mode::DRAW_RECT :
+        tmpItem = new Rectangle(QPoint(std::min(p1.x(), p2.x()), std::max(p1.y(), p2.y())),
+                                QSize(std::abs(p2.x() - p1.x()), std::abs(p2.y() - p1.y())), this);
+        break;
+    case Window::Mode::DRAW_CIRCLE :
+        tmpItem = new Circle(p1.x(), p1.y(),
+                             Drawer::dist(p1, p2), this);
+        break;
+    case Window::Mode::DRAW_ELLIPSE :
+        tmpItem = new Ellipse(p1.x(), p1.y(),
+                              std::abs(p2.x() - p1.x()),
+                              std::abs(p2.y() - p1.y()), this);
+        break;
+    case Window::Mode::SELECT_ITEMS:
+    {
+        QPoint sceneP1 = toScenePos(p1);
+        QPoint sceneP2 = toScenePos(p2);
+        tmpSelected = new QGraphicsRectItem(
+            std::min(sceneP1.x(), sceneP2.x()),
+            std::min(sceneP1.y(), sceneP2.y()),
+            std::abs(sceneP1.x() - sceneP2.x()),
+            std::abs(sceneP1.y() - sceneP2.y())
+            );
+        tmpSelected->setPen(QPen(Qt::black, 1, Qt::DashLine));
+        addItem(tmpSelected);
+        setSelectionArea(tmpSelected->shape());
+        tmpSelected->setSelected(false);
+        return;
+    }
+    }
+    addItem(tmpItem);
+    tmpItem->setSelected(true);
+    updateInfo(tmpItem);
+    window->setEnableFillButton(tmpItem->getType() != Item::Type::LINE);
+}
+
 void Scene2D::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-
-    if (mouseEvent->button() == Qt::LeftButton){        
-        Item *selectedItem = static_cast<Item*>(this->itemAt(mouseEvent->scenePos(), QTransform()));
-        if (selectedItem){
-            switch (selectedItem->getType()) {
-            case Item::Type::LINE:
-                lineInfo->setLine(static_cast<Line*>(selectedItem));
-                window->setMode(Window::Mode::DRAW_LINE);
-                break;
-            case Item::Type::RECT:
-                rectInfo->setRect(static_cast<Rectangle*>(selectedItem));
-                window->setMode(Window::Mode::DRAW_RECT);
-                break;
-            case Item::Type::CIRCLE:
-                circleInfo->setCircle(static_cast<Circle*>(selectedItem));
-                window->setMode(Window::Mode::DRAW_CIRCLE);
-                break;
-            case Item::Type::ELLIPSE:
-                ellipseInfo->setEllipse(static_cast<Ellipse*>(selectedItem));
-                window->setMode(Window::Mode::DRAW_ELLIPSE);
-                break;
-            default:
-                break;
-            }            
-            window->setEnableFillButton(selectedItem->getType() != Item::Type::LINE);
-            if (window->getMode() == Window::Mode::SELECT_ITEMS){
+    points.clear();
+    if (mouseEvent->button() == Qt::LeftButton){
+        points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
+        points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
+        if (window->getMode() == Window::Mode::SELECT_ITEMS){
+            Item *selectedItem = static_cast<Item*>(this->itemAt(mouseEvent->scenePos(), QTransform()));
+            if (selectedItem){
+                updateInfo(selectedItem);
+                window->setEnableFillButton(selectedItem->getType() != Item::Type::LINE);
                 if (!(mouseEvent->modifiers() & Qt::ControlModifier)){
-                    this->clearSelection();
+                    clearSelection();
                 }
                 selectedItem->setSelected(true);
-                return;
             }
+        } else {
+            clearSelection();
+            addItemFrom2Points(points.front(), points.back());
         }
-
-        QGraphicsScene::mousePressEvent(mouseEvent);
-        isDrawing = true;
-        points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
-        window->setEnableFillButton(window->getMode() != Window::DRAW_LINE);
-        points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
-        switch (window->getMode()){
-        case Window::Mode::DRAW_LINE :
-            tmpLine = new Line(points.front(), points.back(), this);
-            addItem(tmpLine);
-            lineInfo->setLine(tmpLine);
-            window->setMode(Window::Mode::DRAW_LINE);
-            break;
-        case Window::Mode::DRAW_RECT :
-            tmpRectange = new Rectangle(QPoint(std::min(points.front().x(), points.back().x()),
-                                               std::max(points.front().y(), points.back().y())),
-                                        QSize(std::abs(points.back().x() - points.front().x()),
-                                              std::abs(points.back().y() - points.front().y())), this);
-
-            addItem(tmpRectange);
-            rectInfo->setRect(tmpRectange);
-            window->setMode(Window::Mode::DRAW_RECT);
-            break;
-        case Window::Mode::DRAW_CIRCLE :
-            tmpCircle = new Circle(points.front().x(), points.front().y(), Drawer::dist(points.front(), points.back()), this);
-            addItem(tmpCircle);
-            circleInfo->setCircle(tmpCircle);
-            window->setMode(Window::Mode::DRAW_CIRCLE);
-            break;
-        case Window::Mode::DRAW_ELLIPSE :
-            tmpEllipse = new Ellipse(points.front().x(), points.front().y(),
-                                     std::abs(points.back().x() - points.front().x()),
-                                     std::abs(points.back().y() - points.front().y()), this);
-            addItem(tmpEllipse);
-            ellipseInfo->setEllipse(tmpEllipse);
-            window->setMode(Window::Mode::DRAW_ELLIPSE);
-            break;
-        default:
-            break;
-        }
-
     }
+//    QGraphicsScene::mousePressEvent(mouseEvent);
 }
 
 void Scene2D::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    if (isDrawing && !this->selectedItems().isEmpty()){
-        outPutItem(static_cast<Item*>(this->selectedItems().first()));
-    }
-    isDrawing = false;
+    if (tmpSelected) removeItem(tmpSelected);
+    tmpItem = nullptr;
+    tmpSelected = nullptr;
     points.clear();
     QGraphicsScene::mouseReleaseEvent(mouseEvent);
 }
 
 void Scene2D::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    if (isDrawing){
-        switch (window->getMode()) {
-        case  Window::Mode::DRAW_LINE:
-            points.pop_back();
-            points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
-            removeItem(tmpLine);
-            delete tmpLine;
-            this->addItem(tmpLine = new Line(points.front(), points.back(), this));
-            tmpLine->setSelected(true);
-            tmpLine->update();
-            lineInfo->setLine(tmpLine);
-            break;
-        case Window::Mode::DRAW_RECT:
-
-            points.pop_back();
-            points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
-            removeItem(tmpRectange);
-            delete tmpRectange;
-            tmpRectange = new Rectangle(QPoint(std::min(points.front().x(), points.back().x()),
-                                               std::max(points.front().y(), points.back().y())),
-                                        QSize(std::abs(points.back().x() - points.front().x()),
-                                              std::abs(points.back().y() - points.front().y())), this);
-
-            tmpRectange->setSelected(true);
-            tmpRectange->update();
-            rectInfo->setRect(tmpRectange);
-            this->addItem(tmpRectange);
-
-            break;
-        case Window::Mode::DRAW_CIRCLE:
-            points.pop_back();
-            points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
-            removeItem(tmpCircle);
-            delete tmpCircle;
-            tmpCircle = new Circle(points.front().x(), points.front().y(), Drawer::dist(points.front(), points.back()), this);
-            tmpCircle->setSelected(true);
-            tmpCircle->update();
-            circleInfo->setCircle(tmpCircle);
-            this->addItem(tmpCircle);
-
-            break;
-        case Window::Mode::DRAW_ELLIPSE:
-            points.pop_back();
-            points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
-            removeItem(tmpEllipse);
-            delete tmpEllipse;
-            tmpEllipse = new Ellipse(points.front().x(), points.front().y(),
-                                     std::abs(points.back().x() - points.front().x()),
-                                     std::abs(points.back().y() - points.front().y()), this);
-            tmpEllipse->setSelected(true);
-            tmpEllipse->update();
-            ellipseInfo->setEllipse(tmpEllipse);
-            this->addItem(tmpEllipse);
-
-            break;
-        default:
-            break;
-        }
-    } else {
-        // TODO: whatever
-    }
+    points.pop_back();
+    points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
+    addItemFrom2Points(points.front(), points.back());
     QGraphicsScene::mouseMoveEvent(mouseEvent);
 }
 

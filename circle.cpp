@@ -27,11 +27,9 @@ void Circle::drawCircle()
 QRectF Circle::boundingRect() const
 {
     const int thickness = this->scene->getThickness();
-    const int len = thickness * r;
-    QPoint topLeft = toScenePos({x, y});
-    topLeft.setX(topLeft.x() - len - thickness);
-    topLeft.setY(topLeft.y() - len - thickness);
-    return QRectF(topLeft, QSize(len * 2 + thickness * 3, len * 2 + thickness * 3));
+    const int sceneRadius = thickness * r;
+    const QPoint topLeft = toScenePos({x, y}) - QPoint(sceneRadius, sceneRadius);
+    return QRectF(topLeft, QSize(sceneRadius * 2, sceneRadius * 2)).adjusted(0, 0, thickness, thickness);
 }
 
 QPainterPath Circle::shape() const
@@ -41,9 +39,6 @@ QPainterPath Circle::shape() const
 
 void Circle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-//    Q_UNUSED(option);
-//    Q_UNUSED(widget);
-//    painter->fillPath(path, brush);
     Item::paint(painter, option, widget);
     painter->fillPath(fillPath, fillColor);
 }

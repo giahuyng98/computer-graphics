@@ -17,10 +17,10 @@ void Ellipse::drawEllipse()
 QRectF Ellipse::boundingRect() const
 {
     const int thickness = this->scene->getThickness();
-    QPoint topLeft = toScenePos(QPoint(x, y));
-    topLeft.setX(topLeft.x() - thickness * xRadius - thickness);
-    topLeft.setY(topLeft.y() - thickness * yRadius - thickness);
-    return QRectF(topLeft, QSize(xRadius * thickness * 2 + thickness * 2, yRadius * thickness * 2 + thickness * 2));
+    const int sceneXRadius = thickness * xRadius;
+    const int sceneYRadius = thickness * yRadius;
+    const QPoint topLeft = toScenePos(QPoint(x, y)) - QPoint(sceneXRadius, sceneYRadius);
+    return QRectF(topLeft, QSize(sceneXRadius * 2, sceneYRadius * 2)).adjusted(0, 0, thickness, thickness);
 }
 
 QPainterPath Ellipse::shape() const{
@@ -29,9 +29,6 @@ QPainterPath Ellipse::shape() const{
 
 void Ellipse::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-//    Q_UNUSED(option);
-//    Q_UNUSED(widget);
-//    painter->fillPath(path, brush);
     Item::paint(painter, option, widget);
     painter->fillPath(fillPath, fillColor);
 }
