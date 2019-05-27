@@ -41,11 +41,7 @@ void Scene2D::readTextFile(const QString &fileName)
 
 bool Scene2D::nextFrame()
 {
-    if (!parser->nextFrame()){
-        return false;
-    }
-    return true;
-
+    return parser->nextFrame();
 }
 
 void Scene2D::toTextFile()

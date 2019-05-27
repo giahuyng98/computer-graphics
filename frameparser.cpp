@@ -19,11 +19,14 @@ bool FrameParser::setInputFile(const QString &fileName)
         if (!code){
             return false;
         }
+        inFile.close();
     }
     scene->clear();
     outStream.clear();
     out.reset();
-    inFile.close();
+    objs.clear();
+    out.reset();
+    outStream.clear();
     inFile.setFileName(fileName);
     if (inFile.open(QIODevice::ReadOnly)){
         in.setDevice(&inFile);

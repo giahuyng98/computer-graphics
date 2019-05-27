@@ -13,7 +13,10 @@ SceneAnimation::SceneAnimation(QWidget *parent)
 void SceneAnimation::open(const QString &fileName)
 {
     if (fileName.isEmpty()) return;
-    parser->setInputFile(fileName);
+    if (!parser->setInputFile(fileName)){
+        QMessageBox(QMessageBox::Icon::Critical, "ERROR", "BUG BUG BUG").exec();
+        return;
+    }
     window->setOpenFileName(fileName.split("/").back());
 }
 
