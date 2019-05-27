@@ -29,9 +29,10 @@ QPainterPath Ellipse::shape() const{
 
 void Ellipse::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    Q_UNUSED(option);
-    Q_UNUSED(widget);
-    painter->fillPath(path, brush);
+//    Q_UNUSED(option);
+//    Q_UNUSED(widget);
+//    painter->fillPath(path, brush);
+    Item::paint(painter, option, widget);
     painter->fillPath(fillPath, fillColor);
 }
 
@@ -92,7 +93,7 @@ void Ellipse::setX(int value)
 
 Item::Type Ellipse::getType() const
 {
-    return Type::ELIP;
+    return Type::ELLIPSE;
 }
 
 QColor Ellipse::getFillColor() const

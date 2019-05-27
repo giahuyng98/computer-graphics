@@ -34,9 +34,10 @@ QPainterPath Rectangle::shape() const{
 
 void Rectangle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    Q_UNUSED(option);
-    Q_UNUSED(widget);
-    painter->fillPath(path, brush);
+//    Q_UNUSED(option);
+//    Q_UNUSED(widget);
+//    painter->fillPath(path, brush);
+    Item::paint(painter, option, widget);
     painter->fillPath(fillPath, fillColor);
 }
 
@@ -114,8 +115,7 @@ void Rectangle::setTopLeft(const QPoint &value)
 
 void Rectangle::reDraw()
 {    
-    path = QPainterPath();
-//    topLeft.setX();
+    path = QPainterPath();    
     drawRectangle();
     if (fillColor != Qt::color0) fillRectangle();
     scene->update();

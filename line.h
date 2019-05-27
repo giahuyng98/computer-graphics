@@ -9,14 +9,9 @@
 #include <Qt>
 #include "item.h"
 #include "apidrawer.h"
-#include <vector>
-using std::vector;
 
 class Scene;
 
-class Rectangle;
-class LineInfo;
-class Circle;
 class Line : public Item
 {
 public:
@@ -48,6 +43,7 @@ public:
 
 protected:
     QRectF boundingRect() const override;
+//    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
     void drawLine();
 
 private:

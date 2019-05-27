@@ -21,14 +21,15 @@ class Window : public QMainWindow
 public:
     explicit Window(QWidget *parent = nullptr);
     ~Window();
-    enum ShapeKind{
-        NORMAL_LINE,
-        CIRCLE,
-        ELIP,
-        RECTANGLE
+    enum Mode{
+        DRAW_LINE,
+        DRAW_CIRCLE,
+        DRAW_ELLIPSE,
+        DRAW_RECT,
+        SELECT_ITEMS
     };
 
-    ShapeKind getCurrentShape();
+    Mode getMode();
     int getDxTrans() const;
     int getDyTrans() const;
     int getXRotate() const;
@@ -39,7 +40,7 @@ public:
     int getXReflection() const;
     int getYReflection() const;
 
-    void setShapeKind(ShapeKind shape);
+    void setMode(Mode mode);
     void setEnableFillButton(bool enable);
     void setThickness(int value);
 

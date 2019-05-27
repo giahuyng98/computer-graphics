@@ -41,9 +41,10 @@ QPainterPath Circle::shape() const
 
 void Circle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    Q_UNUSED(option);
-    Q_UNUSED(widget);
-    painter->fillPath(path, brush);
+//    Q_UNUSED(option);
+//    Q_UNUSED(widget);
+//    painter->fillPath(path, brush);
+    Item::paint(painter, option, widget);
     painter->fillPath(fillPath, fillColor);
 }
 

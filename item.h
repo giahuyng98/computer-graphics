@@ -7,16 +7,16 @@ class Scene;
 
 class Item : public QGraphicsItem{
 public:
-    enum Type{
-        NULL_TYPE,
+    enum Type{        
         LINE,
         RECT,
         CIRCLE,
-        ELIP
+        ELLIPSE,
+        INVALID
     };
 
     Item(Scene *scene = nullptr, QGraphicsItem *parent = nullptr);
-    virtual Type getType() const;
+    virtual Type getType() const {return INVALID;}
     virtual QColor getFillColor() const;
     void setBrush(const QBrush &value);
     QColor getColor() const;
@@ -28,6 +28,7 @@ protected:
     Scene *scene;
 
     QPainterPath shape() const override;
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void drawPixel(int x, int y);
     void drawPixel(const QPoint &p);
     void drawPixel(int x, int y, QPainterPath &painterPath);

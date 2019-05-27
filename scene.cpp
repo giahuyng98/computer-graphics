@@ -47,7 +47,7 @@ void Scene::translateItem(Item *item, int dx, int dy)
         circle->reDraw();
         break;
     }
-    case Item::Type::ELIP:
+    case Item::Type::ELLIPSE:
     {
         Ellipse *ellipse = static_cast<Ellipse*>(item);
         ellipse->setPoint(affine.translate(ellipse->getPoint(), dx, dy));
@@ -89,7 +89,7 @@ void Scene::rotateItem(Item *item, int x, int y, int angle)
         circle->reDraw();
         break;
     }
-    case Item::Type::ELIP:
+    case Item::Type::ELLIPSE:
     {
         Ellipse *ellipse = static_cast<Ellipse*>(item);
         ellipse->setPoint(affine.rotate(ellipse->getPoint(), x, y, angle));
@@ -130,7 +130,7 @@ void Scene::scaleItem(Item *item, float sx, float sy)
         circle->reDraw();
         break;
     }
-    case Item::Type::ELIP:
+    case Item::Type::ELLIPSE:
     {
         Ellipse *ellipse = static_cast<Ellipse*>(item);
         ellipse->setPoint(affine.scale(ellipse->getPoint(), sx, sy));
@@ -171,7 +171,7 @@ void Scene::reflectItem(Item *item, int x, int y)
         circle->reDraw();
         break;
     }
-    case Item::Type::ELIP:
+    case Item::Type::ELLIPSE:
     {
         Ellipse *ellipse = static_cast<Ellipse*>(item);
         ellipse->setPoint(affine.reflect(ellipse->getPoint(), x, y));
@@ -199,7 +199,7 @@ void Scene::changeFillColor(Item *item, const QColor &color)
     case Item::Type::CIRCLE:
         static_cast<Circle*>(item)->setFillColor(color);
         break;
-    case Item::Type::ELIP:
+    case Item::Type::ELLIPSE:
         static_cast<Ellipse*>(item)->setFillColor(color);
         break;
     default:

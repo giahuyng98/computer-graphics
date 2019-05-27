@@ -47,11 +47,6 @@ Item::Item(Scene *scene, QGraphicsItem *parent)
     setFlag(ItemIsSelectable); //| ItemSendsGeometryChanges | ItemSendsScenePositionChanges
 }
 
-Item::Type Item::getType() const
-{
-    return NULL_TYPE;
-}
-
 QColor Item::getFillColor() const
 {
     return Qt::color0;
@@ -61,9 +56,19 @@ QPainterPath Item::shape() const{
     return path;
 }
 
+void Item::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    setSelected(true);
+    QGraphicsItem::mousePressEvent(event);
+}
+
 void Item::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);
     painter->fillPath(path, brush);
+    if (isSelected()) {
+        painter->setPen(QPen(Qt::black, 1, Qt::DashLine));
+        painter->drawRect(boundingRect());
+    }
 }

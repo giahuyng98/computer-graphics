@@ -20,10 +20,11 @@ Window::Window(QWidget *parent) :
     sceneAnimation->setWindow(this);
 
     ui->graphicsView->setScene(scene2d);
-    ui->shapeKind->setId(ui->lineBtn, ShapeKind::NORMAL_LINE);
-    ui->shapeKind->setId(ui->rectBtn, ShapeKind::RECTANGLE);
-    ui->shapeKind->setId(ui->circleBtn, ShapeKind::CIRCLE);
-    ui->shapeKind->setId(ui->elipBtn, ShapeKind::ELIP);
+    ui->modeGroupBtn->setId(ui->lineBtn, Mode::DRAW_LINE);
+    ui->modeGroupBtn->setId(ui->rectBtn, Mode::DRAW_RECT);
+    ui->modeGroupBtn->setId(ui->circleBtn, Mode::DRAW_CIRCLE);
+    ui->modeGroupBtn->setId(ui->elipBtn, Mode::DRAW_ELLIPSE);
+    ui->modeGroupBtn->setId(ui->selectBtn, Mode::SELECT_ITEMS);
 
     ui->splitter->insertWidget(0, scene2d->getLineInfo());
 }
@@ -33,9 +34,9 @@ Window::~Window()
     delete ui;
 }
 
-Window::ShapeKind Window::getCurrentShape()
+Window::Mode Window::getMode()
 {
-    return ShapeKind(ui->shapeKind->checkedId());
+    return Mode(ui->modeGroupBtn->checkedId());
 }
 
 int Window::getDxTrans() const
@@ -83,22 +84,22 @@ int Window::getYReflection() const
     return ui->yReflection->text().toInt();
 }
 
-void Window::setShapeKind(Window::ShapeKind shape)
+void Window::setMode(Window::Mode mode)
 {
-    switch (shape) {
-    case NORMAL_LINE:
+    switch (mode) {
+    case DRAW_LINE:
         if (ui->splitter->widget(0) != scene2d->getLineInfo())
             ui->splitter->replaceWidget(0, scene2d->getLineInfo());
         break;
-    case RECTANGLE:
+    case DRAW_RECT:
         if (ui->splitter->widget(0) != scene2d->getRectInfo())
             ui->splitter->replaceWidget(0, scene2d->getRectInfo());
         break;
-    case CIRCLE:
+    case DRAW_CIRCLE:
         if (ui->splitter->widget(0) != scene2d->getCircleInfo())
             ui->splitter->replaceWidget(0, scene2d->getCircleInfo());
         break;
-    case ELIP:
+    case DRAW_ELLIPSE:
         if (ui->splitter->widget(0) != scene2d->getEllipseInfo())
             ui->splitter->replaceWidget(0, scene2d->getEllipseInfo());
         break;

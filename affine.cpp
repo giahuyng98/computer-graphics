@@ -68,10 +68,7 @@ vector<vector<double> > Affine::getMatFromPoint(const QPoint &point) const
 
 QPoint Affine::getPointFromMat(const vector<vector<double> > &mat) const
 {
-    return {
-        static_cast<int>(std::round(mat[0][0])),
-        static_cast<int>(std::round(mat[0][1]))
-    };
+    return QPointF(mat[0][0], mat[0][1]).toPoint();
 }
 
 void Affine::setTranslate(int dx, int dy)

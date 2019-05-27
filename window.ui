@@ -170,7 +170,7 @@
              <bool>true</bool>
             </property>
             <attribute name="buttonGroup">
-             <string notr="true">shapeKind</string>
+             <string notr="true">modeGroupBtn</string>
             </attribute>
            </widget>
           </item>
@@ -200,7 +200,7 @@
              <bool>true</bool>
             </property>
             <attribute name="buttonGroup">
-             <string notr="true">shapeKind</string>
+             <string notr="true">modeGroupBtn</string>
             </attribute>
            </widget>
           </item>
@@ -230,7 +230,7 @@
              <bool>true</bool>
             </property>
             <attribute name="buttonGroup">
-             <string notr="true">shapeKind</string>
+             <string notr="true">modeGroupBtn</string>
             </attribute>
            </widget>
           </item>
@@ -260,7 +260,34 @@
              <bool>true</bool>
             </property>
             <attribute name="buttonGroup">
-             <string notr="true">shapeKind</string>
+             <string notr="true">modeGroupBtn</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="selectBtn">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Select</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="flat">
+             <bool>true</bool>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">modeGroupBtn</string>
             </attribute>
            </widget>
           </item>
@@ -431,7 +458,7 @@
            <widget class="QWidget" name="layoutWidget">
             <layout class="QVBoxLayout" name="infoLayout"/>
            </widget>
-           <widget class="QWidget" name="">
+           <widget class="QWidget" name="layoutWidget">
             <layout class="QVBoxLayout" name="verticalLayout_2">
              <property name="spacing">
               <number>1</number>
@@ -1379,7 +1406,7 @@
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="shapeKind"/>
+  <buttongroup name="modeGroupBtn"/>
   <buttongroup name="to2DMethod"/>
  </buttongroups>
 </ui>

@@ -54,13 +54,22 @@ void Line::setPoint2(const QPoint &point)
 }
 
 QRectF Line::boundingRect() const
-{
-    const int offx = this->scene->getOffx();
-    const int offy = this->scene->getOffy();
+{    
     const int thickness = this->scene->getThickness();
-    return QRectF((std::min(x1, x2) + offx) * thickness, (offy - std::max(y1, y2)) * thickness,
-                  (std::max(x1, x2) + offx) * thickness, (offy - std::min(y1, y2)) * thickness);
+    const int minx = std::min(x1, x2);
+    const int maxx = std::max(x1, x2);
+    const int miny = std::min(y1, y2);
+    const int maxy = std::max(y1, y2);
+
+    const QPoint topLeft = toScenePos({minx, maxy});
+    const QPoint botRight = toScenePos({maxx, miny});
+    return QRectF(topLeft, botRight).adjusted(0, 0, thickness, thickness);
 }
+
+//void Line::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+//{
+//    Item::paint(painter, option, widget);
+//}
 
 void Line::drawLine()
 {
