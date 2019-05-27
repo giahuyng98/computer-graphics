@@ -15,6 +15,7 @@ class Scene2D : public Scene
     Q_OBJECT
 public:
     explicit Scene2D(QWidget *parent = nullptr);
+    ~Scene2D() override;
 
     void readTextFile(const QString &fileName);
 

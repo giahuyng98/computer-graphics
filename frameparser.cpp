@@ -8,11 +8,22 @@ FrameParser::FrameParser(Scene *scene) : scene(scene)
 FrameParser::FrameParser(Scene *scene, const QString &fileName)
     :FrameParser(scene)
 {
-    setFile(fileName);
+    setInputFile(fileName);
 }
 
-bool FrameParser::setFile(const QString &fileName)
+bool FrameParser::setInputFile(const QString &fileName)
 {
+    if (inFile.isOpen()){
+        int code = QMessageBox(QMessageBox::Icon::Information, "Information", "There is opening file\n Do you want to continue?",
+                    QMessageBox::StandardButton::Yes | QMessageBox::StandardButton::No).exec();
+        if (!code){
+            return false;
+        }
+    }
+    scene->clear();
+    outStream.clear();
+    out.reset();
+    inFile.close();
     inFile.setFileName(fileName);
     if (inFile.open(QIODevice::ReadOnly)){
         in.setDevice(&inFile);
@@ -45,6 +56,15 @@ bool FrameParser::nextFrame()
         else if (command == "FILLCOLOR") fillColor();
     }
     return true;
+}
+
+void FrameParser::reset()
+{
+    inFile.reset();
+    in.reset();
+    objs.clear();
+    out.reset();
+    outStream.clear();
 }
 
 void FrameParser::add()

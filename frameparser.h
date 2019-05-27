@@ -9,9 +9,10 @@ class FrameParser
 public:
     FrameParser(Scene *scene);
     FrameParser(Scene *scene, const QString &fileName);
-    bool setFile(const QString &fileName);
+    bool setInputFile(const QString &fileName);
     QString getOutPut();
     bool nextFrame();
+    void reset();
 
     void outPutItem(Item *item);
     void outPutTranslation(Item *item, int dx, int dy);

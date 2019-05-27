@@ -16,19 +16,32 @@ Scene2D::Scene2D(QWidget *parent) : Scene(parent)
     lineInfo = new LineInfo();
     rectInfo = new RectInfo();
     circleInfo = new CircleInfo();
-    ellipseInfo = new EllipseInfo();    
+    ellipseInfo = new EllipseInfo();
+}
+
+Scene2D::~Scene2D()
+{
+    delete parser;
+//    if (lineInfo) delete lineInfo;
+//    if (rectInfo) delete rectInfo;
+//    if (circleInfo) delete circleInfo;
+//    if (ellipseInfo) delete ellipseInfo;
+//    if (tmpItem) delete tmpItem;
+//    if (tmpLine) delete tmpLine;
+//    if (tmpRectange) delete tmpRectange;
+//    if (tmpCircle) delete tmpCircle;
+//    if (tmpEllipse) delete tmpEllipse;
+//    if (tmpSelected) delete tmpSelected;
 }
 
 void Scene2D::readTextFile(const QString &fileName)
 {
-    if (!parser->setFile(fileName)) exit(43);
+    parser->setInputFile(fileName);
 }
 
 bool Scene2D::nextFrame()
 {
     if (!parser->nextFrame()){
-//        QFile test("huy.txt");
-//        test.write(parser->getOutPut().toLatin1());
         return false;
     }
     return true;

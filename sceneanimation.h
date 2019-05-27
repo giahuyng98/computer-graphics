@@ -3,6 +3,7 @@
 
 #include "scene.h"
 #include "scene2d.h"
+#include "frameparser.h"
 #include <QTimer>
 #include <random>
 #include <string>
@@ -30,21 +31,9 @@ protected:
     void drawBackground(QPainter *painter, const QRectF &rect) override;
     void wheelEvent(QGraphicsSceneWheelEvent *wheelEvent) override;
 
-    void add();
-    void trans();
-    void rotate();
-    void scale();
-    void reflect();
-    void doDelete();
-    void doClear();
-    void changeColor();
-    void fillColor();
 
 private:
-    QFile file;
-    QTextStream in;    
-    std::map<QString, Item*> objs;
-    std::mt19937 mt;
+    FrameParser *parser;
     QTimer timer;    
 };
 

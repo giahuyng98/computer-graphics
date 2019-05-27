@@ -259,7 +259,7 @@ void Window::on_openSceneBtn_clicked()
      QString fileName = QFileDialog(this, "Select file",
                                    QCoreApplication::applicationDirPath()).getOpenFileName();
      sceneAnimation->open(fileName);
-     setOpenFileName(fileName);
+//     setOpenFileName(fileName);
 }
 
 void Window::on_addFrameBtn_clicked()
