@@ -39,7 +39,7 @@ public:
     int getY2() const;
     void setY2(int value);
 
-    void reDraw();
+    void reDraw() override;
 
 protected:
     QRectF boundingRect() const override;

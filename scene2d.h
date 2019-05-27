@@ -40,6 +40,7 @@ public:
     void addScene();
 
     void addItemFrom2Points(const QPoint &p1, const QPoint &p2);
+    void addBoundingRect(const QPoint &p1, const QPoint &p2);
 
     RectInfo *getRectInfo() const;
 
@@ -56,9 +57,9 @@ protected:
     void outPutItem(Item *item);
 
 private:
-    QFile tmpFile;
-    QTextStream out;
     bool isDrawing = false;
+    QFile tmpFile;
+    QTextStream out;    
     Item *tmpItem = nullptr;
     Line *tmpLine = nullptr;
     Rectangle *tmpRectange = nullptr;

@@ -72,9 +72,11 @@ void Circle::setPoint(const QPoint &point)
 
 void Circle::reDraw()
 {
+    Item::reDraw();
     path = QPainterPath();
     drawCircle();
     if (fillColor != Qt::color0) fillCircle();
+    this->update();
     scene->update();
 }
 

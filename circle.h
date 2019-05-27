@@ -25,7 +25,7 @@ public:
     QPoint getPoint() const;
     void setPoint(const QPoint &point);
 
-    void reDraw();
+    void reDraw() override;
 
     void setFillColor(const QColor &value);
 

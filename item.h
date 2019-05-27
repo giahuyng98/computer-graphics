@@ -15,9 +15,10 @@ public:
         INVALID
     };
 
-    Item(Scene *scene = nullptr, QGraphicsItem *parent = nullptr);
+    Item(Scene *scene = nullptr, QGraphicsItem *parent = nullptr);    
     virtual Type getType() const {return INVALID;}
     virtual QColor getFillColor() const;
+    virtual void reDraw();
     void setBrush(const QBrush &value);
     QColor getColor() const;
 

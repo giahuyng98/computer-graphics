@@ -16,6 +16,7 @@ Scene2D::Scene2D(QWidget *parent) : Scene(parent)
     circleInfo = new CircleInfo();
     ellipseInfo = new EllipseInfo();
     tmpFile.setFileName("tmp.txt");
+
     if (tmpFile.open(QFile::WriteOnly | QFile::Truncate)){
         out.setDevice(&tmpFile);
     } else {
@@ -195,14 +196,7 @@ void Scene2D::addScene()
 
 void Scene2D::addItemFrom2Points(const QPoint &p1, const QPoint &p2)
 {
-    if (tmpItem){
-        removeItem(tmpItem);
-        tmpItem = nullptr;
-    }
-    if (tmpSelected){
-        removeItem(tmpSelected);
-        tmpSelected = nullptr;
-    }
+    if (tmpItem) removeItem(tmpItem);
     switch (window->getMode()){
     case Window::Mode::DRAW_LINE :
         tmpItem = new Line(p1, p2, this);
@@ -220,68 +214,88 @@ void Scene2D::addItemFrom2Points(const QPoint &p1, const QPoint &p2)
                               std::abs(p2.x() - p1.x()),
                               std::abs(p2.y() - p1.y()), this);
         break;
-    case Window::Mode::SELECT_ITEMS:
-    {
-        QPoint sceneP1 = toScenePos(p1);
-        QPoint sceneP2 = toScenePos(p2);
-        tmpSelected = new QGraphicsRectItem(
-            std::min(sceneP1.x(), sceneP2.x()),
-            std::min(sceneP1.y(), sceneP2.y()),
-            std::abs(sceneP1.x() - sceneP2.x()),
-            std::abs(sceneP1.y() - sceneP2.y())
-            );
-        tmpSelected->setPen(QPen(Qt::black, 1, Qt::DashLine));
-        addItem(tmpSelected);
-        setSelectionArea(tmpSelected->shape());
-        tmpSelected->setSelected(false);
-        return;
+    default:
+        break;
     }
-    }
-    addItem(tmpItem);
     tmpItem->setSelected(true);
+    addItem(tmpItem);
+    tmpItem->update();
     updateInfo(tmpItem);
     window->setEnableFillButton(tmpItem->getType() != Item::Type::LINE);
+
+}
+
+void Scene2D::addBoundingRect(const QPoint &p1, const QPoint &p2)
+{
+    QPoint sceneP1 = toScenePos(p1);
+    QPoint sceneP2 = toScenePos(p2);
+    if (tmpSelected){
+        removeItem(tmpSelected);
+    }
+    tmpSelected = new QGraphicsRectItem(
+        std::min(sceneP1.x(), sceneP2.x()),
+        std::min(sceneP1.y(), sceneP2.y()),
+        std::abs(sceneP1.x() - sceneP2.x()),
+        std::abs(sceneP1.y() - sceneP2.y())
+        );
+    tmpSelected->setPen(QPen(Qt::black, 1, Qt::DashLine));
+    addItem(tmpSelected);
+    setSelectionArea(tmpSelected->shape());
+    tmpSelected->setSelected(false);
 }
 
 void Scene2D::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    points.clear();
+    points.clear(); // TODO: add polygon
+    QGraphicsScene::mousePressEvent(mouseEvent);
     if (mouseEvent->button() == Qt::LeftButton){
         points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
         points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
         if (window->getMode() == Window::Mode::SELECT_ITEMS){
-            Item *selectedItem = static_cast<Item*>(this->itemAt(mouseEvent->scenePos(), QTransform()));
-            if (selectedItem){
-                updateInfo(selectedItem);
-                window->setEnableFillButton(selectedItem->getType() != Item::Type::LINE);
+            isDrawing = false;
+            QGraphicsItem *selectedItem = (this->itemAt(mouseEvent->scenePos(), QTransform()));
+            if (selectedItem && selectedItem != tmpSelected){
+                Item *item = static_cast<Item*>(selectedItem);
+                updateInfo(item);
+                window->setEnableFillButton(item->getType() != Item::Type::LINE);
                 if (!(mouseEvent->modifiers() & Qt::ControlModifier)){
                     clearSelection();
                 }
                 selectedItem->setSelected(true);
             }
         } else {
+            isDrawing = true;
             clearSelection();
             addItemFrom2Points(points.front(), points.back());
         }
-    }
-//    QGraphicsScene::mousePressEvent(mouseEvent);
+    }    
 }
 
 void Scene2D::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    if (tmpSelected) removeItem(tmpSelected);
-    else outPutItem(tmpItem);
-    tmpItem = nullptr;
-    tmpSelected = nullptr;
+    if (window->getMode() == Window::Mode::SELECT_ITEMS){
+        if (tmpSelected) removeItem(tmpSelected);
+        tmpSelected = nullptr;
+    } else {
+        outPutItem(tmpItem);
+        tmpItem = nullptr;
+    }
+    isDrawing = false;
     points.clear();
     QGraphicsScene::mouseReleaseEvent(mouseEvent);
 }
 
 void Scene2D::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    points.pop_back();
-    points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
-    addItemFrom2Points(points.front(), points.back());
+    if (isDrawing){
+        points.pop_back();
+        points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
+        addItemFrom2Points(points.front(), points.back());
+    } else if (window->getMode() == Window::Mode::SELECT_ITEMS){
+        if (!points.empty()) points.pop_back();
+        points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
+        addBoundingRect(points.front(), points.back());
+    }
     QGraphicsScene::mouseMoveEvent(mouseEvent);
 }
 

@@ -19,7 +19,7 @@ QRectF Ellipse::boundingRect() const
     const int thickness = this->scene->getThickness();
     const int sceneXRadius = thickness * xRadius;
     const int sceneYRadius = thickness * yRadius;
-    const QPoint topLeft = toScenePos(QPoint(x, y)) - QPoint(sceneXRadius, sceneYRadius);
+    QPoint topLeft = toScenePos(QPoint(x, y)) - QPoint(sceneXRadius, sceneYRadius);
     return QRectF(topLeft, QSize(sceneXRadius * 2, sceneYRadius * 2)).adjusted(0, 0, thickness, thickness);
 }
 
@@ -100,9 +100,11 @@ QColor Ellipse::getFillColor() const
 
 void Ellipse::reDraw()
 {
+    Item::reDraw();
     path = QPainterPath();
     drawEllipse();
     if (fillColor != Qt::color0) fillEllipse();
+    this->update();
     scene->update();
 }
 

@@ -274,6 +274,7 @@ void Scene::drawBackground(QPainter *painter, const QRectF &rect)
 
 void Scene::wheelEvent(QGraphicsSceneWheelEvent *wheelEvent)
 {
+    QGraphicsScene::wheelEvent(wheelEvent);
     if (wheelEvent->modifiers() & Qt::ControlModifier){
         if (wheelEvent->delta() > 0){
             setThickness(std::min(thickness + 5, 20));
@@ -283,7 +284,6 @@ void Scene::wheelEvent(QGraphicsSceneWheelEvent *wheelEvent)
         window->setThickness(thickness);
         update();
     }
-    QGraphicsScene::wheelEvent(wheelEvent);
 }
 
 int Scene::getOffx() const

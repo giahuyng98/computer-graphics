@@ -44,12 +44,16 @@ QColor Item::getColor() const
 Item::Item(Scene *scene, QGraphicsItem *parent)
     : QGraphicsItem(parent), scene(scene)
 {
-    setFlag(ItemIsSelectable); //| ItemSendsGeometryChanges | ItemSendsScenePositionChanges
+    setFlags(ItemIsSelectable);
 }
 
 QColor Item::getFillColor() const
 {
     return Qt::color0;
+}
+
+void Item::reDraw(){
+    QGraphicsItem::prepareGeometryChange();
 }
 
 QPainterPath Item::shape() const{
@@ -58,7 +62,7 @@ QPainterPath Item::shape() const{
 
 void Item::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    setSelected(true);
+//    setSelected(true);
     QGraphicsItem::mousePressEvent(event);
 }
 

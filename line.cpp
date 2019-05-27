@@ -54,7 +54,7 @@ void Line::setPoint2(const QPoint &point)
 }
 
 QRectF Line::boundingRect() const
-{    
+{
     const int thickness = this->scene->getThickness();
     const int minx = std::min(x1, x2);
     const int maxx = std::max(x1, x2);
@@ -85,8 +85,10 @@ void Line::setY2(int value)
 
 void Line::reDraw()
 {
+    Item::reDraw();
     path = QPainterPath();    
     drawLine();
+    this->update();
     scene->update();
 }
 
