@@ -22,16 +22,6 @@ Scene2D::Scene2D(QWidget *parent) : Scene(parent)
 Scene2D::~Scene2D()
 {
     delete parser;
-//    if (lineInfo) delete lineInfo;
-//    if (rectInfo) delete rectInfo;
-//    if (circleInfo) delete circleInfo;
-//    if (ellipseInfo) delete ellipseInfo;
-//    if (tmpItem) delete tmpItem;
-//    if (tmpLine) delete tmpLine;
-//    if (tmpRectange) delete tmpRectange;
-//    if (tmpCircle) delete tmpCircle;
-//    if (tmpEllipse) delete tmpEllipse;
-//    if (tmpSelected) delete tmpSelected;
 }
 
 void Scene2D::readTextFile(const QString &fileName)
@@ -173,7 +163,7 @@ void Scene2D::updateInfo(Item *item)
         circleInfo->setCircle(static_cast<Circle*>(item));
         break;
     case Item::Type::ELLIPSE:
-        window->setMode(Window::Mode::DRAW_CIRCLE);
+        window->setMode(Window::Mode::DRAW_ELLIPSE);
         ellipseInfo->setEllipse(static_cast<Ellipse*>(item));
         break;
     default:
