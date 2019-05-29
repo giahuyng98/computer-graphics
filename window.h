@@ -42,6 +42,8 @@ public:
 
     int getDelay() const;
     bool isPauseAtEnd() const;
+    bool isStopAtEachFrame() const;
+    bool isRulerOn() const;
 
     void showMousePos(const QPoint &pos);
     void setMode(Mode mode);
@@ -92,6 +94,8 @@ private slots:
     void on_nextFrameBtn_clicked();
 
     void on_readTextFileBtn_clicked();
+
+    void on_showRuler_clicked();
 
 private:
     Ui::Window *ui;

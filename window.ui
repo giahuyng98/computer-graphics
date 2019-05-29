@@ -464,10 +464,7 @@
             <string/>
            </property>
            <property name="alignment">
-            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-           </property>
-           <property name="indent">
-            <number>30</number>
+            <set>Qt::AlignCenter</set>
            </property>
           </widget>
          </item>
@@ -515,7 +512,7 @@
         </size>
        </property>
        <property name="frameShape">
-        <enum>QFrame::Box</enum>
+        <enum>QFrame::NoFrame</enum>
        </property>
        <property name="currentIndex">
         <number>0</number>
@@ -1439,9 +1436,26 @@
           </layout>
          </item>
          <item>
-          <widget class="QRadioButton" name="pauseAtEndRBtn">
+          <widget class="QCheckBox" name="pauseAtEndRBtn">
            <property name="text">
             <string>Pause at the end</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="stopEachFrame">
+           <property name="text">
+            <string>Stop At each frame</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="showRuler">
+           <property name="text">
+            <string>Show ruler</string>
            </property>
            <property name="checked">
             <bool>true</bool>

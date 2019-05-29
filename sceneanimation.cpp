@@ -30,7 +30,7 @@ void SceneAnimation::play()
 
 void SceneAnimation::doAnimation()
 {
-    if (!parser->nextFrame()) {
+    if (!parser->nextFrame(window->isStopAtEachFrame())) {
         timer.stop();
         if (!window->isPauseAtEnd()) clear();
         parser->reset();
@@ -40,17 +40,20 @@ void SceneAnimation::doAnimation()
 
 void SceneAnimation::drawBackground(QPainter *painter, const QRectF &rect)
 {
-    Scene::drawBackground(painter, rect);
-//    Q_UNUSED(rect);
-//    int halfHeight = static_cast<int>(this->height()) / 2;
-//    int halfWidth = static_cast<int>(this->width()) / 2;
-//    const int halfThick = thickness / 2; //make it center
+    if (window->isRulerOn()){
+        Scene::drawBackground(painter, rect);
+    }
+//    else {
+//        int halfHeight = static_cast<int>(this->height()) / 2;
+//        int halfWidth = static_cast<int>(this->width()) / 2;
+//        const int halfThick = thickness / 2; //make it center
 
-//    // Draw ox and oy
-//    painter->setPen(QPen(QBrush(Qt::black), 1));
-//    painter->setOpacity(0.6);
-//    painter->drawLine(0, halfHeight + halfThick, static_cast<int>(this->width()), halfHeight + halfThick);
-//    painter->drawLine(halfWidth + halfThick, 0, halfWidth + halfThick, static_cast<int>(this->height()));
+//        // Draw ox and oy
+//        painter->setPen(QPen(QBrush(Qt::black), 1));
+//        painter->setOpacity(0.6);
+//        painter->drawLine(0, halfHeight + halfThick, static_cast<int>(this->width()), halfHeight + halfThick);
+//        painter->drawLine(halfWidth + halfThick, 0, halfWidth + halfThick, static_cast<int>(this->height()));
+//    }
 }
 
 void SceneAnimation::wheelEvent(QGraphicsSceneWheelEvent *wheelEvent)

@@ -13,23 +13,25 @@ FrameParser::FrameParser(Scene *scene, const QString &fileName)
 
 bool FrameParser::setInputFile(const QString &fileName)
 {
-    if (inFile.isOpen()){
+//    if (inFile.isOpen()){
 //        int code = QMessageBox(QMessageBox::Icon::Information, "Information", "There is opening file\n Do you want to continue?",
 //                    QMessageBox::StandardButton::Yes | QMessageBox::StandardButton::No).exec();
 //        if (!code){
 //            return false;
 //        }
-        inFile.close();
-    }
-    scene->clear();
-    outStream.clear();
+//        inFile.close();
+//    }
+    QFile fileIn(fileName);
+    scene->clear();    
+    inStream.clear();
     out.reset();
-    objs.clear();
-    out.reset();
+    objs.clear();    
+    in.reset();
     outStream.clear();
-    inFile.setFileName(fileName);
-    if (inFile.open(QIODevice::ReadOnly)){
-        in.setDevice(&inFile);
+
+    if (fileIn.open(QIODevice::ReadOnly)){
+        inStream = QString::fromLocal8Bit(fileIn.readAll());
+        in.setString(&inStream);
         return true;
     }
     return false;
@@ -41,7 +43,7 @@ QString FrameParser::getOutPut()
     return outStream;
 }
 
-bool FrameParser::nextFrame()
+bool FrameParser::nextFrame(bool stopAtEachFrame)
 {    
     if (in.atEnd()) return false;
     QString command;
@@ -56,6 +58,7 @@ bool FrameParser::nextFrame()
         else if (command == "CLEAR") doClear();
         else if (command == "CHCOLOR") changeColor();
         else if (command == "FILLCOLOR") fillColor();
+        if (stopAtEachFrame) break;
     }
     if (!in.atEnd()) out << "STOP\n";
     return true;
@@ -81,8 +84,7 @@ void FrameParser::removeObj(Item *&item)
 
 void FrameParser::reset()
 {
-    inFile.reset();
-    in.reset();
+    in.seek(0);
     objs.clear();
     out.reset();
     outStream.clear();

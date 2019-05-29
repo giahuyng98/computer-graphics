@@ -95,6 +95,16 @@ bool Window::isPauseAtEnd() const
     return ui->pauseAtEndRBtn->isChecked();
 }
 
+bool Window::isStopAtEachFrame() const
+{
+    return ui->stopEachFrame->isChecked();
+}
+
+bool Window::isRulerOn() const
+{
+    return ui->showRuler->isChecked();
+}
+
 void Window::showMousePos(const QPoint &pos)
 {
     ui->mousePosLabel->setText("x: " + QString::number(pos.x()) + "\ny: " + QString::number(pos.y()));
@@ -292,4 +302,9 @@ void Window::on_readTextFileBtn_clicked()
     QString fileName = QFileDialog(this, "Select file",
                                    QCoreApplication::applicationDirPath()).getOpenFileName();
     scene2d->readTextFile(fileName);
+}
+
+void Window::on_showRuler_clicked()
+{
+    sceneAnimation->update();
 }

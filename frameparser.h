@@ -11,7 +11,7 @@ public:
     FrameParser(Scene *scene, const QString &fileName);
     bool setInputFile(const QString &fileName);
     QString getOutPut();
-    bool nextFrame();
+    bool nextFrame(bool stopAtEachFrame = false);
     void removeObj(Item *&item);
     void reset();
 
@@ -38,11 +38,9 @@ protected:
     void fillColor();
 
 
-private:
-    bool write = true;
-    Scene *scene;
-    QFile inFile;
-    QString outStream;
+private:    
+    Scene *scene;    
+    QString outStream, inStream;
     QTextStream in, out;
     std::map<QString, Item*> objs;
 };
