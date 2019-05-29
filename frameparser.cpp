@@ -57,7 +57,7 @@ bool FrameParser::nextFrame()
         else if (command == "CHCOLOR") changeColor();
         else if (command == "FILLCOLOR") fillColor();
     }
-    out << "STOP\n";
+    if (!in.atEnd()) out << "STOP\n";
     return true;
 }
 
