@@ -315,6 +315,15 @@ VPoints floodFill(const VPoints &border, const QPoint &point){
     static const int dr[] = {-1, 1, 0, 0};
     static const int dc[] = {0, 0, -1, 1};
     static const int MAX_POINTS = 50000;
+    static const int INF = 1e9;
+    QPoint minP = {INF, INF};
+    QPoint maxP = {-INF, -INF};
+    for(const QPoint &p : border){
+        minP.setX(std::min(minP.x(), p.x()));
+        minP.setY(std::min(minP.y(), p.y()));
+        maxP.setX(std::max(maxP.x(), p.x()));
+        maxP.setY(std::max(maxP.y(), p.y()));
+    }
 
     std::set<QPoint> close(std::make_move_iterator(border.begin()),
                            std::make_move_iterator(border.end()));
@@ -331,6 +340,8 @@ VPoints floodFill(const VPoints &border, const QPoint &point){
 
         for(int k = 0; k < 4; ++k){
             QPoint next(p.x() + dr[k], p.y() + dc[k]);
+            if (next.x() < minP.x() || next.x() > maxP.x() ||
+                next.y() < minP.y() || next.y() > maxP.y()) continue;
             if (close.find(next) == close.end()){
                 close.insert(next);
                 open.push(next);
