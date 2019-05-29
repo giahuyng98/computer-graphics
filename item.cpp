@@ -44,7 +44,7 @@ QColor Item::getColor() const
 Item::Item(Scene *scene, QGraphicsItem *parent)
     : QGraphicsItem(parent), scene(scene)
 {
-    setFlags(ItemIsSelectable);
+    setFlags(ItemIsSelectable | ItemSendsScenePositionChanges);
 }
 
 QColor Item::getFillColor() const

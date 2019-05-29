@@ -61,13 +61,24 @@ bool FrameParser::nextFrame()
     return true;
 }
 
+void FrameParser::removeObj(Item *item)
+{
+    for(auto it = objs.begin(); it != objs.end(); ++it){
+        if (it->second == item){
+//            this->scene->removeItem(it->second);
+            delete it->second;
+            objs.erase(it);
+        }
+    }
+}
+
 void FrameParser::reset()
 {
     inFile.reset();
     in.reset();
     objs.clear();
     out.reset();
-    outStream.clear();
+    outStream.clear();    
 }
 
 void FrameParser::add()
@@ -78,6 +89,7 @@ void FrameParser::add()
     if (it != objs.end()){
         objs.erase(it);
         scene->removeItem(it->second);
+        delete it->second;
     }
     if (buff == "LINE"){
         int x1, y1, x2, y2;
@@ -122,9 +134,11 @@ void FrameParser::trans()
     QString objName;
     int dx, dy;
     in >> objName >> dx >> dy;
-    auto item = objs[objName];
-    scene->translateItem(item, dx, dy);
-    outPutTranslation(item, dx, dy);
+    auto it = objs.find(objName);
+    if (it != objs.end() && scene->items().contains(it->second)){
+        scene->translateItem(it->second, dx, dy);
+        outPutTranslation(it->second, dx, dy);
+    }
 }
 
 void FrameParser::rotate()
@@ -132,9 +146,11 @@ void FrameParser::rotate()
     QString objName;
     int angle, x, y;
     in >> objName >> x >> y >> angle;
-    auto item = objs[objName];
-    scene->rotateItem(item, x, y, angle);
-    outPutRotation(item, x, y, angle);
+    auto it = objs.find(objName);
+    if (it != objs.end() && scene->items().contains(it->second)){
+        scene->rotateItem(it->second, x, y, angle);
+        outPutRotation(it->second, x, y, angle);
+    }
 }
 
 void FrameParser::scale()
@@ -142,9 +158,11 @@ void FrameParser::scale()
     QString objName;
     float sx, sy;
     in >> objName >> sx >> sy;
-    auto item = objs[objName];
-    scene->scaleItem(item, sx, sy);
-    outPutScaling(item, sx, sy);
+    auto it = objs.find(objName);
+    if (it != objs.end() && scene->items().contains(it->second)){
+        scene->scaleItem(it->second, sx, sy);
+        outPutScaling(it->second, sx, sy);
+    }
 }
 
 void FrameParser::reflect()
@@ -152,9 +170,11 @@ void FrameParser::reflect()
     QString objName;
     int x, y;
     in >> objName >> x >> y;
-    auto item = objs[objName];
-    scene->reflectItem(item, x, y);
-    outPutReflection(item, x, y);
+    auto it = objs.find(objName);
+    if (it != objs.end() && scene->items().contains(it->second)){
+        scene->reflectItem(it->second, x, y);
+        outPutReflection(it->second, x, y);
+    }
 }
 
 void FrameParser::doDelete()
@@ -162,10 +182,12 @@ void FrameParser::doDelete()
     QString objName;
     in >> objName;
     auto it = objs.find(objName);
-    if (it != objs.end() && it->second) {
-        outPutDeletion(it->second);
-        objs.erase(it);
+    if (it != objs.end() && scene->items().contains(it->second)) {
+        outPutDeletion(it->second);        
         scene->removeItem(it->second);
+        scene->items().removeOne(it->second);
+        delete it->second;
+        objs.erase(it);
     }
 }
 
@@ -173,6 +195,8 @@ void FrameParser::doClear()
 {
     for(auto &it : scene->items()){
         scene->removeItem(it);
+        delete it;
+        it = nullptr;
     }
     objs.clear();
     scene->clear();
@@ -182,18 +206,22 @@ void FrameParser::changeColor()
 {
     QString objName, colorName;
     in >> objName >> colorName;
-    auto item = objs[objName];
-    scene->changeColor(item, QColor(colorName));
-    outPutChangeColor(item, QColor(colorName));
+    auto it = objs.find(objName);
+    if (it != objs.end() && scene->items().contains(it->second)){
+        scene->changeColor(it->second, QColor(colorName));
+        outPutChangeColor(it->second, QColor(colorName));
+    }
 }
 
 void FrameParser::fillColor()
 {
     QString objName, colorName;
     in >> objName >> colorName;
-    auto item = objs[objName];
-    scene->changeFillColor(item, QColor(colorName));
-    outPutFillColot(item, QColor(colorName));
+    auto it = objs.find(objName);
+    if (it != objs.end() && scene->items().contains(it->second)){
+        scene->changeFillColor(it->second, QColor(colorName));
+        outPutFillColor(it->second, QColor(colorName));
+    }
 }
 
 void FrameParser::outPutItem(Item *item)
@@ -278,7 +306,7 @@ void FrameParser::outPutChangeColor(Item *item, const QColor &color)
     out << "CHCOLOR " << item << " " << color.name() << "\n";
 }
 
-void FrameParser::outPutFillColot(Item *item, const QColor &color)
+void FrameParser::outPutFillColor(Item *item, const QColor &color)
 {
     out << "FILLCOLOR " << item << " " << color.name() << "\n";
 }

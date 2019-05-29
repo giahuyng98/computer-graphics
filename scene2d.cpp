@@ -26,6 +26,7 @@ Scene2D::~Scene2D()
 
 void Scene2D::readTextFile(const QString &fileName)
 {
+    this->clear();
     parser->setInputFile(fileName);
 }
 
@@ -60,19 +61,24 @@ void Scene2D::doFillColor(const QColor &color)
 {
     for(auto &it : this->selectedItems()){
         Item *item = static_cast<Item*>(it);
-        parser->outPutFillColot(item, color);
+        parser->outPutFillColor(item, color);
         changeFillColor(item, color);
     }
 }
 
 void Scene2D::deleteItem()
 {
-    for(auto &it : this->selectedItems()){
+
+    auto list = this->selectedItems();
+    for(auto &it : list){
         Item *item = static_cast<Item*>(it);
+        if (!this->items().contains(item)) continue;
+        item->setSelected(false);
         parser->outPutDeletion(item);
-        removeItem(item);
+        parser->removeObj(item);
     }
 
+    update();
 
     if (!this->items().isEmpty()) {
         Item *item = static_cast<Item*>(this->items().first());
@@ -90,7 +96,12 @@ void Scene2D::deleteItem()
 
 void Scene2D::clearAll()
 {
-    parser->outPutClear();
+    parser->outPutClear();        
+    for(auto &it : this->items()){
+        removeItem(it);
+        delete it;
+        it = nullptr;
+    }
     this->clear();
     lineInfo->setLine(nullptr);
     rectInfo->setRect(nullptr);
@@ -175,6 +186,7 @@ void Scene2D::setThickness(int value)
 {
     Scene::setThickness(value);
     for(auto &item : this->items()){
+        if (!item) continue;
         switch (static_cast<Item*>(item)->getType()) {
         case Item::Type::LINE:
             static_cast<Line*>(item)->reDraw();
@@ -201,7 +213,12 @@ void Scene2D::addScene()
 
 void Scene2D::addItemFrom2Points(const QPoint &p1, const QPoint &p2)
 {
-    if (tmpItem) removeItem(tmpItem);
+    if (tmpItem) {
+        removeItem(tmpItem);
+        delete tmpItem;
+        tmpItem = nullptr;
+    }
+
     switch (window->getMode()){
     case Window::Mode::DRAW_LINE :
         tmpItem = new Line(p1, p2, this);
@@ -236,6 +253,8 @@ void Scene2D::addBoundingRect(const QPoint &p1, const QPoint &p2)
     QPoint sceneP2 = toScenePos(p2);
     if (tmpSelected){
         removeItem(tmpSelected);
+        delete tmpSelected;
+        tmpSelected = nullptr;
     }
     tmpSelected = new QGraphicsRectItem(
         std::min(sceneP1.x(), sceneP2.x()),
@@ -243,10 +262,12 @@ void Scene2D::addBoundingRect(const QPoint &p1, const QPoint &p2)
         std::abs(sceneP1.x() - sceneP2.x()),
         std::abs(sceneP1.y() - sceneP2.y())
         );
-    tmpSelected->setPen(QPen(Qt::black, 1, Qt::DashLine));
-    addItem(tmpSelected);
+    tmpSelected->setPen(QPen(Qt::black, 1, Qt::DashLine));    
     setSelectionArea(tmpSelected->shape());
+    addItem(tmpSelected);
     tmpSelected->setSelected(false);
+    if (!selectedItems().isEmpty())
+        window->setEnableFillButton((static_cast<Item*>(selectedItems().first())->getType() != Item::Type::LINE));
 }
 
 void Scene2D::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
@@ -280,8 +301,11 @@ void Scene2D::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     Q_UNUSED(mouseEvent);
     if (window->getMode() == Window::Mode::SELECT_ITEMS){
-        if (tmpSelected) removeItem(tmpSelected);
-        tmpSelected = nullptr;
+        if (tmpSelected) {
+            removeItem(tmpSelected);
+            delete tmpSelected;
+            tmpSelected = nullptr;
+        }
     } else {
         parser->outPutItem(tmpItem);
         tmpItem = nullptr;

@@ -12,6 +12,7 @@ public:
     bool setInputFile(const QString &fileName);
     QString getOutPut();
     bool nextFrame();
+    void removeObj(Item *item);
     void reset();
 
     void outPutItem(Item *item);
@@ -22,7 +23,7 @@ public:
     void outPutDeletion(Item *item);
     void outPutClear();
     void outPutChangeColor(Item *item, const QColor &color);
-    void outPutFillColot(Item *item, const QColor &color);
+    void outPutFillColor(Item *item, const QColor &color);
     void outPutAddition();
 
 protected:
