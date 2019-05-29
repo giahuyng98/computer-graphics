@@ -265,9 +265,8 @@ void Scene2D::addBoundingRect(const QPoint &p1, const QPoint &p2)
     tmpSelected->setPen(QPen(Qt::black, 1, Qt::DashLine));    
     setSelectionArea(tmpSelected->shape());
     addItem(tmpSelected);
-    tmpSelected->setSelected(false);
-    if (!selectedItems().isEmpty())
-        window->setEnableFillButton((static_cast<Item*>(selectedItems().first())->getType() != Item::Type::LINE));
+    tmpSelected->setSelected(false);    
+    window->setEnableFillButton(true);
 }
 
 void Scene2D::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
@@ -331,12 +330,6 @@ void Scene2D::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
         addBoundingRect(points.front(), points.back());
     }
     QGraphicsScene::mouseMoveEvent(mouseEvent);
-}
-
-void Scene2D::showCoordinate()
-{
-//    QPoint p;
-
 }
 
 EllipseInfo *Scene2D::getEllipseInfo() const

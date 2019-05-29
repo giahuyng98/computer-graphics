@@ -62,9 +62,6 @@ protected:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
     void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
 
-protected slots:
-    void showCoordinate();
-
 private:
     QTimer timer;
     bool isDrawing = false;    

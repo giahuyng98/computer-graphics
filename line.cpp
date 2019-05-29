@@ -86,7 +86,7 @@ void Line::setY2(int value)
 void Line::reDraw()
 {
     Item::reDraw();
-    path = QPainterPath();    
+    path = QPainterPath();
     drawLine();
     this->update();
     scene->update();
