@@ -49,7 +49,7 @@ void Rectangle::fillRectangle()
 {
     fillPath = QPainterPath();
     for(const auto &point : Drawer::floodFill(
-             Drawer::drawRect(topLeft, topRight, bottomLeft, bottomRight), {(topLeft + bottomRight) / 2})){
+             Drawer::drawRect(topLeft, topRight, bottomLeft, bottomRight), getCenter())){
         drawPixel(point, fillPath);
     }
 }
@@ -78,6 +78,11 @@ int Rectangle::getWidth() const
 int Rectangle::getHeight() const
 {
     return std::abs(topLeft.y() - bottomLeft.y());
+}
+
+QPoint Rectangle::getCenter() const
+{
+    return QPointF((topLeft + topRight + bottomLeft + bottomRight) / 4.0).toPoint();
 }
 
 QPoint Rectangle::getBottomLeft() const

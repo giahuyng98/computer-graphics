@@ -34,6 +34,8 @@ public:
     int getWidth() const;
     int getHeight() const;
 
+    QPoint getCenter() const;
+
     void setFillColor(const QColor &value);
 
 protected:
