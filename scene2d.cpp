@@ -273,10 +273,13 @@ void Scene2D::addBoundingRect(const QPoint &p1, const QPoint &p2)
 void Scene2D::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     points.clear(); // TODO: add polygon
+    window->showMousePos(toUserCoordinate(mouseEvent->scenePos()));
     QGraphicsScene::mousePressEvent(mouseEvent);
     if (mouseEvent->button() == Qt::LeftButton){
-        points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
-        points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
+        const QPoint userCoor = toUserCoordinate(mouseEvent->scenePos());
+        window->showMousePos(userCoor);
+        points.emplace_back(userCoor);
+        points.emplace_back(userCoor);
         if (window->getMode() == Window::Mode::SELECT_ITEMS){
             isDrawing = false;
             QGraphicsItem *selectedItem = (this->itemAt(mouseEvent->scenePos(), QTransform()));
