@@ -18,8 +18,6 @@ Scene2D::Scene2D(QWidget *parent) : Scene(parent)
     circleInfo = new CircleInfo();
     ellipseInfo = new EllipseInfo();
     setItemIndexMethod(QGraphicsScene::ItemIndexMethod::NoIndex);
-//    connect(&timer, SIGNAL(timeout()), this, SLOT(showCoordinate()));
-//    timer.start(100);
 }
 
 Scene2D::~Scene2D()

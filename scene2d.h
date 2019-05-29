@@ -63,7 +63,6 @@ protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
 
 private:
-    QTimer timer;
     bool isDrawing = false;    
     Item *tmpItem = nullptr;
     Line *tmpLine = nullptr;
