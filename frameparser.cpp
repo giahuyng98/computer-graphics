@@ -42,8 +42,7 @@ QString FrameParser::getOutPut()
 }
 
 bool FrameParser::nextFrame()
-{
-    out << "STOP\n";
+{    
     if (in.atEnd()) return false;
     QString command;
     while (!in.atEnd() && command != "STOP"){
@@ -58,6 +57,7 @@ bool FrameParser::nextFrame()
         else if (command == "CHCOLOR") changeColor();
         else if (command == "FILLCOLOR") fillColor();
     }
+    out << "STOP\n";
     return true;
 }
 
