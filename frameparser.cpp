@@ -14,11 +14,11 @@ FrameParser::FrameParser(Scene *scene, const QString &fileName)
 bool FrameParser::setInputFile(const QString &fileName)
 {
     if (inFile.isOpen()){
-        int code = QMessageBox(QMessageBox::Icon::Information, "Information", "There is opening file\n Do you want to continue?",
-                    QMessageBox::StandardButton::Yes | QMessageBox::StandardButton::No).exec();
-        if (!code){
-            return false;
-        }
+//        int code = QMessageBox(QMessageBox::Icon::Information, "Information", "There is opening file\n Do you want to continue?",
+//                    QMessageBox::StandardButton::Yes | QMessageBox::StandardButton::No).exec();
+//        if (!code){
+//            return false;
+//        }
         inFile.close();
     }
     scene->clear();
