@@ -6,7 +6,7 @@
 #include "rectinfo.h"
 #include "circleinfo.h"
 #include "ellipseinfo.h"
-
+#include <QTimer>
 class FrameParser;
 class Window;
 
@@ -15,7 +15,7 @@ class Scene2D : public Scene
     Q_OBJECT
 public:
     explicit Scene2D(QWidget *parent = nullptr);
-    ~Scene2D() override;
+    ~Scene2D() override;        
 
     void readTextFile(const QString &fileName);
 
@@ -60,9 +60,13 @@ public:
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent) override;    
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
+
+protected slots:
+    void showCoordinate();
 
 private:
+    QTimer timer;
     bool isDrawing = false;    
     Item *tmpItem = nullptr;
     Line *tmpLine = nullptr;

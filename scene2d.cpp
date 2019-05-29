@@ -11,12 +11,15 @@
 #include "frameparser.h"
 
 Scene2D::Scene2D(QWidget *parent) : Scene(parent)
-{
+{    
     parser = new FrameParser(this);
     lineInfo = new LineInfo();
     rectInfo = new RectInfo();
     circleInfo = new CircleInfo();
     ellipseInfo = new EllipseInfo();
+    setItemIndexMethod(QGraphicsScene::ItemIndexMethod::NoIndex);
+//    connect(&timer, SIGNAL(timeout()), this, SLOT(showCoordinate()));
+//    timer.start(100);
 }
 
 Scene2D::~Scene2D()
@@ -68,12 +71,9 @@ void Scene2D::doFillColor(const QColor &color)
 
 void Scene2D::deleteItem()
 {
-
     auto list = this->selectedItems();
     for(auto &it : list){
         Item *item = static_cast<Item*>(it);
-        if (!this->items().contains(item)) continue;
-        item->setSelected(false);
         parser->outPutDeletion(item);
         parser->removeObj(item);
     }
@@ -299,7 +299,7 @@ void Scene2D::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 void Scene2D::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    Q_UNUSED(mouseEvent);
+    Q_UNUSED(mouseEvent);    
     if (window->getMode() == Window::Mode::SELECT_ITEMS){
         if (tmpSelected) {
             removeItem(tmpSelected);
@@ -317,6 +317,7 @@ void Scene2D::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 void Scene2D::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
+    window->showMousePos(toUserCoordinate(mouseEvent->scenePos()));
     if (isDrawing){
         points.pop_back();
         points.emplace_back(toUserCoordinate(mouseEvent->scenePos()));
@@ -327,6 +328,12 @@ void Scene2D::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
         addBoundingRect(points.front(), points.back());
     }
     QGraphicsScene::mouseMoveEvent(mouseEvent);
+}
+
+void Scene2D::showCoordinate()
+{
+//    QPoint p;
+
 }
 
 EllipseInfo *Scene2D::getEllipseInfo() const

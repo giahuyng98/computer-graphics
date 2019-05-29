@@ -12,7 +12,7 @@ public:
     bool setInputFile(const QString &fileName);
     QString getOutPut();
     bool nextFrame();
-    void removeObj(Item *item);
+    void removeObj(Item *&item);
     void reset();
 
     void outPutItem(Item *item);

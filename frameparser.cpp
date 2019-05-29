@@ -61,14 +61,21 @@ bool FrameParser::nextFrame()
     return true;
 }
 
-void FrameParser::removeObj(Item *item)
+void FrameParser::removeObj(Item *&item)
 {
     for(auto it = objs.begin(); it != objs.end(); ++it){
         if (it->second == item){
-//            this->scene->removeItem(it->second);
+            this->scene->removeItem(it->second);
             delete it->second;
+            it->second = nullptr;
             objs.erase(it);
+            break;
         }
+    }
+    if (scene->items().contains(item)){
+        scene->removeItem(item);
+        delete item;
+        item = nullptr;
     }
 }
 
@@ -78,7 +85,7 @@ void FrameParser::reset()
     in.reset();
     objs.clear();
     out.reset();
-    outStream.clear();    
+    outStream.clear();
 }
 
 void FrameParser::add()
@@ -86,9 +93,9 @@ void FrameParser::add()
     QString objName, buff;
     in >> objName >> buff;
     auto it = objs.find(objName);
-    if (it != objs.end()){
-        objs.erase(it);
+    if (it != objs.end()){        
         scene->removeItem(it->second);
+        objs.erase(it);
         delete it->second;
     }
     if (buff == "LINE"){

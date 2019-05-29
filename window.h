@@ -43,6 +43,7 @@ public:
     int getDelay() const;
     bool isPauseAtEnd() const;
 
+    void showMousePos(const QPoint &pos);
     void setMode(Mode mode);
     void setEnableFillButton(bool enable);
     void setThickness(int value);

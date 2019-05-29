@@ -20,6 +20,7 @@ Window::Window(QWidget *parent) :
     sceneAnimation->setWindow(this);
 
     ui->graphicsView->setScene(scene2d);
+//    ui->graphicsView->setMouseTracking(true);
     ui->modeGroupBtn->setId(ui->lineBtn, Mode::DRAW_LINE);
     ui->modeGroupBtn->setId(ui->rectBtn, Mode::DRAW_RECT);
     ui->modeGroupBtn->setId(ui->circleBtn, Mode::DRAW_CIRCLE);
@@ -92,6 +93,11 @@ int Window::getDelay() const
 bool Window::isPauseAtEnd() const
 {
     return ui->pauseAtEndRBtn->isChecked();
+}
+
+void Window::showMousePos(const QPoint &pos)
+{
+    ui->mousePosLabel->setText("x: " + QString::number(pos.x()) + "\ny: " + QString::number(pos.y()));
 }
 
 void Window::setMode(Window::Mode mode)

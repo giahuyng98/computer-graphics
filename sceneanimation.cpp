@@ -6,6 +6,7 @@ SceneAnimation::SceneAnimation(QWidget *parent)
     :Scene (parent)
 {
 //    setThickness(3);
+    setItemIndexMethod(QGraphicsScene::ItemIndexMethod::NoIndex);
     parser = new FrameParser(this);
     connect(&timer, SIGNAL(timeout()), this, SLOT(doAnimation()));
 }
