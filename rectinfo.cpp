@@ -37,10 +37,14 @@ void RectInfo::setRect(Rectangle *value)
 void RectInfo::on_applyBtn_clicked()
 {
     if (!rect) return;
-//    rect->setTopLeft(QPoint(ui->rectEditTopLeftX->text().toInt(), ui->rectEditTopLeftY->text().toInt()));
-//    rect->setBottomRight(QPoint(ui->rectEditBottomRightX->text().toInt(), ui->rectEditBottomRightY->text().toInt()));
-//    rect->setTopRight(QPoint(ui->rectEditTopLeftX->text().toInt() + ui->rectEditWidth->text().toInt(), ));
-//    rect->setPos(QPoint(ui->rectEditPoint1->text().toInt(), ui->rectEditPoint2->text().toInt()));
-//    rect->setSize(QSize(ui->rectEditWidth->text().toInt(), ui->rectEditHeight->text().toInt()));
+    rect->setTopLeft(QPoint(ui->rectEditTopLeftX->text().toInt(),
+                            ui->rectEditTopLeftY->text().toInt()));
+    rect->setBottomRight(QPoint(ui->rectEditBottomRightX->text().toInt(),
+                                ui->rectEditBottomRightY->text().toInt()));
+    QSize size(std::abs(rect->getTopLeft().x() - rect->getBottomRight().x()),
+               std::abs(rect->getTopLeft().y() - rect->getBottomRight().y()));
+
+    rect->setTopRight(QPoint(rect->getTopLeft().x() + size.width(), rect->getTopLeft().y()));
+    rect->setBottomLeft(QPoint(rect->getTopLeft().x(), rect->getTopLeft().y() - size.height()));
     rect->reDraw();
 }

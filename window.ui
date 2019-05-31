@@ -1568,7 +1568,7 @@
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="modeGroupBtn"/>
   <buttongroup name="to2DMethod"/>
+  <buttongroup name="modeGroupBtn"/>
  </buttongroups>
 </ui>
