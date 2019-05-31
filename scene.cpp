@@ -92,6 +92,17 @@ void Scene::rotateItem(Item *item, int x, int y, int angle)
     case Item::Type::ELLIPSE:
     {
         Ellipse *ellipse = static_cast<Ellipse*>(item);
+//        QPoint ellipseCenter = ellipse->getPoint();
+
+//        QPoint leftXRadius(ellipseCenter.x() - ellipse->getXRadius(), ellipseCenter.y());
+//        QPoint rightXRadius(ellipseCenter.x() + ellipse->getXRadius(), ellipseCenter.y());
+//        QPoint topYRadius(ellipseCenter.x(), ellipseCenter.y() + ellipse->getYRadius());
+//        QPoint bottomYRadius(ellipseCenter.x(), ellipseCenter.y() + ellipse->getYRadius());
+
+//        leftXRadius = affine.rotate(leftXRadius, x, y, angle);
+//        rightXRadius = affine.rotate(rightXRadius, x, y, angle);
+//        topYRadius = affine.rotate(topYRadius, x, y, angle);
+//        bottomYRadius = affine.rotate(bottomYRadius, x, y, angle);
         ellipse->setPoint(affine.rotate(ellipse->getPoint(), x, y, angle));
         ellipse->reDraw();
         break;
@@ -116,24 +127,44 @@ void Scene::scaleItem(Item *item, float sx, float sy)
     case Item::Type::RECT:
     {
         Rectangle *rect = static_cast<Rectangle*>(item);
+        QPoint center = rect->getCenter();
+        int dx = -center.x();
+        int dy = -center.y();
+
+        rect->setTopLeft(affine.translate(rect->getTopLeft(), dx, dy));
+        rect->setTopRight(affine.translate(rect->getTopRight(), dx, dy));
+        rect->setBottomLeft(affine.translate(rect->getBottomLeft(), dx, dy));
+        rect->setBottomRight(affine.translate(rect->getBottomRight(), dx, dy));
+
         rect->setTopLeft(affine.scale(rect->getTopLeft(), sx, sy));
         rect->setTopRight(affine.scale(rect->getTopRight(), sx, sy));
         rect->setBottomLeft(affine.scale(rect->getBottomLeft(), sx, sy));
         rect->setBottomRight(affine.scale(rect->getBottomRight(), sx, sy));
+        dx = -dx;
+        dy = -dy;
+        rect->setTopLeft(affine.translate(rect->getTopLeft(), dx, dy));
+        rect->setTopRight(affine.translate(rect->getTopRight(), dx, dy));
+        rect->setBottomLeft(affine.translate(rect->getBottomLeft(), dx, dy));
+        rect->setBottomRight(affine.translate(rect->getBottomRight(), dx, dy));
+
         rect->reDraw();
         break;
     }
     case Item::Type::CIRCLE:
     {
         Circle *circle = static_cast<Circle*>(item);
-        circle->setPoint(affine.scale(circle->getPoint(), sx, sy));
+        circle->setR(static_cast<int>(sx * sy * circle->getR()));
+//        circle->setPoint(affine.scale(circle->getPoint(), sx, sy));
+
         circle->reDraw();
         break;
     }
     case Item::Type::ELLIPSE:
     {
         Ellipse *ellipse = static_cast<Ellipse*>(item);
-        ellipse->setPoint(affine.scale(ellipse->getPoint(), sx, sy));
+        ellipse->setXRadius(static_cast<int>(sx * ellipse->getXRadius()));
+        ellipse->setYRadius(static_cast<int>(sy * ellipse->getYRadius()));
+//        ellipse->setPoint(affine.scale(ellipse->getPoint(), sx, sy));
         ellipse->reDraw();
         break;
     }

@@ -46,10 +46,23 @@ void Scene3D::drawBackground(QPainter *painter, const QRectF &rect)
     // Draw ox and oy
     painter->setPen(QPen(QBrush(Qt::black), 1));
     painter->setOpacity(0.6);
-    painter->drawLine(0, halfHeight + halfThick, static_cast<int>(this->width()), halfHeight + halfThick);
-    painter->drawLine(halfWidth + halfThick, 0, halfWidth + halfThick, static_cast<int>(this->height()));
+
     const int square = std::min(halfHeight, halfWidth) + halfThick * 2;
-    painter->drawLine(halfWidth + square , 0, square, static_cast<int>(this->height()));
+    const QPen pen = painter->pen();
+    painter->setPen(QPen(Qt::DashLine));
+
+    painter->drawLine(0, halfHeight + halfThick, halfWidth, halfHeight + halfThick);
+
+    painter->drawLine(halfWidth + halfThick, halfHeight + halfThick, halfWidth + halfThick, static_cast<int>(this->height()));
+    painter->drawLine(halfWidth + square , 0, halfWidth + halfThick, halfHeight + halfThick);
+
+    painter->setPen(pen);
+
+    painter->drawLine(halfWidth, halfHeight + halfThick, static_cast<int>(this->width()), halfHeight + halfThick);
+
+    painter->drawLine(halfWidth + halfThick, 0, halfWidth + halfThick,  halfHeight + halfThick);
+
+    painter->drawLine(halfWidth + halfThick,  halfHeight + halfThick, square, static_cast<int>(this->height()));
 
 //    const int space = thickness * 5; //line spacing
 //    painter->setOpacity(0.25);
