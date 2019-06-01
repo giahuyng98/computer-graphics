@@ -127,34 +127,18 @@ void Scene::scaleItem(Item *item, float sx, float sy)
     case Item::Type::RECT:
     {
         Rectangle *rect = static_cast<Rectangle*>(item);
-        QPoint center = rect->getCenter();
-        int dx = -center.x();
-        int dy = -center.y();
-
-        rect->setTopLeft(affine.translate(rect->getTopLeft(), dx, dy));
-        rect->setTopRight(affine.translate(rect->getTopRight(), dx, dy));
-        rect->setBottomLeft(affine.translate(rect->getBottomLeft(), dx, dy));
-        rect->setBottomRight(affine.translate(rect->getBottomRight(), dx, dy));
-
         rect->setTopLeft(affine.scale(rect->getTopLeft(), sx, sy));
         rect->setTopRight(affine.scale(rect->getTopRight(), sx, sy));
         rect->setBottomLeft(affine.scale(rect->getBottomLeft(), sx, sy));
         rect->setBottomRight(affine.scale(rect->getBottomRight(), sx, sy));
-        dx = -dx;
-        dy = -dy;
-        rect->setTopLeft(affine.translate(rect->getTopLeft(), dx, dy));
-        rect->setTopRight(affine.translate(rect->getTopRight(), dx, dy));
-        rect->setBottomLeft(affine.translate(rect->getBottomLeft(), dx, dy));
-        rect->setBottomRight(affine.translate(rect->getBottomRight(), dx, dy));
-
         rect->reDraw();
         break;
     }
     case Item::Type::CIRCLE:
     {
         Circle *circle = static_cast<Circle*>(item);
-        circle->setR(static_cast<int>(sx * sy * circle->getR()));
-//        circle->setPoint(affine.scale(circle->getPoint(), sx, sy));
+//        circle->setR(static_cast<int>(sx * sy * circle->getR()));
+        circle->setPoint(affine.scale(circle->getPoint(), sx, sy));
 
         circle->reDraw();
         break;
@@ -162,9 +146,48 @@ void Scene::scaleItem(Item *item, float sx, float sy)
     case Item::Type::ELLIPSE:
     {
         Ellipse *ellipse = static_cast<Ellipse*>(item);
-        ellipse->setXRadius(static_cast<int>(sx * ellipse->getXRadius()));
-        ellipse->setYRadius(static_cast<int>(sy * ellipse->getYRadius()));
-//        ellipse->setPoint(affine.scale(ellipse->getPoint(), sx, sy));
+        ellipse->setPoint(affine.scale(ellipse->getPoint(), sx, sy));
+        ellipse->reDraw();
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+void Scene::scaleItem(Item *item, float sx, float sy, int x, int y)
+{
+    if (!item) return;
+    switch (item->getType()) {
+    case Item::Type::LINE:
+    {
+        Line *line = static_cast<Line*>(item);
+        line->setPoint1(affine.scale(line->getPoint1(), sx, sy, x, y));
+        line->setPoint2(affine.scale(line->getPoint2(), sx, sy, x, y));
+        line->reDraw();
+        break;
+    }
+    case Item::Type::RECT:
+    {
+        Rectangle *rect = static_cast<Rectangle*>(item);
+        rect->setTopLeft(affine.scale(rect->getTopLeft(), sx, sy, x, y));
+        rect->setTopRight(affine.scale(rect->getTopRight(), sx, sy, x, y));
+        rect->setBottomLeft(affine.scale(rect->getBottomLeft(), sx, sy, x, y));
+        rect->setBottomRight(affine.scale(rect->getBottomRight(), sx, sy, x, y));
+        rect->reDraw();
+        break;
+    }
+    case Item::Type::CIRCLE:
+    {
+        Circle *circle = static_cast<Circle*>(item);
+        circle->setPoint(affine.scale(circle->getPoint(), sx, sy, x, y));
+        circle->reDraw();
+        break;
+    }
+    case Item::Type::ELLIPSE:
+    {
+        Ellipse *ellipse = static_cast<Ellipse*>(item);
+        ellipse->setPoint(affine.scale(ellipse->getPoint(), sx, sy, x, y));
         ellipse->reDraw();
         break;
     }
@@ -266,7 +289,7 @@ void Scene::drawBackground(QPainter *painter, const QRectF &rect)
     }
 
     // Draw grid
-    painter->setOpacity(0.08);
+    painter->setOpacity(0.15);
     for(int xJump = halfThick; xJump < this->width(); xJump += thickness){
         painter->drawLine(xJump, 0, xJump, static_cast<int>(this->height()));
     }

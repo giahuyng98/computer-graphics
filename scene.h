@@ -46,6 +46,8 @@ public:
 
     void scaleItem(Item *item, float sx, float sy);
 
+    void scaleItem(Item *item, float sx, float sy, int x, int y);
+
     void reflectItem(Item *item, int x, int y);
 
     void changeColor(Item *item, const QColor &color);

@@ -37,6 +37,8 @@ public:
     int getAngleRotate() const;
     float getSXScale() const;
     float getSYScale() const;
+    int getXScale() const;
+    int getYScale() const;
     int getXReflection() const;
     int getYReflection() const;
 

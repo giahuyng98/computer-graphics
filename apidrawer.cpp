@@ -98,6 +98,7 @@ VPoints drawRect(const QPoint &topLelf, const QSize &size){
 
 
 VPoints drawCircle(const QPoint &center, int radius){
+    // bresenham
     VPoints result;
     auto add8Points = [&result](int x, int y, int dx, int dy){
         result.emplace_back(x + dx, y + dy);
@@ -231,6 +232,7 @@ VPoints drawHalfBotEllipse(const QPoint &center, int xRadius, int yRadius)
 
 VPoints drawEllipseUtil(const QPoint &center, int xRadius, int yRadius, void (*addPoint)(VPoints &, int, int, int, int))
 {
+    // midpoint
     VPoints result;
     double dx, dy, d1, d2;
     int tx = 0, ty = yRadius;
