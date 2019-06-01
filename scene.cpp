@@ -289,7 +289,7 @@ void Scene::drawBackground(QPainter *painter, const QRectF &rect)
     }
 
     // Draw grid
-    painter->setOpacity(0.15);
+    painter->setOpacity(0.08);
     for(int xJump = halfThick; xJump < this->width(); xJump += thickness){
         painter->drawLine(xJump, 0, xJump, static_cast<int>(this->height()));
     }
