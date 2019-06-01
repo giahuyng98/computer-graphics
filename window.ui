@@ -169,12 +169,6 @@
             <property name="text">
              <string>Line</string>
             </property>
-            <property name="iconSize">
-             <size>
-              <width>50</width>
-              <height>50</height>
-             </size>
-            </property>
             <property name="checkable">
              <bool>true</bool>
             </property>
@@ -886,7 +880,7 @@
                   </property>
                   <layout class="QHBoxLayout" name="horizontalLayout_5">
                    <item>
-                    <layout class="QGridLayout" name="gridLayout_3">
+                    <layout class="QGridLayout" name="gridLayout_9">
                      <item row="0" column="0">
                       <widget class="QLabel" name="label_3">
                        <property name="sizePolicy">
@@ -908,26 +902,10 @@
                         </size>
                        </property>
                        <property name="text">
-                        <string>Sx</string>
+                        <string>Sx/x</string>
                        </property>
                        <property name="indent">
                         <number>0</number>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="1">
-                      <widget class="QLineEdit" name="sxScale">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="inputMask">
-                        <string/>
-                       </property>
-                       <property name="placeholderText">
-                        <string/>
                        </property>
                       </widget>
                      </item>
@@ -952,17 +930,60 @@
                         </size>
                        </property>
                        <property name="text">
-                        <string>Sy</string>
+                        <string>Sy/y</string>
                        </property>
                        <property name="indent">
                         <number>0</number>
                        </property>
                       </widget>
                      </item>
-                     <item row="1" column="1">
+                    </layout>
+                   </item>
+                   <item>
+                    <layout class="QGridLayout" name="gridLayout_8">
+                     <property name="spacing">
+                      <number>2</number>
+                     </property>
+                     <item row="0" column="1">
+                      <widget class="QLineEdit" name="scaleX">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="0">
+                      <widget class="QLineEdit" name="sxScale">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="inputMask">
+                        <string/>
+                       </property>
+                       <property name="placeholderText">
+                        <string/>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="0">
                       <widget class="QLineEdit" name="syScale">
                        <property name="sizePolicy">
-                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                        <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="1">
+                      <widget class="QLineEdit" name="scaleY">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
                          <horstretch>0</horstretch>
                          <verstretch>0</verstretch>
                         </sizepolicy>
@@ -974,7 +995,7 @@
                    <item>
                     <widget class="QPushButton" name="scaleBtn">
                      <property name="sizePolicy">
-                      <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                        <horstretch>0</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
@@ -1539,8 +1560,6 @@
   <tabstop>yRolate</tabstop>
   <tabstop>angleRolate</tabstop>
   <tabstop>rolateBtn</tabstop>
-  <tabstop>sxScale</tabstop>
-  <tabstop>syScale</tabstop>
   <tabstop>scaleBtn</tabstop>
   <tabstop>xReflection</tabstop>
   <tabstop>yReflection</tabstop>

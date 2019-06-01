@@ -13,6 +13,7 @@ public:
     QPoint translate(const QPoint &point, int dx, int dy);
     QPoint rotate(const QPoint &point, int x, int y, int angle);
     QPoint scale(const QPoint &point, float sX, float sY);
+    QPoint scale(const QPoint &point, float sX, float sY, int x, int y);
     QPoint reflect(const QPoint &point, int x, int y);
 
 private:

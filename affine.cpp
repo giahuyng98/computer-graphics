@@ -52,6 +52,13 @@ QPoint Affine::scale(const QPoint &point, float sX, float sY)
     return getPointFromMat(mul(getMatFromPoint(point), scaleMat));
 }
 
+QPoint Affine::scale(const QPoint &point, float sX, float sY, int x, int y)
+{
+    QPoint transP = translate(point, -x, -y);
+    QPoint scaleP = scale(transP, sX, sY);
+    return translate(scaleP, x, y);
+}
+
 QPoint Affine::reflect(const QPoint &point, int x, int y)
 {
     setReflect(x, y);

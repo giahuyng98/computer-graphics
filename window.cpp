@@ -75,6 +75,16 @@ float Window::getSYScale() const
     return ui->syScale->text().toFloat();
 }
 
+int Window::getXScale() const
+{
+    return ui->scaleX->text().toInt();
+}
+
+int Window::getYScale() const
+{
+    return ui->scaleY->text().toInt();
+}
+
 int Window::getXReflection() const
 {
     return ui->xReflection->text().toInt();

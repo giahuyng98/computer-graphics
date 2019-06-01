@@ -137,7 +137,9 @@ void Scene2D::doScaling()
         Item *selectedItem = static_cast<Item*>(it);
         if (selectedItem){
             parser->outPutScaling(selectedItem, window->getSXScale(), window->getSYScale());
-            scaleItem(selectedItem, window->getSXScale(), window->getSYScale());
+//            scaleItem(selectedItem, window->getSXScale(), window->getSYScale());
+            scaleItem(selectedItem, window->getSXScale(), window->getSYScale(),
+                      window->getXScale(), window->getYScale());
             updateInfo(selectedItem);
         }
     }
