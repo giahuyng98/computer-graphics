@@ -37,7 +37,6 @@ protected:
     void changeColor();
     void fillColor();
 
-
 private:    
     Scene *scene;    
     QString outStream, inStream;

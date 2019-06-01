@@ -1,4 +1,5 @@
 #include "frameparser.h"
+#include <functional>
 
 FrameParser::FrameParser(Scene *scene) : scene(scene)
 {
@@ -44,7 +45,7 @@ QString FrameParser::getOutPut()
 }
 
 bool FrameParser::nextFrame(bool stopAtEachFrame)
-{    
+{
     if (in.atEnd()) return false;
     QString command;
     while (!in.atEnd() && command != "STOP"){
