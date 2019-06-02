@@ -187,6 +187,8 @@ VPoints drawSphere(int x, int y, int z, int r, QPoint (*method)(int, int, int)){
     auto circle = drawCircle(center, r);
     const int DASH = 2, DOT = 1;
     int yRadius;
+    // THIS IS WRONG
+    // BUT IT'S TOO LATE AND I DON'T WANT TO FIX IT
     if (method == cavalier){
         yRadius = r / 4;
     } else {
@@ -360,6 +362,8 @@ VPoints drawCylinder(int cx, int cy, int cz, int r, int h, QPoint (*method)(int,
     QPoint centerTop = method(cx, cy, cz + h);
     const int DASH = 3, DOT = 1;
     int yRadius;
+    // THIS IS WRONG
+    // BUT IT'S TOO LATE AND I DON'T WANT TO FIX IT
     if (method == cavalier){
         yRadius = r / 4;
     } else {
