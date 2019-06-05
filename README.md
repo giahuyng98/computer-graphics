@@ -11,13 +11,13 @@
 
 ## Using
 You can [**download application here**](https://github.com/giahuyng98/computer-graphics/releases/download/v1.1/Computer-graphics-winx64.zip) 
-(double click on CG2.exe to run it) or build it yourself
+(unzip & double click on CG2.exe to run it) or build it yourself
 
 ## Building
 #### Requirements:
-QT 5.12
-QT Creator
-MinGW
+QT 5.12,
+QT Creator,
+MinGW or whatever C++ compiler you have
 
 Once you successful install Qt, clone this repository, open file CG2.pro with QT creator -> build. Enjoy!
 
