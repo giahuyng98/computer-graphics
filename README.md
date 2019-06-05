@@ -1,19 +1,33 @@
 # computer-graphics
-1. Tạo animation
-- Vẽ các hình cần tạo ban đầu. Sau đó mỗi phép biến đổi ta thêm khung hình bằng cách nhấn nút add Frame.
-- Sau khi add Frame và muốn kết thúc lưu lại nhấn nút To Text File . Lưu lại với định dạng *.txt
-2. Đọc animation
-- Ở tab Player -> Open -> file.txt cần đọc. 
-- Delay : chỉnh tốc độ thời gian chạy các fram.
-- Pause at the end: dừng chơi animation khi hết các Frame. Lặp lại thì bỏ chọn.
-- Stop at each frame: hiển thị quá trình các frame vẽ.
-- Show ruler: hiển thị lưới background.
-3. Chỉnh sửa animation
-a) Tab 2D -> Read text file -> Chọn file để đọc.
-b) Chọn Next Frame để thêm khung hình.
-c) Mỗi Frame cần chỉnh sửa thì thêm các hình, phép biến đổi sau đó Add Frame.
-d) Frame nào không cần chỉnh sửa thì chỉ cần . Next Frame -> Add Frame.
-4. Chức năng khác
-+ Kéo thả chọn toàn bộ vật thể.
-+ Tô màu viền, hoặc fill color cùng lúc.
-+ Delete nhiều vật thể.
+
+![Image](https://raw.githubusercontent.com/giahuyng98/computer-graphics/master/wev.PNG)
+
+## This is a school project that implement some basic drawing algorithm:
+  * 2D drawing: line (bresenham), recangle, circle, ellipse,
+  * 3D convert cavalier + cabinet, cube, sphere, cylinder.
+  * Animation creator & player.
+  
+  Usage under (L)GPL v3 license
+
+## Using
+You can [**download application here**](https://github.com/giahuyng98/computer-graphics/releases/download/v1.1/Computer-graphics-winx64.zip) 
+(double click on CG2.exe to run it) or build it yourself
+
+## Building
+#### Requirements:
+QT 5.12
+QT Creator
+MinGW
+
+Once you successful install Qt, clone this repository, open file CG2.pro with QT creator -> build. Enjoy!
+
+## Features & instructions
+  * Visual 2d, 3d coordinate system
+  * Draw line, recangle, circle, ellipse with mouse (just like mspaint).
+  * Draw 3D cube, sphere, cylinder with keyboard input
+  * Mutiple select objects
+  * Remove objects, change border color or fill color with dfs algorithm
+  * Choose pixel thickness (zoom in out)
+  * Animation creator: when you done with drawing one frame click **add frame** to add another frame, you can use affine transformation (translation, rotation, scaling or reflection) to create animation or just clear all and draw another frame, finally click **to text file** to save your animation.
+  * Animation editor: open your animation file by click **read text file** and then click **next frame** to view and edit (travel) frame one  by one, you can remove, add objects... and remember to save.
+  * Animation player: On tab **Player** click **open** to open file, check **stop at each frame** to see your drawing process or uncheck to just see animation, you can adjust time by change **delay value**
