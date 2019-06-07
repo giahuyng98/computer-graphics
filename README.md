@@ -19,11 +19,11 @@ QT 5.12,
 QT Creator,
 MinGW or whatever C++ compiler you have
 
-Once you successful install Qt, clone this repository, open file CG2.pro with QT creator -> build. Enjoy!
+Once you successfully install Qt, clone this repository, open file CG2.pro with QT creator -> build. Enjoy!
 
 ## Features & instructions
   * Visual 2d, 3d coordinate system
-  * Draw line, recangle, circle, ellipse with mouse (just like mspaint).
+  * Draw line, rectangle, circle, ellipse with mouse (just like mspaint).
   * Draw 3D cube, sphere, cylinder with keyboard input
   * Mutiple select objects
   * Remove objects, change border color or fill color with dfs algorithm
