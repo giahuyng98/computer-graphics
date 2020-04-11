@@ -1,6 +1,7 @@
 # computer-graphics
 
-![Image](https://raw.githubusercontent.com/giahuyng98/computer-graphics/master/wev.PNG)
+[![Alt text](https://img.youtube.com/vi/CB7NBSnDjkc/0.jpg)](https://www.youtube.com/watch?v=CB7NBSnDjkc)
+
 
 ## This is a school project that implement some basic drawing algorithm:
   * 2D drawing: line (bresenham), recangle, circle, ellipse,
